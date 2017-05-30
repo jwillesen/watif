@@ -1,0 +1,26 @@
+{
+  "name": "watif-browser",
+  "version": "0.0.0",
+  "description": "A browser interface for reading watif stories",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwillesen/watif.git"
+  },
+  "keywords": [
+    "interactive",
+    "fiction"
+  ],
+  "author": "Jon Willesen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwillesen/watif/issues"
+  },
+  "homepage": "https://github.com/jwillesen/watif#readme",
+  "devDependencies": {
+    "watif-interpreter": "^0.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "watif-example",
+  "version": "0.0.0",
+  "description": "An example story for watif",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwillesen/watif.git"
+  },
+  "keywords": [
+    "interactive",
+    "fiction"
+  ],
+  "author": "Jon Willesen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwillesen/watif/issues"
+  },
+  "homepage": "https://github.com/jwillesen/watif#readme",
+  "devDependencies": {
+    "watif-story": "^0.0.0"
+  }
+}
