@@ -2,8 +2,11 @@
   "name": "watif-story",
   "version": "0.0.0",
   "description": "The base library required for authoring watif stories",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "module": "./src/index.js",
   "scripts": {
+    "build": "babel -d lib src",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "repository": {
