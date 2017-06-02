@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "module": "./src/index.js",
   "scripts": {
-    "build": "babel -d lib src",
+    "build": "babel src -d lib --ignore __tests__",
+    "build:watch": "npm run build -- --watch",
     "prepublish": "npm run build",
     "test": "jest"
   },
@@ -22,5 +23,12 @@
   "bugs": {
     "url": "https://github.com/jwillesen/watif/issues"
   },
-  "homepage": "https://github.com/jwillesen/watif#readme"
+  "homepage": "https://github.com/jwillesen/watif#readme",
+  "dependencies": {
+    "change-case": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "jest": "^20.0.4"
+  }
 }
