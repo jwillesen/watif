@@ -15,7 +15,7 @@ export class PathStones extends Item {
       this.setLocationOf('front-door-key', 'inventory')
       return <text>
         Now which stone held that hide-a-key? It takes you a few tries, but eventually you find the
-        plastic stone that contains the key to the front door. You open it and take the key
+        plastic stone that contains the key to the front door. You open the stone and take the key.
       </text>
     },
   }

@@ -2,8 +2,12 @@
   "name": "watif-browser",
   "version": "0.0.0",
   "description": "A browser interface for reading watif stories",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "src/index.js",
   "scripts": {
+    "build": "babel src -d lib --ignore __tests__",
+    "build:watch": "npm run build -- --watch",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "repository": {

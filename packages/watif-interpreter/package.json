@@ -2,8 +2,12 @@
   "name": "watif-interpreter",
   "version": "0.0.0",
   "description": "An interpreter for executing watif stories",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "src/index.js",
   "scripts": {
+    "build": "babel src -d lib --ignore __tests__",
+    "build:watch": "npm run build -- --watch",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "repository": {
@@ -19,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/jwillesen/watif/issues"
   },
-  "homepage": "https://github.com/jwillesen/watif#readme"
+  "homepage": "https://github.com/jwillesen/watif#readme",
+  "dependencies": {
+    "immutable": "^3.8.1"
+  }
 }

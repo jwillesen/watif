@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
   "dependencies": {
-    "change-case": "^3.0.1"
+    "change-case": "^3.0.1",
+    "react": "^15.5.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
