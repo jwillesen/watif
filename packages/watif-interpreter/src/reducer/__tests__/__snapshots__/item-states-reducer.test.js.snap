@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deep merges item states 1`] = `
+Object {
+  "some-item": Object {
+    "firstLevel": Object {
+      "bar": "2",
+      "baz": "3",
+      "bing": "4",
+      "foo": "42",
+    },
+    "otherFirstLevel": "superfluous",
+  },
+}
+`;
+
+exports[`merges item states 1`] = `
+Immutable.Map {
+  master-sword: Immutable.Map {
+    location: "spooky-forest",
+  },
+}
+`;
+
+exports[`merges item states 2`] = `
+Object {
+  "master-sword": Object {
+    "location": "spooky-forest",
+    "power": 42,
+  },
+}
+`;

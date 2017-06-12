@@ -2,16 +2,17 @@ import {setItemState} from './actions'
 import Immutable from 'immutable'
 
 export default class Universe {
-  constructor (store) {
+  constructor (store, items) {
     this.store = store
+    this.items = items
   }
 
   getItem (itemId) {
-    return this.store.getState().getIn(['items', itemId])
+    this.items.get(itemId)
   }
 
   getStateOf (itemId) {
-    return this.store.getState().getIn(['states', itemId]).toJS()
+    return this.store.getState().getIn(['itemStates', itemId]).toJS()
   }
 
   setStateOf (itemId, newState) {
