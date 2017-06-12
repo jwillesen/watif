@@ -3,13 +3,8 @@ import rootReducer from '../index'
 import reducer from '../item-states-reducer'
 import {setItemState} from '../../actions'
 
-// TODO: I'm not sure we can count on jest's snapshot when it comes to unordered Immutable.Map
-
-const DefaultItemStates = rootReducer(undefined, {type: '~~init~~'})
-  .get('itemStates')
-
 it('merges item states', () => {
-  let nextState = reducer(DefaultItemStates,
+  let nextState = reducer(Immutable.Map(),
     setItemState('master-sword', {location: 'spooky-forest'}))
   expect(nextState).toMatchSnapshot()
   nextState = reducer(nextState,

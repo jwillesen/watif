@@ -1,5 +1,6 @@
 import Immutable from 'immutable'
 import itemStatesReducer from './item-states-reducer'
+import logReducer from './log-reducer'
 import {combineReducers} from 'redux-immutable'
 
 // verb structure:
@@ -9,7 +10,6 @@ import {combineReducers} from 'redux-immutable'
 //    connector: string,
 // }
 
-// export const DefaultState = Immutable.Record({
 export const DefaultState = () => Immutable.fromJS({
   // array of watext
   log: [],
@@ -45,7 +45,7 @@ export const DefaultState = () => Immutable.fromJS({
 function noop (state, action) { return state }
 
 const reducer = combineReducers({
-  log: noop,
+  log: logReducer,
   currentItemId: noop,
   currentRoomId: noop,
   itemStates: itemStatesReducer,
