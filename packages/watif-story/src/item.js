@@ -73,7 +73,7 @@ export default class Item {
 
   // Set the location of this item to the specified itemId.
   setLocation (containerId) {
-    return this.setState({location: containerId})
+    return this.setLocationOf(this.id(), containerId)
   }
 
   // Get the location of another item.
@@ -83,7 +83,7 @@ export default class Item {
 
   // Set the location of another item.
   setLocationOf (itemId, containerId) {
-    return this.getItem(itemId).setLocation(containerId)
+    return this.setStateOf(itemId, {location: containerId})
   }
 
   // Returns true if this item contains the specified item.

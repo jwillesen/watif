@@ -1,5 +1,6 @@
 import {setItemState} from './actions'
 import Immutable from 'immutable'
+import {Player, Inventory} from 'watif-story'
 
 export default class Universe {
   constructor (store, story) {
@@ -9,16 +10,34 @@ export default class Universe {
   }
 
   bigBang () {
+    this.createItems()
+    this.createSpecialItems()
+    if (this.story.initialize) this.story.initialize(this)
+  }
+
+  createItems () {
     const itemClasses = this.story.items
     this.items = {}
-    // TODO: initialize special items, like player and inventory
     Object.values(itemClasses).forEach((ItemClass) => {
-      const newItem = new ItemClass(this)
-      const newItemId = newItem.id()
-      if (this.items[newItemId]) throw new Error(`Duplicate item id: '${newItemId}'`)
-      this.items[newItemId] = newItem
-      this.setStateOf(newItemId, {})
+      this.createItem(ItemClass)
     })
+  }
+
+  createItem (ItemClass) {
+    const newItem = new ItemClass(this)
+    const newItemId = newItem.id()
+    if (this.items[newItemId]) throw new Error(`Duplicate item id: '${newItemId}'`)
+    this.items[newItemId] = newItem
+    this.setStateOf(newItemId, {})
+  }
+
+  createSpecialItems () {
+    this.createSpecialItem('player', Player)
+    this.createSpecialItem('inventory', Inventory)
+  }
+
+  createSpecialItem (itemId, ItemClass) {
+    if (!this.items[itemId]) this.items[itemId] = new ItemClass(this)
   }
 
   getItem (itemId) {
