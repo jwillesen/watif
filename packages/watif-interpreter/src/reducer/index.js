@@ -1,6 +1,7 @@
 import Immutable from 'immutable'
 import itemStatesReducer from './item-states-reducer'
 import logReducer from './log-reducer'
+import {handleAction} from 'redux-actions'
 import {combineReducers} from 'redux-immutable'
 
 // verb structure:
@@ -19,39 +20,15 @@ export const DefaultState = () => Immutable.fromJS({
   currentRoomId: null,
   // map itemIds to the Item's state
   itemStates: {},
-
-  // calculated values that also need to be communicated to the display
-  // because it can't calculate them itself
-  // watext
-  currentRoomDescription: null,
-
-  // array of verb structures
-  currentRoomVerbs: [],
-
-  // watext
-  currentItemDescription: null,
-
-  // array of verb structures
-  currentItemVerbs: [],
-
-  // the player's inventory and other containers
-  //  {
-  //    inventory: { itemId: itemName, ...}
-  //    otherContainer: { ... }
-  //  }
-  player: {},
 })
 
-function noop (state, action) { return state }
+function identity (state, action) { return action.payload }
 
-const reducer = combineReducers({
+const combinedReducer = combineReducers({
   log: logReducer,
-  currentItemId: noop,
-  currentRoomId: noop,
+  currentItemId: handleAction('SET_CURRENT_ITEM', identity, null),
+  currentRoomId: handleAction('SET_CURRENT_ROOM', identity, null),
   itemStates: itemStatesReducer,
-  currentRoomDescription: noop,
-  currentItemDescription: noop,
-  inventory: noop,
 }, DefaultState)
 
-export default reducer
+export default combinedReducer

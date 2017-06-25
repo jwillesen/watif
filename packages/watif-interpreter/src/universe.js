@@ -2,9 +2,23 @@ import {setItemState} from './actions'
 import Immutable from 'immutable'
 
 export default class Universe {
-  constructor (store, items) {
+  constructor (store, story) {
     this.store = store
-    this.items = items
+    this.story = story
+    this.bigBang()
+  }
+
+  bigBang () {
+    const itemClasses = this.story.items
+    this.items = {}
+    // TODO: initialize special items, like player and inventory
+    Object.values(itemClasses).forEach((ItemClass) => {
+      const newItem = new ItemClass(this)
+      const newItemId = newItem.id()
+      if (this.items[newItemId]) throw new Error(`Duplicate item id: '${newItemId}'`)
+      this.items[newItemId] = newItem
+      this.setStateOf(newItemId, {})
+    })
   }
 
   getItem (itemId) {
