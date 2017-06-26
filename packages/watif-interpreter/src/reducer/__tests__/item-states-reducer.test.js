@@ -1,5 +1,4 @@
 import Immutable from 'immutable'
-import rootReducer from '../index'
 import reducer from '../item-states-reducer'
 import {setItemState} from '../../actions'
 

@@ -16,8 +16,6 @@ export const DefaultState = () => Immutable.fromJS({
   log: [],
   // itemId string
   currentItemId: null,
-  // itemId string
-  currentRoomId: null,
   // map itemIds to the Item's state
   itemStates: {},
 })
@@ -27,7 +25,6 @@ function identity (state, action) { return action.payload }
 const combinedReducer = combineReducers({
   log: logReducer,
   currentItemId: handleAction('SET_CURRENT_ITEM', identity, null),
-  currentRoomId: handleAction('SET_CURRENT_ROOM', identity, null),
   itemStates: itemStatesReducer,
 }, DefaultState)
 

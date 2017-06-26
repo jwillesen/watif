@@ -28,10 +28,11 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "redux-actions": "^2.0.3",
-    "redux-immutable": "^4.0.0"
+    "redux-immutable": "^4.0.0",
+    "watif-story": "^0.0.0"
   },
   "devDependencies": {
-    "jest": "^20.0.4",
-    "jest-immutable-matchers": "^1.5.0"
+    "babel-cli": "^6.24.1",
+    "jest": "^20.0.4"
   }
 }

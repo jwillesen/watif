@@ -25,6 +25,10 @@
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "jest": "^20.0.4"
+  },
+  "dependencies": {
     "watif-interpreter": "^0.0.0"
   }
 }
