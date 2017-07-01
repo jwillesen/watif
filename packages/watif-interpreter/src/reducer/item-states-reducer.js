@@ -7,9 +7,6 @@ const reducer = handleActions({
 export default reducer
 
 function setItemState (state, action) {
-  if (action.type === 'SET_ITEM_STATE') {
-    const {itemId, newItemState} = action.payload
-    return state.mergeDeep({[itemId]: newItemState})
-  }
-  return state
+  const {itemId, newItemState} = action.payload
+  return state.mergeDeep({[itemId]: newItemState})
 }

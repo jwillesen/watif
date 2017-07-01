@@ -31,11 +31,10 @@ export default class Item {
     return changeCase.no(this.constructor.name)
   }
 
-  // This should return the itemId of this item's initial locaiton, if any. Many items don't need an
-  // explicit location, especially if they never move. The special location 'inventory' represents
-  // the player's inventory.
-  initialLocation () {
-    return null
+  // This returns the initial state of the item. For example, it can be used to set the item's
+  // initial location. By default the state is empty.
+  initialState () {
+    return {}
   }
 
   // utility methods

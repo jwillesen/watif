@@ -28,7 +28,7 @@ export default class Universe {
     const newItemId = newItem.id()
     if (this.items[newItemId]) throw new Error(`Duplicate item id: '${newItemId}'`)
     this.items[newItemId] = newItem
-    this.setStateOf(newItemId, {})
+    this.setStateOf(newItemId, newItem.initialState())
   }
 
   createSpecialItems () {
@@ -37,11 +37,11 @@ export default class Universe {
   }
 
   createSpecialItem (itemId, ItemClass) {
-    if (!this.items[itemId]) this.items[itemId] = new ItemClass(this)
+    if (!this.getItem(itemId)) this.createItem(ItemClass)
   }
 
   getItem (itemId) {
-    this.items.get(itemId)
+    return this.items[itemId]
   }
 
   getStateOf (itemId) {
