@@ -19,14 +19,14 @@ export default class Executor {
     if (!handler) throw new Error(`subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`)
 
     if (typeof handler === 'function') {
-      handler(targetItem)
+      return handler(target)
     } else {
       let enabled = true
-      if (handler.enabled) enabled = handler.enabled(targetItem)
+      if (handler.enabled) enabled = handler.enabled(target)
       if (enabled) {
         if (!handler.action) throw new Error(`complex verb "${id}" on subject "${subject}" does not have an "action" method`)
-        handler.action(targetItem)
-      }
+        return handler.action(target)
+      } // else return undefined
     }
   }
 }

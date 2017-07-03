@@ -2,7 +2,7 @@ import Executor from '../executor'
 
 function createItem (verbFnSuffix) {
   return {
-    [`verb${verbFnSuffix}`]: jest.fn(),
+    [`verb${verbFnSuffix}`]: jest.fn(() => `return value of verb${verbFnSuffix}`),
   }
 }
 
@@ -45,11 +45,11 @@ it('executes a verb on the subject item', () => {
   expect(mockUniverse.subject.verbFoo).toHaveBeenCalled()
 })
 
-it('passes the target to the verb function handler', () => {
+it('passes the target id to the verb function handler', () => {
   const mockUniverse = createUniverse()
   const executor = new Executor(mockUniverse)
   executor.executeVerb({id: 'foo', subject: 'subject', target: 'target'})
-  expect(mockUniverse.subject.verbFoo).toHaveBeenCalledWith(mockUniverse.target)
+  expect(mockUniverse.subject.verbFoo).toHaveBeenCalledWith('target')
 })
 
 it('does change-case on multi-word verbs', () => {
@@ -69,8 +69,8 @@ it('calls complex verb definitions', () => {
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
   const executor = new Executor(mockUniverse)
   executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
-  expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith(mockUniverse.target)
-  expect(mockItem.verbOpen.action).toHaveBeenCalledWith(mockUniverse.target)
+  expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith('target')
+  expect(mockItem.verbOpen.action).toHaveBeenCalledWith('target')
 })
 
 it('does not call the action if the verb is disabled', () => {
@@ -83,7 +83,7 @@ it('does not call the action if the verb is disabled', () => {
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
   const executor = new Executor(mockUniverse)
   executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
-  expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith(mockUniverse.target)
+  expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith('target')
   expect(mockItem.verbOpen.action).not.toHaveBeenCalled()
 })
 
@@ -96,4 +96,34 @@ it('requires an action method for complex verbs', () => {
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
   const executor = new Executor(mockUniverse)
   expect(() => executor.executeVerb({id: 'open', subject: 'trunk'})).toThrow()
+})
+
+it('returns the return value of the verb method', () => {
+  const executor = new Executor(createUniverse())
+  expect(executor.executeVerb({id: 'foo', subject: 'subject'})).toBe('return value of verbFoo')
+})
+
+it('returns the return value of the complex verb method', () => {
+  const mockItem = {
+    verbOpen: {
+      action: jest.fn(() => 'return value'),
+    },
+  }
+  const mockUniverse = createUniverse({items: {trunk: mockItem}})
+  const executor = new Executor(mockUniverse)
+  const result = executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  expect(result).toBe('return value')
+})
+
+it('returns undefined if the verb is not enabled', () => {
+  const mockItem = {
+    verbOpen: {
+      enabled: jest.fn(() => false),
+      action: jest.fn(),
+    },
+  }
+  const mockUniverse = createUniverse({items: {trunk: mockItem}})
+  const executor = new Executor(mockUniverse)
+  const result = executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  expect(result).toBeUndefined()
 })
