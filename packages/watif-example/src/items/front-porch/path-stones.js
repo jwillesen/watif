@@ -9,7 +9,7 @@ export class PathStones extends Item {
     </text>
   }
 
-  verb_search = {
+  verbSearch = {
     enabled: () => this.getStateOf('introductory-note').hasBeenRead,
     action: () => {
       this.setLocationOf('front-door-key', 'inventory')

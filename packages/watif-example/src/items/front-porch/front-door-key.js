@@ -6,12 +6,12 @@ export class FrontDoorKey extends Item {
     return <text>It's a key</text>
   }
 
-  verb_unlock = {
+  verbUnlock = {
     compound: true,
     connector: 'the',
-    enabled: () => this.location() === 'inventory',
-    action: (verb) => {
-      if (verb.object === 'front-door') {
+    enabled: () => this.getLocation() === 'inventory',
+    action: (target) => {
+      if (target === 'front-door') {
         this.setStateOf('front-door', {locked: false})
         return <text>The door lock clicks over.</text>
       }

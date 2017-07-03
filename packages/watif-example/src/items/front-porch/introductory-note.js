@@ -6,8 +6,12 @@ export class IntroductoryNote extends Item {
     return <text>a single sheet of paper, folded in half</text>
   }
 
-  verb_take = {
-    enabled: () => this.location() !== 'inventory',
+  initialState = {
+    location: 'front-door',
+  }
+
+  verbTake = {
+    enabled: () => this.getLocation() !== 'inventory',
     action: () => {
       this.setLocation('inventory')
       return <text>
@@ -17,8 +21,8 @@ export class IntroductoryNote extends Item {
     },
   }
 
-  verb_read = {
-    enabled: () => this.location() === 'inventory',
+  verbRead = {
+    enabled: () => this.getLocation() === 'inventory',
     action: () => {
       this.setState({hasBeenRead: true})
       return <text>

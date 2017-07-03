@@ -8,7 +8,11 @@ export class FrontDoor extends Item {
     </text>
   }
 
-  verb_knock () {
+  initialState = {
+    locked: true,
+  }
+
+  verbKnock () {
     // Note that you can just return text here and it will be added to the log
     return <text>
       You bang the knocker several times against the door. You can almost feel it echoing
@@ -16,7 +20,7 @@ export class FrontDoor extends Item {
     </text>
   }
 
-  verb_open () {
+  verbOpen () {
     if (this.getState().locked) {
       return <text>You can't open the door because it's locked.</text>
     }
