@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
   "dependencies": {
+    "change-case": "^3.0.1",
     "immutable": "^3.8.1",
     "redux-actions": "^2.0.3",
     "redux-immutable": "^4.0.0",
