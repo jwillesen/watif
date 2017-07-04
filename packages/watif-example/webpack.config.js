@@ -1,11 +1,24 @@
 const path = require('path')
 
+// with this config, this works in node (interpreter should be able to do something similar)
+// const fs = require('fs')
+
+// const changeCase = require('change-case')
+// const React = require('react')
+
+// function loadStory () {
+//   eval(
+//     fs.readFileSync('dist/story.js', {encoding: 'utf-8'})
+//   )
+//   return story
+// }
+
 const config = {
-  entry: './src/index.js',
+  entry: './index.js',
   output: {
     library: 'story',
-    libraryTarget: 'commonjs2',
-    // libraryTarget: 'umd',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'story.js',
   },
   module: {
     rules: [
@@ -15,6 +28,10 @@ const config = {
         loader: 'babel-loader',
       },
     ],
+  },
+  externals: {
+    'change-case': 'changeCase',
+    'react': 'React',
   },
 }
 

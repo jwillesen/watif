@@ -2,12 +2,12 @@
   "name": "watif-example",
   "version": "0.0.0",
   "description": "An example story for watif",
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
+  "main": "./dist/story.js",
   "scripts": {
-    "build": "babel src -d lib --ignore __tests__",
+    "build": "webpack -d",
     "build:watch": "npm run build -- --watch",
-    "prepublish": "npm run build",
+    "build:production": "webpack -p",
+    "prepublish": "npm run build:production",
     "test": "jest"
   },
   "repository": {
@@ -26,10 +26,15 @@
   "homepage": "https://github.com/jwillesen/watif#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "webpack": "^3.0.0"
   },
   "dependencies": {
-    "glob": "^7.1.2",
+    "watif-core": "^0.0.0"
+  },
+  "peerDependencies": {
+    "change-case": "^3.0.1",
+    "react": "^15.6.1",
     "watif-core": "^0.0.0"
   }
 }
