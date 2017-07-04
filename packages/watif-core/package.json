@@ -1,5 +1,5 @@
 {
-  "name": "watif-story",
+  "name": "watif-core",
   "version": "0.0.0",
   "description": "The base library required for authoring watif stories",
   "main": "./lib/index.js",

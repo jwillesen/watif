@@ -1,6 +1,6 @@
 import {setItemState} from './actions'
 import Immutable from 'immutable'
-import {Player, Inventory} from 'watif-story'
+import {Player, Inventory} from 'watif-core'
 
 export default class Universe {
   constructor (store, story) {
