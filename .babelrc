@@ -1,10 +1,6 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 2 versions", "not ie <= 10"]
-      }
-    }],
+    "./babel-preset",
     "stage-2",
     "react"
   ]

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The base library required for authoring watif stories",
   "main": "./lib/index.js",
-  "module": "./src/index.js",
+  "module": "./es/index.js",
   "scripts": {
     "build": "babel src -d lib --ignore __tests__",
     "build:watch": "npm run build -- --watch",
