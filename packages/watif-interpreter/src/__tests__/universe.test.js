@@ -1,4 +1,3 @@
-import Immutable from 'immutable'
 import Universe from '../universe'
 
 function createFakeItem (id = 'fake', initialState = {some: 'state'}) {
@@ -13,43 +12,25 @@ function createStory (items) {
   return { items }
 }
 
-function createStore (state) {
-  state = state || Immutable.fromJS({
-    itemStates: {
-      fake: { some: 'data' },
-    },
-  })
-  return {
-    getState: jest.fn(() => state),
-    dispatch: jest.fn(),
-  }
-}
-
 it('creates items with itself', () => {
   const mockStory = createStory()
-  const universe = new Universe(createStore(), mockStory)
+  const universe = new Universe(mockStory)
   expect(mockStory.items.fake).toHaveBeenCalledWith(universe)
 })
 
-it('finds an item state and coverts it to a pojo', () => {
-  const universe = new Universe(createStore(), createStory())
+it('remembers item state', () => {
+  const universe = new Universe(createStory())
+  universe.setStateOf('fake', {some: 'data'})
   expect(universe.getStateOf('fake')).toEqual({some: 'data'})
 })
 
 it('uses the initial state of the item', () => {
-  const mockStore = createStore()
-  const universe = new Universe(mockStore, createStory()) // eslint-disable-line no-unused-vars
-  expect(mockStore.dispatch).toHaveBeenCalledWith({
-    type: 'SET_ITEM_STATE',
-    payload: {
-      itemId: 'fake',
-      newItemState: Immutable.fromJS({some: 'state'}),
-    },
-  })
+  const universe = new Universe(createStory()) // eslint-disable-line no-unused-vars
+  expect(universe.getStateOf('fake')).toEqual({some: 'state'})
 })
 
 it('creates special items if they are missing from the story', () => {
-  const universe = new Universe(createStore(), createStory())
+  const universe = new Universe(createStory())
   expect(universe.getItem('player')).toBeDefined()
   expect(universe.getItem('inventory')).toBeDefined()
 })
@@ -59,22 +40,9 @@ it('does not overwrite special items if they are present in the story', () => {
     player: createFakeItem('player'),
     inventory: createFakeItem('inventory'),
   })
-  const universe = new Universe(createStore(), mockStory)
+  const universe = new Universe(mockStory)
   expect(universe.getItem('player')).toBeInstanceOf(mockStory.items.player)
   expect(universe.getItem('inventory')).toBeInstanceOf(mockStory.items.inventory)
-})
-
-it('dispatches state changes and converts pojo to immutable', () => {
-  const mockStore = createStore()
-  const universe = new Universe(mockStore, createStory())
-  universe.setStateOf('fake', {some: 'data'})
-  expect(mockStore.dispatch).toHaveBeenCalledWith({
-    type: 'SET_ITEM_STATE',
-    payload: {
-      itemId: 'fake',
-      newItemState: Immutable.fromJS({some: 'data'}),
-    },
-  })
 })
 
 it('throws on duplciate item ids', () => {
@@ -82,7 +50,7 @@ it('throws on duplciate item ids', () => {
     first: createFakeItem('badid'),
     second: createFakeItem('badid'),
   })
-  expect(() => new Universe(createStore(), mockStory)).toThrow()
+  expect(() => new Universe(mockStory)).toThrow()
 })
 
 it('calls the story initialize method after items are created', () => {
@@ -90,6 +58,29 @@ it('calls the story initialize method after items are created', () => {
   mockStory.initialize = jest.fn((universe) => {
     expect(universe.getItem('fake')).toBeDefined()
   })
-  const universe = new Universe(createStore(), mockStory)
+  const universe = new Universe(mockStory)
   expect(mockStory.initialize).toHaveBeenCalledWith(universe)
+})
+
+it('sets the current item', () => {
+  const universe = new Universe(createStory())
+  universe.setCurrentItem('fake')
+  expect(universe.getUniverseState().currentItemId).toBe('fake')
+})
+
+it('appends log entries', () => {
+  const universe = new Universe(createStory())
+  universe.addLogEntry('some foo')
+  expect(universe.getUniverseState().log).toEqual(['some foo'])
+})
+
+it('replaces the state', () => {
+  const universe = new Universe(createStory())
+  const replacementState = {
+    log: ['foo', 'bar'],
+    currentItemId: 'baz',
+    itemStates: {some: 'state'},
+  }
+  universe.setUniverseState(replacementState)
+  expect(universe.getUniverseState()).toEqual(replacementState)
 })

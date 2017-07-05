@@ -4,13 +4,6 @@ import logReducer from './log-reducer'
 import {handleAction} from 'redux-actions'
 import {combineReducers} from 'redux-immutable'
 
-// verb structure:
-//  {
-//    verb: string,
-//    compound: bool,
-//    connector: string,
-// }
-
 export const DefaultState = () => Immutable.fromJS({
   // array of watext
   log: [],
@@ -20,7 +13,9 @@ export const DefaultState = () => Immutable.fromJS({
   itemStates: {},
 })
 
-function identity (state, action) { return action.payload }
+function identity (state, action) {
+  return action.payload
+}
 
 const combinedReducer = combineReducers({
   log: logReducer,
@@ -28,4 +23,16 @@ const combinedReducer = combineReducers({
   itemStates: itemStatesReducer,
 }, DefaultState)
 
-export default combinedReducer
+function globalReducer (state, action) {
+  if (action.type === 'REPLACE_STATE') return action.payload
+  return state
+}
+
+function reducer (state, action) {
+  if (state == null) return DefaultState()
+  state = globalReducer(state, action)
+  state = combinedReducer(state, action)
+  return state
+}
+
+export default reducer

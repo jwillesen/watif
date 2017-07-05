@@ -1,15 +1,17 @@
-import {setItemState} from './actions'
+import {createStore} from 'redux'
 import Immutable from 'immutable'
 import {Player, Inventory} from 'watif-core'
+import {setItemState, replaceState, addLogEntry, setCurrentItem} from './actions'
+import reducer from './reducer'
 
 export default class Universe {
-  constructor (store, story) {
-    this.store = store
-    this.story = story
-    this.bigBang()
+  constructor (story) {
+    this.store = createStore(reducer)
+    if (story) this.bigBang(story)
   }
 
-  bigBang () {
+  bigBang (story) {
+    this.story = story
     this.createItems()
     this.createSpecialItems()
     if (this.story.initialize) this.story.initialize(this)
@@ -40,6 +42,14 @@ export default class Universe {
     if (!this.getItem(itemId)) this.createItem(ItemClass)
   }
 
+  getUniverseState () {
+    return this.store.getState().toJS()
+  }
+
+  setUniverseState (newState) {
+    this.store.dispatch(replaceState(Immutable.fromJS(newState)))
+  }
+
   getItem (itemId) {
     return this.items[itemId]
   }
@@ -50,5 +60,13 @@ export default class Universe {
 
   setStateOf (itemId, newState) {
     return this.store.dispatch(setItemState(itemId, Immutable.fromJS(newState)))
+  }
+
+  setCurrentItem (itemId) {
+    this.store.dispatch(setCurrentItem(itemId))
+  }
+
+  addLogEntry (watext) {
+    this.store.dispatch(addLogEntry(Immutable.fromJS(watext)))
   }
 }
