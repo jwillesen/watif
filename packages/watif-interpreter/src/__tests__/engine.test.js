@@ -1,4 +1,4 @@
-import Executor from '../executor'
+import Engine from '../engine'
 
 function createItem (verbFnSuffix) {
   return {
@@ -19,43 +19,43 @@ function createUniverse (opts = {}) {
 }
 
 it('throws if there is no subject', () => {
-  const executor = new Executor(createUniverse())
-  expect(() => executor.executeVerb({id: 'foo'})).toThrow()
+  const engine = new Engine(createUniverse())
+  expect(() => engine.executeVerb({id: 'foo'})).toThrow()
 })
 
 it('throws if the subject does not exist', () => {
-  const executor = new Executor(createUniverse())
-  expect(() => executor.executeVerb({id: 'foo', subject: 'does-not-exist'})).toThrow()
+  const engine = new Engine(createUniverse())
+  expect(() => engine.executeVerb({id: 'foo', subject: 'does-not-exist'})).toThrow()
 })
 
 it('throws if the verb does not exist', () => {
-  const executor = new Executor(createUniverse())
-  expect(() => executor.executeVerb({id: 'does-not-exist', subject: 'subject'})).toThrow()
+  const engine = new Engine(createUniverse())
+  expect(() => engine.executeVerb({id: 'does-not-exist', subject: 'subject'})).toThrow()
 })
 
 it('throws if the target does not exist', () => {
-  const executor = new Executor(createUniverse())
-  expect(() => executor.executeVerb({id: 'foo', subject: 'subject', target: 'does-not-exist'})).toThrow()
+  const engine = new Engine(createUniverse())
+  expect(() => engine.executeVerb({id: 'foo', subject: 'subject', target: 'does-not-exist'})).toThrow()
 })
 
 it('executes a verb on the subject item', () => {
   const mockUniverse = createUniverse()
-  const executor = new Executor(mockUniverse)
-  executor.executeVerb({id: 'foo', subject: 'subject'})
+  const engine = new Engine(mockUniverse)
+  engine.executeVerb({id: 'foo', subject: 'subject'})
   expect(mockUniverse.subject.verbFoo).toHaveBeenCalled()
 })
 
 it('passes the target id to the verb function handler', () => {
   const mockUniverse = createUniverse()
-  const executor = new Executor(mockUniverse)
-  executor.executeVerb({id: 'foo', subject: 'subject', target: 'target'})
+  const engine = new Engine(mockUniverse)
+  engine.executeVerb({id: 'foo', subject: 'subject', target: 'target'})
   expect(mockUniverse.subject.verbFoo).toHaveBeenCalledWith('target')
 })
 
 it('does change-case on multi-word verbs', () => {
   const mockUniverse = createUniverse({subject: createItem('PutDown')})
-  const executor = new Executor(mockUniverse)
-  executor.executeVerb({id: 'put-down', subject: 'subject'})
+  const engine = new Engine(mockUniverse)
+  engine.executeVerb({id: 'put-down', subject: 'subject'})
   expect(mockUniverse.subject.verbPutDown).toHaveBeenCalled()
 })
 
@@ -67,8 +67,8 @@ it('calls complex verb definitions', () => {
     },
   }
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
-  const executor = new Executor(mockUniverse)
-  executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  const engine = new Engine(mockUniverse)
+  engine.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
   expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith('target')
   expect(mockItem.verbOpen.action).toHaveBeenCalledWith('target')
 })
@@ -81,8 +81,8 @@ it('does not call the action if the verb is disabled', () => {
     },
   }
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
-  const executor = new Executor(mockUniverse)
-  executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  const engine = new Engine(mockUniverse)
+  engine.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
   expect(mockItem.verbOpen.enabled).toHaveBeenCalledWith('target')
   expect(mockItem.verbOpen.action).not.toHaveBeenCalled()
 })
@@ -94,13 +94,13 @@ it('requires an action method for complex verbs', () => {
     },
   }
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
-  const executor = new Executor(mockUniverse)
-  expect(() => executor.executeVerb({id: 'open', subject: 'trunk'})).toThrow()
+  const engine = new Engine(mockUniverse)
+  expect(() => engine.executeVerb({id: 'open', subject: 'trunk'})).toThrow()
 })
 
 it('returns the return value of the verb method', () => {
-  const executor = new Executor(createUniverse())
-  expect(executor.executeVerb({id: 'foo', subject: 'subject'})).toBe('return value of verbFoo')
+  const engine = new Engine(createUniverse())
+  expect(engine.executeVerb({id: 'foo', subject: 'subject'})).toBe('return value of verbFoo')
 })
 
 it('returns the return value of the complex verb method', () => {
@@ -110,8 +110,8 @@ it('returns the return value of the complex verb method', () => {
     },
   }
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
-  const executor = new Executor(mockUniverse)
-  const result = executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  const engine = new Engine(mockUniverse)
+  const result = engine.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
   expect(result).toBe('return value')
 })
 
@@ -123,7 +123,7 @@ it('returns undefined if the verb is not enabled', () => {
     },
   }
   const mockUniverse = createUniverse({items: {trunk: mockItem}})
-  const executor = new Executor(mockUniverse)
-  const result = executor.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
+  const engine = new Engine(mockUniverse)
+  const result = engine.executeVerb({id: 'open', subject: 'trunk', target: 'target'})
   expect(result).toBeUndefined()
 })

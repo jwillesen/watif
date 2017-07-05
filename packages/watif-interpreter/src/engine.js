@@ -1,6 +1,6 @@
 import changeCase from 'change-case'
 
-export default class Executor {
+export default class Engine {
   constructor (universe) {
     this.universe = universe
   }
