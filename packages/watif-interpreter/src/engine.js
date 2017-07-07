@@ -19,14 +19,16 @@ export default class Engine {
     if (!handler) throw new Error(`subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`)
 
     if (typeof handler === 'function') {
-      return handler(target)
+      return handler.call(subjectItem, target)
     } else {
       let enabled = true
-      if (handler.enabled) enabled = handler.enabled(target)
+      if (handler.enabled) enabled = handler.enabled.call(subjectItem, target)
       if (enabled) {
         if (!handler.action) throw new Error(`complex verb "${id}" on subject "${subject}" does not have an "action" method`)
-        return handler.action(target)
-      } // else return undefined
+        return handler.action.call(subjectItem, target)
+      } else {
+        throw new Error(`called disabled verb "${id}" on subject "${subject}"`)
+      }
     }
   }
 }
