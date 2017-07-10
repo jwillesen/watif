@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "An interpreter for executing watif stories",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "scripts": {
     "build": "babel src -d lib --ignore __tests__",
     "build:watch": "npm run build -- --watch",

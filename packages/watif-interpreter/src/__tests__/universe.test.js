@@ -33,6 +33,7 @@ it('creates special items if they are missing from the story', () => {
   const universe = new Universe(createStory())
   expect(universe.getItem('player')).toBeDefined()
   expect(universe.getItem('inventory')).toBeDefined()
+  expect(universe.getStateOf('inventory')).toEqual({location: 'player'})
 })
 
 it('does not overwrite special items if they are present in the story', () => {

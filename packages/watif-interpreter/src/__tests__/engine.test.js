@@ -15,6 +15,8 @@ function createItemClass (opts) {
       this[verbMethodName] = verb
     }
     id () { return opts.id }
+    name () { return this.id() }
+    description () { return opts.description || `description of ${opts.id}` }
     initialState () { return opts.initialState || {} }
   }
 }
@@ -143,10 +145,64 @@ describe('executeVerb', () => {
 })
 
 describe('getDisplayData', () => {
-  it('includes the current universe state')
-  it('includes the current item description')
-  it('handles no current item')
-  it('sets the current room description')
-  it('handles no current room')
-  it('constructs the player inventory tree')
+  it('includes the current universe state', () => {
+    const {engine, universe} = createEngine()
+    universe.setStateOf('subject', {foo: 'bar'})
+    universe.setCurrentItem('subject')
+    const display = engine.getDisplayData()
+    expect(display.universe.itemStates).toMatchObject({subject: {foo: 'bar'}, target: {}})
+    expect(display.universe.currentItemId).toBe('subject')
+    expect(display.universe.log).toEqual([])
+  })
+
+  it('includes the current item description', () => {
+    const {engine, universe} = createEngine()
+    universe.setCurrentItem('subject')
+    expect(engine.getDisplayData().currentItemDescription).toBe('description of subject')
+  })
+
+  it('excludes description if there is no current item', () => {
+    const {engine} = createEngine()
+    expect(engine.getDisplayData().currentItemDescription).toBeNull()
+  })
+
+  it('sets the current room description', () => {
+    const {engine, universe} = createEngine()
+    universe.setStateOf('player', {location: 'target'})
+    expect(engine.getDisplayData().currentRoomDescription).toBe('description of target')
+  })
+
+  it('excludes the room description if there is no current room', () => {
+    const {engine} = createEngine()
+    expect(engine.getDisplayData().currentRoomDescription).toBeNull()
+  })
+
+  it('constructs the player inventory tree', () => {
+    const {engine, universe} = createEngine({
+      knowledge: createItemClass({id: 'knowledge'}),
+      contained: createItemClass({id: 'contained'}),
+      fact: createItemClass({id: 'fact'}),
+      other: createItemClass({id: 'other'}),
+    })
+    Array.of('subject', 'target').forEach(item => universe.setStateOf(item, {location: 'inventory'}))
+    universe.setStateOf('knowledge', {location: 'player'})
+    universe.setStateOf('fact', {location: 'knowledge'})
+    universe.setStateOf('contained', {location: 'subject'})
+    const playerStuff = engine.getDisplayData().playerInventory
+    expect(playerStuff).toEqual({
+      inventory: {
+        name: 'inventory',
+        contents: {
+          subject: { name: 'subject' },
+          target: { name: 'target' },
+        },
+      },
+      knowledge: {
+        name: 'knowledge',
+        contents: {
+          fact: { name: 'fact' },
+        },
+      },
+    })
+  })
 })
