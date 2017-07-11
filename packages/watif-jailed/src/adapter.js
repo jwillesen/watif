@@ -5,6 +5,7 @@ export default class Adapter {
     this.engine = engine
     this.application = application
     this.application.setInterface({
+      echo: this.echo,
       loadStory: this.loadStory,
       executeVerb: this.executeVerb,
       replaceState: this.replaceState,
@@ -24,6 +25,10 @@ export default class Adapter {
     const displayData = this.engine.getDisplayData()
     if (this.error) displayData.error = errorToJson(this.error)
     cb(displayData)
+  }
+
+  echo = (message, cb) => {
+    cb(message)
   }
 
   loadStory = (storyCode, cb) => {
