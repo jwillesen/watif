@@ -7,7 +7,6 @@
     "build": "webpack -d",
     "build:watch": "npm run build -- --watch",
     "build:production": "webpack -p",
-    "prepublish": "npm run build:production",
     "test": "jest"
   },
   "repository": {

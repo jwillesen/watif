@@ -6,7 +6,6 @@
   "scripts": {
     "build": "babel src -d lib --ignore __tests__",
     "build:watch": "npm run build -- --watch",
-    "prepublish": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
