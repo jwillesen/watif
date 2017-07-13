@@ -1,4 +1,4 @@
-import Adapter from '../adapter'
+import InterfaceProvider from '../interface-provider'
 
 function mockEngine () {
   return {
@@ -18,7 +18,7 @@ function mockApp () {
 it('registers callbacks', () => {
   const app = mockApp()
   const engine = mockEngine()
-  const adapter = new Adapter(engine, app) // eslint-disable-line no-unused-vars
+  const adapter = new InterfaceProvider(engine, app) // eslint-disable-line no-unused-vars
   expect(app.setInterface).toHaveBeenCalledWith(expect.objectContaining({
     loadStory: expect.anything(),
     executeVerb: expect.anything(),
@@ -31,7 +31,7 @@ it('registers callbacks', () => {
 })
 
 it('has an echo method for integration testing', () => {
-  const adapter = new Adapter(mockEngine(), mockApp())
+  const adapter = new InterfaceProvider(mockEngine(), mockApp())
   const cb = jest.fn()
   adapter.echo('some message', cb)
   expect(cb).toHaveBeenCalledWith('some message')
@@ -41,7 +41,7 @@ it('calls loadStory and the callback with display data', () => {
   const story = {}
   const cb = jest.fn()
   const engine = mockEngine()
-  const adapter = new Adapter(engine, mockApp())
+  const adapter = new InterfaceProvider(engine, mockApp())
   adapter.loadStory(story, cb)
   expect(engine.loadStory).toHaveBeenCalledWith(story)
   expect(cb).toHaveBeenCalledWith({display: 'data'})
@@ -51,7 +51,7 @@ it('calls executeVerb and callback with display data', () => {
   const verb = {id: 'foo', subject: 'some-item'}
   const cb = jest.fn()
   const engine = mockEngine()
-  const adapter = new Adapter(engine, mockApp())
+  const adapter = new InterfaceProvider(engine, mockApp())
   adapter.executeVerb(verb, cb)
   expect(engine.executeVerb).toHaveBeenCalledWith(verb)
   expect(cb).toHaveBeenCalledWith({display: 'data'})
@@ -61,7 +61,7 @@ it('calls replaceState and callback with display data', () => {
   const newState = {}
   const cb = jest.fn()
   const engine = mockEngine()
-  const adapter = new Adapter(engine, mockApp())
+  const adapter = new InterfaceProvider(engine, mockApp())
   adapter.replaceState(newState, cb)
   expect(engine.replaceState).toHaveBeenCalledWith(newState)
   expect(cb).toHaveBeenCalledWith({display: 'data'})
@@ -72,7 +72,7 @@ it('catches errors and reports them in display data', () => {
   const cb = jest.fn()
   const engine = mockEngine()
   engine.executeVerb = jest.fn(() => { throw new Error('mock error') })
-  const adapter = new Adapter(engine, mockApp())
+  const adapter = new InterfaceProvider(engine, mockApp())
   adapter.executeVerb(verb, cb)
   expect(engine.executeVerb).toHaveBeenCalledWith(verb)
   expect(cb).toHaveBeenCalledWith(expect.objectContaining({

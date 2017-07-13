@@ -4,6 +4,8 @@
   "description": "Demonstration webapp for a watif example story",
   "main": "dist/watif-demo.js",
   "scripts": {
+    "start": "webpack-dev-server",
+    "start:port": "webpack-dev-server --port $PORT",
     "build": "webpack -d",
     "build:watch": "npm run build -- --watch",
     "build:production": "webpack -p",
@@ -26,13 +28,17 @@
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
   "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "watif-browser": "^0.0.0",
     "watif-example": "^0.0.0",
     "watif-interpreter": "^0.0.0",
     "watif-jailed": "^0.0.0"
   },
   "devDependencies": {
+    "html-webpack-plugin": "^2.29.0",
     "jest": "^20.0.4",
-    "webpack": "^3.0.0"
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.1"
   }
 }

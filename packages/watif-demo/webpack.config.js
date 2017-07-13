@@ -1,11 +1,17 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = {
-  entry: './src/bootstrap.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'watif-bootstrap.js',
+    filename: 'watif-demo.js',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Watif Demo',
+    }),
+  ],
   module: {
     rules: [
       {
@@ -16,9 +22,11 @@ const config = {
     ],
   },
   externals: {
-    'application': 'application',
   },
   devtool: 'cheap-module-source-map',
+  devServer: {
+    contentBase: path.join((__dirname, 'dist')),
+  },
 }
 
 module.exports = config

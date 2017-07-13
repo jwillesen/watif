@@ -1,6 +1,6 @@
 import errorToJson from 'utils-error-to-json'
 
-export default class Adapter {
+export default class InterfaceProvider {
   constructor (engine, application) {
     this.engine = engine
     this.application = application
