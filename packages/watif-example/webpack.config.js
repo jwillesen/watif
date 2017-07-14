@@ -30,9 +30,14 @@ const config = {
     ],
   },
   externals: {
-    'change-case': 'changeCase',
-    'react': 'React',
+    react: {
+      commonjs2: 'react',
+    },
+    'change-case': {
+      commonjs2: 'change-case',
+    },
   },
+  devtool: 'cheap-module-source-map',
 }
 
 module.exports = config

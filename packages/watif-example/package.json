@@ -4,9 +4,9 @@
   "description": "An example story for watif",
   "main": "./dist/story.js",
   "scripts": {
-    "build": "webpack -d",
+    "build": "webpack",
     "build:watch": "npm run build -- --watch",
-    "build:production": "webpack -p",
+    "build:production": "webpack",
     "test": "jest"
   },
   "repository": {
