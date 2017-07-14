@@ -37,6 +37,30 @@ function createEngine (customItemClasses) {
   return {engine, universe}
 }
 
+describe('loadStory', () => {
+  it('passes through objects to the universe', () => {
+    const universe = createUniverse()
+    universe.bigBang = jest.fn()
+    const engine = new Engine(universe)
+    const story = {}
+    engine.loadStory(story)
+    expect(universe.bigBang).toHaveBeenCalledWith(story)
+  })
+
+  // a direct call to eval doesn't work in a jest environment: it's not bound to the right context,
+  // as if it were an indirect eval call instead of a direct one. This makes it impossible to
+  // actually run this test. Running manual tests in Node and Chrome indicates the eval should
+  // work fine and doesn't get transpiled by babel to an indirect call.
+  xit('evals strings and passes the resulting object to the universe', () => {
+    const universe = createUniverse()
+    universe.bigBang = jest.fn()
+    const engine = new Engine(universe)
+    const someStory = 'var story = "some story"'
+    engine.loadStory(someStory)
+    expect(universe.bigBang).toHaveBeenCalledWith('some story')
+  })
+})
+
 describe('executeVerb', () => {
   it('throws if there is no subject', () => {
     const {engine} = createEngine()

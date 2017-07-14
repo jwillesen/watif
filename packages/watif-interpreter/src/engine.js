@@ -6,7 +6,18 @@ export default class Engine {
   }
 
   loadStory (storyCode) {
-    this.universe.bigBang(storyCode)
+    if (typeof storyCode === 'object') {
+      this.universe.bigBang(storyCode)
+    } else {
+      // The variable `story` will be created and assigned when evaluating the story code. This is
+      // the standard interface for a story library to export its evaluated code. It's the best
+      // option for webpacked story libraries because we can't use another packaging system,
+      // like CommonJS, in the browser.
+      // In production this runs in a sandboxed (jailled) environment, so it's ok to call eval to
+      // dynamically load the story code.
+      eval(storyCode) // eslint-disable-line no-eval
+      this.universe.bigBang(story) // eslint-disable-line no-undef
+    }
   }
 
   replaceState (newState) {
