@@ -47,11 +47,7 @@ describe('loadStory', () => {
     expect(universe.bigBang).toHaveBeenCalledWith(story)
   })
 
-  // a direct call to eval doesn't work in a jest environment: it's not bound to the right context,
-  // as if it were an indirect eval call instead of a direct one. This makes it impossible to
-  // actually run this test. Running manual tests in Node and Chrome indicates the eval should
-  // work fine and doesn't get transpiled by babel to an indirect call.
-  xit('evals strings and passes the resulting object to the universe', () => {
+  it('evals strings and passes the resulting object to the universe', () => {
     const universe = createUniverse()
     universe.bigBang = jest.fn()
     const engine = new Engine(universe)

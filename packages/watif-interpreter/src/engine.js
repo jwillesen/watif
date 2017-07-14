@@ -1,5 +1,20 @@
 import changeCase from 'change-case'
 
+class EvalSandbox {
+  evalStory (storyCode) {
+    // When webpacking a library for consumtion in a browser, the best option is a variable export
+    // since the browser doesn't natively have another packaging mechanism. In this case, the story
+    // export is stored in a newly created variable called `story`. However, evaling this variable
+    //  creation doesn't seem to be working here, but the `this` context is correct so we're going
+    //  to hack around it by replacing the variable creation with an assignment to this.
+    const modifiedStoryCode = storyCode.replace(/^var story/, 'this.story')
+
+    // In production this runs in a sandboxed (jailled) environment, so it's ok to call eval to
+    // dynamically load the story code.
+    eval(modifiedStoryCode) // eslint-disable-line no-eval
+  }
+}
+
 export default class Engine {
   constructor (universe) {
     this.universe = universe
@@ -9,14 +24,9 @@ export default class Engine {
     if (typeof storyCode === 'object') {
       this.universe.bigBang(storyCode)
     } else {
-      // The variable `story` will be created and assigned when evaluating the story code. This is
-      // the standard interface for a story library to export its evaluated code. It's the best
-      // option for webpacked story libraries because we can't use another packaging system,
-      // like CommonJS, in the browser.
-      // In production this runs in a sandboxed (jailled) environment, so it's ok to call eval to
-      // dynamically load the story code.
-      eval(storyCode) // eslint-disable-line no-eval
-      this.universe.bigBang(story) // eslint-disable-line no-undef
+      const sandbox = new EvalSandbox()
+      sandbox.evalStory(storyCode)
+      this.universe.bigBang(sandbox.story)
     }
   }
 
