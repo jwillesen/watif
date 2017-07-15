@@ -7,6 +7,14 @@ import {DebugAdapter} from 'watif-jailed'
 const mountPoint = document.createElement('div')
 document.body.appendChild(mountPoint)
 
+function loadingError (err) {
+  console.error('failed to load story.js', err) // eslint-disable-line no-console
+}
+
 const adapter = new DebugAdapter()
-// adapter.loadStory(story)
-ReactDOM.render(<Display adapter={adapter} />, mountPoint)
+fetch('story.js').catch((err) => loadingError(err)).then((result) => {
+  result.text().catch((err) => loadingError(err)).then((storyCode) => {
+    adapter.loadStory(storyCode, (storyState) => console.log(storyState))
+    ReactDOM.render(<Display adapter={adapter} />, mountPoint)
+  })
+})

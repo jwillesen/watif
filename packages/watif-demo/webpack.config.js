@@ -25,7 +25,11 @@ const config = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    contentBase: path.join((__dirname, 'dist')),
+    contentBase: [
+      path.join((__dirname, 'dist')),
+      path.join((__dirname, 'node_modules/watif-example/dist')),
+      path.join((__dirname, 'node_modules/watif-jailed/dist')),
+    ],
   },
 }
 

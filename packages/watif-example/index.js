@@ -1,6 +1,6 @@
 const contextRequire = require.context('./src', true, /\.js$/)
-const dynamicExports = {}
+const itemExports = {}
 contextRequire.keys().forEach((moduleName) => {
-  Object.assign(dynamicExports, contextRequire(moduleName))
+  Object.assign(itemExports, contextRequire(moduleName))
 })
-module.exports = dynamicExports
+module.exports.items = itemExports

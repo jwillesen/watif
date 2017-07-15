@@ -17,7 +17,6 @@ function createItemClass (opts) {
     id () { return opts.id }
     name () { return this.id() }
     description () { return opts.description || `description of ${opts.id}` }
-    initialState () { return opts.initialState || {} }
   }
 }
 

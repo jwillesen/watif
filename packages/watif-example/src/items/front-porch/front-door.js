@@ -2,14 +2,15 @@ import React from 'react'
 import {Item} from 'watif-core'
 
 export class FrontDoor extends Item {
+  constructor (...args) {
+    super(...args)
+    this.setState({locked: true})
+  }
+
   description () {
     return <text>
       It's a door.
     </text>
-  }
-
-  initialState = {
-    locked: true,
   }
 
   verbKnock () {

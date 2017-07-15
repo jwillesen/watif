@@ -2,12 +2,13 @@ import React from 'react'
 import {Item} from 'watif-core'
 
 export class IntroductoryNote extends Item {
-  description () {
-    return <text>a single sheet of paper, folded in half</text>
+  constructor (...args) {
+    super(...args)
+    this.setState({location: 'front-door'})
   }
 
-  initialState = {
-    location: 'front-door',
+  description () {
+    return <text>a single sheet of paper, folded in half</text>
   }
 
   verbTake = {

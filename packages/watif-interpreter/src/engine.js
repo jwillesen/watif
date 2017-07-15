@@ -1,12 +1,21 @@
-import changeCase from 'change-case'
+import globalReact from 'react'
+import globalChangeCase from 'change-case'
+// import React from 'react'
+// import changeCase from 'change-case'
+// const globalChangeCase = changeCase
 
 class EvalSandbox {
   evalStory (storyCode) {
+    // These need to be in scope for the story eval because we don't embed these libraries into
+    // every story. How eval can read these and fail to create a var is beyond me.
+    const React = globalReact // eslint-disable-line no-unused-vars
+    const changeCase = globalChangeCase // eslint-disable-line no-unused-vars
     // When webpacking a library for consumtion in a browser, the best option is a variable export
     // since the browser doesn't natively have another packaging mechanism. In this case, the story
     // export is stored in a newly created variable called `story`. However, evaling this variable
-    //  creation doesn't seem to be working here, but the `this` context is correct so we're going
-    //  to hack around it by replacing the variable creation with an assignment to this.
+    // creation doesn't seem to be working here, but the `this` and other local vars is correct so
+    // we hack around not being able to see the story var by replacing the variable creation
+    // with an assignment to this.
     const modifiedStoryCode = storyCode.replace(/^var story/, 'this.story')
 
     // In production this runs in a sandboxed (jailled) environment, so it's ok to call eval to
@@ -82,7 +91,7 @@ export default class Engine {
       targetItem = this.universe.getItem(target)
       if (!targetItem) throw new Error(`verb "${id}" invoked with invalid target "${target}"`)
     }
-    const handlerName = 'verb' + changeCase.pascal(id)
+    const handlerName = 'verb' + globalChangeCase.pascal(id)
     const handler = subjectItem[handlerName]
     if (!handler) throw new Error(`subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`)
 

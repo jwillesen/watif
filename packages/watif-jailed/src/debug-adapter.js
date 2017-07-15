@@ -6,6 +6,10 @@ export default class DebugAdapter {
     this.engine = new Engine(this.universe)
   }
 
+  sendDisplayData (cb) {
+    cb(this.engine.getDisplayData())
+  }
+
   echo = (message, cb) => {
     cb(message)
   }

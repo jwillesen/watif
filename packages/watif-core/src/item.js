@@ -31,12 +31,6 @@ export default class Item {
     return changeCase.no(this.constructor.name)
   }
 
-  // This returns the initial state of the item. For example, it can be used to set the item's
-  // initial location. By default the state is empty.
-  initialState () {
-    return {}
-  }
-
   // "Examine" is the verb the display sends when an item is clicked. By default this sets the
   // current item so its description will be displayed. You can override this to do soething else
   // if you want just examining an item to do something special.

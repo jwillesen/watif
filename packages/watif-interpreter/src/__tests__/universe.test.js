@@ -1,9 +1,8 @@
 import Universe from '../universe'
 
-function createFakeItem (id = 'fake', initialState = {some: 'state'}) {
+function createFakeItem (id = 'fake') {
   const fake = jest.fn()
   fake.prototype.id = () => id
-  fake.prototype.initialState = jest.fn(() => initialState)
   return fake
 }
 
@@ -24,9 +23,9 @@ it('remembers item state', () => {
   expect(universe.getStateOf('fake')).toEqual({some: 'data'})
 })
 
-it('uses the initial state of the item', () => {
+it('initializes the state of the item', () => {
   const universe = new Universe(createStory()) // eslint-disable-line no-unused-vars
-  expect(universe.getStateOf('fake')).toEqual({some: 'state'})
+  expect(universe.getStateOf('fake')).toEqual({})
 })
 
 it('creates special items if they are missing from the story', () => {

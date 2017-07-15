@@ -20,6 +20,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'story.js',
   },
+
   module: {
     rules: [
       {
@@ -29,14 +30,12 @@ const config = {
       },
     ],
   },
+
   externals: {
-    react: {
-      commonjs2: 'react',
-    },
-    'change-case': {
-      commonjs2: 'change-case',
-    },
+    'change-case': 'changeCase',
+    'react': 'React',
   },
+
   devtool: 'cheap-module-source-map',
 }
 
