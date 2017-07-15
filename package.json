@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "lerna run build --sort",
-    "watch": "lerna run build:watch --parallel"
+    "build:watch": "lerna run build:watch --parallel",
+    "deploy:demo": "scripts/deploy-demo"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

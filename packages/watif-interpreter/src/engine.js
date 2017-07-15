@@ -1,8 +1,5 @@
 import globalReact from 'react'
 import globalChangeCase from 'change-case'
-// import React from 'react'
-// import changeCase from 'change-case'
-// const globalChangeCase = changeCase
 
 class EvalSandbox {
   evalStory (storyCode) {

@@ -11,7 +11,8 @@
     "build:production": "webpack -p",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
   "dependencies": {
+    "change-case": "^3.0.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "watif-browser": "^0.0.0",
@@ -36,6 +38,7 @@
     "watif-jailed": "^0.0.0"
   },
   "devDependencies": {
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
     "jest": "^20.0.4",
     "webpack": "^3.0.0",
