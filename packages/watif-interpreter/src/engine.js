@@ -51,9 +51,62 @@ export default class Engine {
 
     return {
       currentItemDescription: currentItem && currentItem.description(),
+      currentItemVerbs: currentItem && this.constructVerbList(currentItem),
+
       currentRoomDescription: currentRoom && currentRoom.description(),
+      currentRoomVerbs: currentRoom && this.constructVerbList(currentRoom),
+
       playerInventory: this.constructInventory(universeState),
       universe: this.universe.getUniverseState(),
+    }
+  }
+
+  getAllPropertyNames (item) {
+    let props = []
+    let current = item
+    while (current !== Object.prototype && current != null) {
+      props = props.concat(Object.getOwnPropertyNames(current))
+      current = Object.getPrototypeOf(current)
+    }
+    return props
+  }
+
+  constructVerbList (item) {
+    const propertyNames = this.getAllPropertyNames(item)
+    const verbPropNames = propertyNames.filter(propName => propName.startsWith('verb'))
+    return verbPropNames.reduce((verbList, verbPropName) => {
+      const itemVerb = item[verbPropName]
+      const verbId = globalChangeCase.param(verbPropName.replace(/^verb/, ''))
+      const verb = this.verbFromProperty(verbId, itemVerb, item)
+      if (verb) verbList.push(verb)
+      return verbList
+    }, [])
+  }
+
+  verbFromProperty (verbId, itemVerb, item) {
+    if (typeof itemVerb === 'function') return this.verbFromFunction(verbId, itemVerb, item)
+    else if (typeof itemVerb === 'object') return this.verbFromObject(verbId, itemVerb, item)
+    else throw new Error(`verb ${verbId} on item ${item.id()} has incorrect type ${typeof itemVerb}`)
+  }
+
+  verbFromFunction (verbId, itemVerb, item) {
+    return {
+      id: verbId,
+      name: globalChangeCase.noCase(verbId),
+      compound: false,
+      connector: null,
+    }
+  }
+
+  verbFromObject (verbId, itemVerb, item) {
+    let enabled = true
+    if (itemVerb.enabled) enabled = itemVerb.enabled.call(item)
+    if (!enabled) return
+    return {
+      id: verbId,
+      name: itemVerb.name || globalChangeCase.noCase(verbId),
+      compound: itemVerb.compound || false,
+      connector: itemVerb.connector || null,
     }
   }
 
@@ -96,7 +149,7 @@ export default class Engine {
       return handler.call(subjectItem, target)
     } else {
       let enabled = true
-      if (handler.enabled) enabled = handler.enabled.call(subjectItem, target)
+      if (handler.enabled) enabled = handler.enabled.call(subjectItem)
       if (enabled) {
         if (!handler.action) throw new Error(`complex verb "${id}" on subject "${subject}" does not have an "action" method`)
         return handler.action.call(subjectItem, target)

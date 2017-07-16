@@ -112,7 +112,7 @@ describe('executeVerb', () => {
     engine.executeVerb({id: 'open', subject: 'open-item', target: 'target'})
     const openItem = universe.getItem('open-item')
     const verbOpen = openItem.verbOpen
-    expect(verbOpen.enabled).toHaveBeenCalledWith('target')
+    expect(verbOpen.enabled).toHaveBeenCalled()
     expect(verbOpen.enabled.mock.instances[0]).toBe(openItem)
     expect(verbOpen.action).toHaveBeenCalledWith('target')
     expect(verbOpen.action.mock.instances[0]).toBe(openItem)
@@ -180,20 +180,119 @@ describe('getDisplayData', () => {
     expect(engine.getDisplayData().currentItemDescription).toBe('description of subject')
   })
 
-  it('excludes description if there is no current item', () => {
-    const {engine} = createEngine()
-    expect(engine.getDisplayData().currentItemDescription).toBeNull()
+  it('includes the current item verb list', () => {
+    class Basic extends Item { verbSomethingSimple () {} }
+    class Derived extends Basic {
+      verbSomethingComplex = {
+        name: 'ruminate',
+        compound: true,
+        connector: 'on',
+        action: () => {},
+      }
+    }
+    const universe = new Universe({
+      items: { item: Derived },
+    })
+    const engine = new Engine(universe)
+    universe.setCurrentItem('derived')
+    const verbs = engine.getDisplayData().currentItemVerbs
+    verbs.sort((va, vb) => va.id < vb.id ? -1 : (va === vb ? 0 : 1))
+    expect(verbs).toEqual([
+      { id: 'examine', name: 'examine', compound: false, connector: null },
+      { id: 'something-complex', name: 'ruminate', compound: true, connector: 'on' },
+      { id: 'something-simple', name: 'something simple', compound: false, connector: null },
+    ])
   })
 
-  it('sets the current room description', () => {
+  it('does not list disabled verbs', () => {
+    const mockEnabled = jest.fn(() => false)
+    class SomeItem extends Item {
+      verbDoSomething = {
+        enabled: mockEnabled,
+      }
+    }
+    const universe = new Universe({items: {item: SomeItem}})
+    const engine = new Engine(universe)
+    universe.setCurrentItem('some-item')
+    const verbs = engine.getDisplayData().currentItemVerbs
+    expect(mockEnabled).toHaveBeenCalled()
+    expect(mockEnabled.mock.instances[0]).toBeInstanceOf(SomeItem)
+    expect(verbs).toEqual([{id: 'examine', name: 'examine', compound: false, connector: null}])
+  })
+
+  it('does include explicitly enabled verbs', () => {
+    const mockEnabled = jest.fn(() => true)
+    class SomeItem extends Item {
+      verbDoSomething = {
+        enabled: mockEnabled,
+      }
+    }
+    const universe = new Universe({items: {item: SomeItem}})
+    const engine = new Engine(universe)
+    universe.setCurrentItem('some-item')
+    const verbs = engine.getDisplayData().currentItemVerbs
+    expect(mockEnabled).toHaveBeenCalled()
+    expect(mockEnabled.mock.instances[0]).toBeInstanceOf(SomeItem)
+    expect(verbs).toEqual(expect.arrayContaining([
+      {id: 'do-something', name: 'do something', compound: false, connector: null},
+    ]))
+  })
+
+  it('uses default values if not provided in a complex verb', () => {
+    class SomeItem extends Item {
+      verbSomethingComplex = {
+        action: () => {},
+      }
+    }
+    const universe = new Universe({items: {item: SomeItem}})
+    const engine = new Engine(universe)
+    universe.setCurrentItem('some-item')
+    const verbs = engine.getDisplayData().currentItemVerbs
+    expect(verbs).toEqual(expect.arrayContaining([
+      {id: 'something-complex', name: 'something complex', compound: false, connector: null},
+    ]))
+  })
+
+  it('excludes item description and verbs if there is no current item', () => {
+    const {engine} = createEngine()
+    expect(engine.getDisplayData().currentItemDescription).toBeNull()
+    expect(engine.getDisplayData().currentItemVerbs).toBeNull()
+  })
+
+  it('includes the current room description', () => {
     const {engine, universe} = createEngine()
     universe.setStateOf('player', {location: 'target'})
     expect(engine.getDisplayData().currentRoomDescription).toBe('description of target')
   })
 
-  it('excludes the room description if there is no current room', () => {
+  it('includes the current room verbs', () => {
+    class Basic extends Item { verbSomethingSimple () {} }
+    class Derived extends Basic {
+      verbSomethingComplex = {
+        name: 'ruminate',
+        compound: true,
+        connector: 'on',
+        action: jest.fn(),
+      }
+    }
+    const universe = new Universe({
+      items: { item: Derived },
+    })
+    const engine = new Engine(universe)
+    universe.setStateOf('player', {location: 'derived'})
+    const verbs = engine.getDisplayData().currentRoomVerbs
+    verbs.sort((va, vb) => va.id < vb.id ? -1 : (va === vb ? 0 : 1))
+    expect(verbs).toEqual([
+      { id: 'examine', name: 'examine', compound: false, connector: null },
+      { id: 'something-complex', name: 'ruminate', compound: true, connector: 'on' },
+      { id: 'something-simple', name: 'something simple', compound: false, connector: null },
+    ])
+  })
+
+  it('excludes the room description and verbs if there is no current room', () => {
     const {engine} = createEngine()
     expect(engine.getDisplayData().currentRoomDescription).toBeNull()
+    expect(engine.getDisplayData().currentRoomVerbs).toBeNull()
   })
 
   it('constructs the player inventory tree', () => {
