@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel src -d lib --ignore __tests__",
     "build:watch": "npm run build -- --watch",
-    "test": "jest"
+    "test": "jest",
+    "clean": "rm -rf lib"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+require 'shellwords'
+require 'optparse'
+
+@config = {
+  force: false,
+  verbose: false,
+}
+
+@options = OptionParser.new do |opts|
+  opts.banner = 'Usage: script/deploy [options]'
+  opts.on('-h', '--help', 'view help') do
+    puts @options.help
+    exit 0
+  end
+
+  opts.on('-f', '--force', 'force update even if repo is dirty') do |value|
+    @config[:force] = value
+  end
+
+  opts.on('-q', '--quiet', 'do not show commands being run') do |value|
+    @config[:quiet] = value
+  end
+end
+
+
+def verbose(cmd)
+  puts cmd unless @config[:quiet]
+end
+
+def sh(*cmd)
+  verbose Shellwords.join(cmd)
+  system(*cmd)
+  result = $?.exitstatus
+  exit result if result != 0
+
+  result
+end
+
+def capture(*cmd_array)
+  cmd = Shellwords.join(cmd_array)
+  verbose cmd
+  capture = `#{cmd}`
+  result = $?.exitstatus
+  exit result if result != 0
+
+  capture
+end
+
+def git_clean?
+  status = capture(*%w[git status --porcelain])
+  status.strip.lines.to_a.empty?
+end
+
+def main
+  @options.parse!
+  sh(*%w[npm run build])
+  if git_clean? || @config[:force]
+    sh(*%w[rsync -vr --delete ./packages/watif-demo/dist/ static@ravatic.com:~/watif.io/public/])
+  else
+    puts 'Error: repo is not clean. use --force option to deploy anyway.'
+    exit 1
+  end
+end
+
+main
