@@ -2,7 +2,10 @@
   "scripts": {
     "build": "lerna run build --sort",
     "build:watch": "lerna run build:watch --parallel",
-    "deploy:demo": "scripts/deploy-demo"
+    "deploy:demo": "scripts/deploy-demo",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "clean": "lerna run clean"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -10,6 +13,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-react-css-modules": "^3.1.0",
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",

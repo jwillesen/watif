@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Display} from 'watif-browser'
+import {Display} from 'watif-browser-display'
 import {DebugAdapter} from 'watif-jailed'
 // import * as story from 'watif-example'
 

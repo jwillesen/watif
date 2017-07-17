@@ -1,13 +1,13 @@
 {
-  "name": "watif-browser",
+  "name": "watif-browser-display",
   "version": "0.0.0",
   "description": "A browser interface for reading watif stories",
-  "main": "lib/index.js",
+  "main": "dist/watif-browser-display.js",
   "scripts": {
-    "build": "babel src -d lib --ignore __tests__",
+    "build": "webpack",
     "build:watch": "npm run build -- --watch",
     "test": "jest",
-    "clean": "rm -rf lib"
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,8 @@
   "homepage": "https://github.com/jwillesen/watif#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "webpack": "^3.3.0"
   },
   "dependencies": {
     "react": "^15.6.1",
