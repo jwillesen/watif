@@ -28,14 +28,14 @@
     "url": "https://github.com/jwillesen/watif/issues"
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "change-case": "^3.0.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
     "file-loader": "^0.11.2",
     "jest": "^20.0.4",
+    "normalize.css": "^7.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "watif-browser-display": "^0.0.0",
     "watif-example": "^0.0.0",
     "watif-interpreter": "^0.0.0",

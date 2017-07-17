@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Display} from 'watif-browser-display'
 import {DebugAdapter} from 'watif-jailed'
-// import * as story from 'watif-example'
 
 // files we need to copy into the dist folder
 // explicitly do this here so we don't have to repeat the specific files allowed in the webpack config
@@ -11,6 +10,7 @@ import {DebugAdapter} from 'watif-jailed'
 require('./index.html')
 require('file-loader?name=[name].[ext]!watif-jailed/dist/watif-bootstrap.js')
 require('file-loader?name=[name].[ext]!watif-example/dist/story.js')
+require('file-loader?name=[name].[ext]!normalize.css/normalize.css')
 
 const mountPoint = document.getElementById('root')
 
