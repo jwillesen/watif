@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Display} from 'watif-browser-display'
 import {DebugAdapter} from 'watif-jailed'
+import App from './app'
 
 // files we need to copy into the dist folder
 // explicitly do this here so we don't have to repeat the specific files allowed in the webpack config
@@ -14,14 +14,5 @@ require('file-loader?name=[name].[ext]!normalize.css/normalize.css')
 
 const mountPoint = document.getElementById('root')
 
-function loadingError (err) {
-  console.error('failed to load story.js', err) // eslint-disable-line no-console
-}
-
 const adapter = new DebugAdapter()
-fetch('story.js').catch((err) => loadingError(err)).then((result) => {
-  result.text().catch((err) => loadingError(err)).then((storyCode) => {
-    adapter.loadStory(storyCode, (storyState) => console.log(storyState))
-    ReactDOM.render(<Display adapter={adapter} />, mountPoint)
-  })
-})
+ReactDOM.render(<App adapter={adapter} />, mountPoint)
