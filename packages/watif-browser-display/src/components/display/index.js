@@ -1,7 +1,7 @@
 import React from 'react'
 import {bool, string, element, func, object, arrayOf, objectOf, shape, oneOfType} from 'prop-types'
-import TitleBar from '../title-bar'
-import ContentArea from '../content-area'
+import InventoryTree from '../inventory-tree'
+import StoryContent from '../story-content'
 import './style.css'
 
 const verbShape = shape({
@@ -33,8 +33,8 @@ export default class Display extends React.Component {
 
   render () {
     return <div styleName='root'>
-      <TitleBar />
-      <ContentArea />
+      <InventoryTree />
+      <StoryContent />
     </div>
   }
 }

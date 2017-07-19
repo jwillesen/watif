@@ -1,6 +1,8 @@
 import React from 'react'
+import TitleBar from '../title-bar'
 import {Display} from 'watif-browser-display'
 import {object} from 'prop-types'
+import './style.css'
 
 export default class App extends React.Component {
   static propTypes = {
@@ -45,6 +47,9 @@ export default class App extends React.Component {
   render () {
     if (this.state.loading) return <p>loading...</p>
     if (this.state.error) return <p>error: {this.state.error}</p>
-    return <Display storyState={this.state.storyState} executeVerb={this.executeVerb} />
+    return <div styleName="root">
+      <TitleBar />
+      <Display storyState={this.state.storyState} executeVerb={this.executeVerb} />
+    </div>
   }
 }

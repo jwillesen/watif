@@ -1,4 +1,5 @@
 .root {
-  width: 10rem;
   border: 2px solid blueviolet;
+  margin: 0.5rem;
+  width: 10rem;
 }
