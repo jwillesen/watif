@@ -49,7 +49,9 @@ export default class App extends React.Component {
     if (this.state.error) return <p>error: {this.state.error}</p>
     return <div styleName="root">
       <TitleBar />
-      <Display storyState={this.state.storyState} executeVerb={this.executeVerb} />
+      <div styleName="story">
+        <Display storyState={this.state.storyState} executeVerb={this.executeVerb} />
+      </div>
     </div>
   }
 }

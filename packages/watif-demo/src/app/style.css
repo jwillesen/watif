@@ -1,4 +1,10 @@
 .root {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+}
+
+.story {
+  display: flex;
+  flex: 1;
 }

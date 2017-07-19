@@ -6,8 +6,8 @@ import './style.css'
 export default class InteractiveDescription extends React.Component {
   render () {
     return <div styleName="root">
-      <Watext />
-      <VerbBar />
+      <div styleName="watext"><Watext /></div>
+      <div styleName="verb-bar"><VerbBar /></div>
     </div>
   }
 }

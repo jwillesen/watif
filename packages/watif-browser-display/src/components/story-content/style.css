@@ -3,3 +3,13 @@
   display: flex;
   flex-direction: column;
 }
+
+.log {
+  display: flex;
+  flex: 3;
+}
+
+.current-room, .current-item {
+  display: flex;
+  flex: 2;
+}

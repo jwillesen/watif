@@ -33,8 +33,8 @@ export default class Display extends React.Component {
 
   render () {
     return <div styleName='root'>
-      <InventoryTree />
-      <StoryContent />
+      <div styleName="inventory-tree"><InventoryTree /></div>
+      <div styleName="story-content"><StoryContent /></div>
     </div>
   }
 }

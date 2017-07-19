@@ -1,3 +1,14 @@
 .root {
   display: flex;
+  flex: 1;
+}
+
+.inventory-tree {
+  display: flex;
+  width: 10rem;
+}
+
+.story-content {
+  display: flex;
+  flex: 1
 }

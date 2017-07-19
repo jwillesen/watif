@@ -1,5 +1,6 @@
 .root {
   border: 2px solid deeppink;
+  background-color: lightgray;
+  flex: 1;
   margin: 0.5rem;
-  width: 10rem;
 }

@@ -1,5 +1,6 @@
 .root {
+  flex: 1;
   border: 2px solid blueviolet;
+  background-color: lightgray;
   margin: 0.5rem;
-  width: 10rem;
 }

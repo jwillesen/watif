@@ -1,4 +1,14 @@
 .root {
-  flex: 1;
   display: flex;
+  flex: 1;
+}
+
+.watext {
+  display: flex;
+  flex: 1;
+}
+
+.verb-bar {
+  display: flex;
+  width: 10rem;
 }

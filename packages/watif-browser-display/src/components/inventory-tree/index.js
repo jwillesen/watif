@@ -3,6 +3,6 @@ import './style.css'
 
 export default class InventoryTree extends React.Component {
   render () {
-    return <div styleName="root"><p>This is the inventory tree!</p></div>
+    return <div styleName="root">This is the inventory tree!</div>
   }
 }

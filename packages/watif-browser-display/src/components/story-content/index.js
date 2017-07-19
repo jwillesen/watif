@@ -6,9 +6,9 @@ import './style.css'
 export default class StoryContent extends React.Component {
   render () {
     return <div styleName="root">
-      <Log />
-      <InteractiveDescription />
-      <InteractiveDescription />
+      <div styleName="log"><Log /></div>
+      <div styleName="current-room"><InteractiveDescription /></div>
+      <div styleName="current-item"><InteractiveDescription /></div>
     </div>
   }
 }
