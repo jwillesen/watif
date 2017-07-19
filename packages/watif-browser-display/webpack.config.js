@@ -1,4 +1,8 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
+
+const conditionalPlugins = []
+if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
 const config = {
   entry: path.resolve(__dirname, 'src/index.js'),
@@ -8,7 +12,9 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'watif-browser-display.js',
   },
-
+  plugins: [
+    ...conditionalPlugins,
+  ],
   module: {
     rules: [
       {
@@ -32,7 +38,15 @@ const config = {
   },
 
   externals: {
-    'react': 'React',
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      root: 'React',
+    },
+    'change-case': {
+      commonjs: 'change-case',
+      commonjs2: 'change-case',
+    },
   },
 
   devtool: 'cheap-module-source-map',

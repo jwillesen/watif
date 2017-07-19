@@ -24,7 +24,7 @@
     "url": "https://github.com/jwillesen/watif/issues"
   },
   "homepage": "https://github.com/jwillesen/watif#readme",
-  "dependencies": {
+  "peerDependencies": {
     "change-case": "^3.0.1",
     "react": "^15.5.4"
   },

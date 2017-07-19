@@ -1,4 +1,8 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
+
+const conditionalPlugins = []
+if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
 const config = {
   entry: './src/index.js',
@@ -6,7 +10,14 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'watif-demo.js',
   },
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, 'node_modules', 'react'),
+      'change-case': path.resolve(__dirname, 'node_modules', 'change-case'),
+    },
+  },
   plugins: [
+    ...conditionalPlugins,
   ],
   module: {
     rules: [
