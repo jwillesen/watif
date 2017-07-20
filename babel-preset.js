@@ -13,7 +13,14 @@ module.exports = function (context, opts) {
     [require.resolve('babel-preset-env'), presetEnvOpts],
   ]
 
-  const plugins = []
+  const plugins = [
+    ['babel-plugin-react-css-modules', {
+      'generateScopedName': '[path]__[name]__[local]__[hash:base64:5]',
+    }],
+  ]
+  if (process.env.NODE_ENV === 'test' || process.env.BABEL_ENV === 'test') {
+    plugins.pop()
+  }
 
   return { presets, plugins }
 }

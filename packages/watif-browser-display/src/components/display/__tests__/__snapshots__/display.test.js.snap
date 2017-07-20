@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="inventory-tree"
+  >
+    <InventoryTree />
+  </div>
+  <div
+    styleName="story-content"
+  >
+    <StoryContent />
+  </div>
+</div>
+`;

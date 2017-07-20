@@ -4,9 +4,5 @@
     "stage-2",
     "react"
   ],
-  "plugins": [
-    ["babel-plugin-react-css-modules", {
-      "generateScopedName": "[path]__[name]__[local]__[hash:base64:5]"
-    }]
-  ]
+  "plugins": []
 }
