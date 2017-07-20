@@ -20,18 +20,27 @@ export default class App extends React.Component {
 
   fetchStory () {
     fetch('story.js').catch((err) => this.fetchError(err)).then((response) => {
-      response.text().catch((err) => this.fetchError(err)).then((storyCode) => {
-        this.props.adapter.loadStory(storyCode, (storyState) => {
-          console.log(storyState)
-          this.setState({loading: false, storyState})
-        })
+      if (response.ok) {
+        return response.text()
+      } else {
+        this.fetchResponseError(response)
+      }
+    }).then((storyCode) => {
+      this.props.adapter.loadStory(storyCode, (storyState) => {
+        console.log(storyState)
+        this.setState({loading: false, storyState})
       })
-    })
+    }).catch((err) => this.fetchError(err))
+  }
+
+  fetchResponseError (response) {
+    console.error(response) // eslint-disable-line no-console
+    throw new Error(`Error: ${response.status} (${response.statusText})`)
   }
 
   fetchError (err) {
     console.error('failed to load story.js', err) // eslint-disable-line no-console
-    this.setState({loading: false, error: err})
+    this.setState({loading: false, error: err.message})
   }
 
   executeVerb = (verbInvokation) => {
