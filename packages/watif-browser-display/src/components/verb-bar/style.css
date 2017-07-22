@@ -1,6 +1,18 @@
 .root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.header {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
+}
+
+.content {
+  flex: 1;
   border: 2px solid deeppink;
   background-color: lightgray;
-  flex: 1;
-  margin: 0.5rem;
+
 }

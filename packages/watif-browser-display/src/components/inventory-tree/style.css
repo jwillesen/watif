@@ -1,6 +1,17 @@
 .root {
   flex: 1;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
+}
+
+.content {
+  flex: 1;
   border: 2px solid blueviolet;
   background-color: lightgray;
-  margin: 0.5rem;
 }

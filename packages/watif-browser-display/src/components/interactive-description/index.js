@@ -7,6 +7,7 @@ import './style.css'
 
 export default class InteractiveDescription extends React.Component {
   static propTypes = {
+    title: string,
     emptyText: string,
     watext: element,
     verbs: arrayOf(verbShape),
@@ -20,11 +21,13 @@ export default class InteractiveDescription extends React.Component {
 
   render () {
     return <div styleName="root">
-      <div styleName="watext">
-        <Watext {...this.props} onItemClick={this.props.onItemClick} />
-      </div>
-      <div styleName="verb-bar">
-        <VerbBar verbs={this.props.verbs} />
+      <div styleName="content">
+        <div styleName="description">
+          <Watext {...this.props} onItemClick={this.props.onItemClick} />
+        </div>
+        <div styleName="verb-bar">
+          <VerbBar verbs={this.props.verbs} />
+        </div>
       </div>
     </div>
   }

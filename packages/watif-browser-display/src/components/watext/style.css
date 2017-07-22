@@ -1,12 +1,21 @@
-.root, .no-text {
+.root {
   flex: 1;
-  border: 2px solid green;
-  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.root {
+.content, .no-text {
+  flex: 1;
+  border: 2px solid green;
+}
+
+.header {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
+}
+
+.content {
   overflow-y: scroll;
-  padding: 0.5rem;
 }
 
 .paragraph {
