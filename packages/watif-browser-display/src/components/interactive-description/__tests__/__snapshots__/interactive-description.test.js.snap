@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders properly 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="watext"
+  >
+    <Watext
+      emptyText="nothing here"
+      onItemClick={[Function]}
+      onVerbClick={[Function]}
+      verbs={Array []}
+      watext={
+        <text>
+          description here
+        </text>
+      }
+    />
+  </div>
+  <div
+    styleName="verb-bar"
+  >
+    <VerbBar
+      verbs={Array []}
+    />
+  </div>
+</div>
+`;
