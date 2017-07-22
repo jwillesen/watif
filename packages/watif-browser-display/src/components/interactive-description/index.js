@@ -10,7 +10,8 @@ export default class InteractiveDescription extends React.Component {
     emptyText: string,
     watext: element,
     verbs: arrayOf(verbShape),
-    onItemClick: func,
+    onItemClick: func, // (item-id)
+    onVerbClick: func, // (item-id, verb-id)
   }
 
   static defaultProps = {
@@ -20,10 +21,10 @@ export default class InteractiveDescription extends React.Component {
   render () {
     return <div styleName="root">
       <div styleName="watext">
-        <Watext {...this.props} />
+        <Watext {...this.props} onItemClick={this.props.onItemClick} />
       </div>
       <div styleName="verb-bar">
-        <VerbBar verbs={this.props.verbs}/>
+        <VerbBar verbs={this.props.verbs} />
       </div>
     </div>
   }

@@ -8,7 +8,7 @@ import './style.css'
 export default class StoryContent extends React.Component {
   static propTypes = {
     storyState: storyShape.isRequired,
-    executeVerb: func,
+    onItemClick: func,
   }
 
   render () {
@@ -19,6 +19,7 @@ export default class StoryContent extends React.Component {
           emptyText="No current room"
           watext={this.props.storyState.currentRoomDescription}
           verbs={this.props.storyState.currentRoomVerbs}
+          onItemClick={this.props.onItemClick}
         />
       </div>
       <div styleName="current-item">
@@ -26,6 +27,7 @@ export default class StoryContent extends React.Component {
           emptyText="No current item"
           watext={this.props.storyState.currentItemDescription}
           verbs={this.props.storyState.currentRoomVerbs}
+          onItemClick={this.props.onItemClick}
         />
       </div>
     </div>

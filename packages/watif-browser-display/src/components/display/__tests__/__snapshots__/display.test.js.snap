@@ -12,7 +12,10 @@ exports[`renders 1`] = `
   <div
     styleName="story-content"
   >
-    <StoryContent />
+    <StoryContent
+      onItemClick={[Function]}
+      storyState={Object {}}
+    />
   </div>
 </div>
 `;
