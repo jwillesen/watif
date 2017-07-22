@@ -1,6 +1,26 @@
-.root {
+.root, .no-text {
   flex: 1;
   border: 2px solid green;
-  background-color: lightgray;
   margin: 0.5rem;
+  background-color: lightgray;
+}
+
+.paragraph {
+
+}
+
+.item-button {
+
+}
+
+.unrecognized {
+
+}
+
+.no-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 2rem sans-serif;
+  color: dimgray;
 }

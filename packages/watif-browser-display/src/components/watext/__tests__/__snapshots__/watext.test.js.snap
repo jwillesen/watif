@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alerts if it tag is not recognized 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    stuff 
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    <Alert
+      variant="error"
+    >
+      unrecognized watext element: 
+      somethingbad
+    </Alert>
+  </div>
+  <div
+    styleName="paragraph"
+  >
+     here
+  </div>
+</div>
+`;
+
+exports[`alerts if the item has child elements 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    here is 
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    <Alert
+      variant="error"
+    >
+      Item elements may not contain other elements.
+    </Alert>
+  </div>
+  <div
+    styleName="paragraph"
+  >
+     for you
+  </div>
+</div>
+`;
+
+exports[`alerts if the item lacks an id 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    <Alert
+      variant="error"
+    >
+      Item elements require an id property
+    </Alert>
+  </div>
+</div>
+`;
+
+exports[`creates a paragraph for a top level paragraph tag 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+</div>
+`;
+
+exports[`creates and flattens multiple paragraphs when they are nested 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    bar
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    baz
+  </div>
+</div>
+`;
+
+exports[`creates at least one paragraph for top level text 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+</div>
+`;
+
+exports[`creates item buttons 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    here is 
+    <button
+      onClick={[Function]}
+      styleName="item-button"
+    >
+      an item
+    </button>
+     for you
+  </div>
+</div>
+`;
+
+exports[`creates multiple paragraphs with top level pg 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    bar
+  </div>
+</div>
+`;
+
+exports[`creates multiple paragraphs with top level text 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    bar
+  </div>
+</div>
+`;
+
+exports[`creates paragraphs using paragraph tag as a divider 1`] = `
+<div
+  styleName="root"
+>
+  <div
+    styleName="paragraph"
+  >
+    foo
+  </div>
+  <div
+    styleName="paragraph"
+  >
+    bar
+  </div>
+</div>
+`;
+
+exports[`renders provided text if watext is missing 1`] = `
+<div
+  styleName="no-text"
+>
+  nothing here
+</div>
+`;
