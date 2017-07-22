@@ -2,18 +2,21 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
   margin: 0.5rem;
 }
 
 .content {
   display: flex;
   flex: 1;
+  min-height: 0;
 }
 
 .description {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
 }
 
 .verb-bar {
