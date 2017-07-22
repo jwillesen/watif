@@ -1,5 +1,5 @@
 import React from 'react'
-import {string, number, element, oneOfType} from 'prop-types'
+import {string, number, func, element, oneOfType} from 'prop-types'
 import changeCase from 'change-case'
 import Alert from '../alert'
 import './style.css'
@@ -8,6 +8,7 @@ export default class Watext extends React.Component {
   static propTypes = {
     watext: oneOfType([string, number, element]),
     emptyText: string,
+    onItemClick: func, // (itemId)
   }
 
   static defaultProps = {
@@ -125,6 +126,12 @@ export default class Watext extends React.Component {
           ? { value: array[nextIndex++], done: false }
           : { done: true }
       },
+    }
+  }
+
+  handleItemClick (event, itemId) {
+    if (this.props.onItemClick) {
+      this.props.onItemClick(itemId)
     }
   }
 

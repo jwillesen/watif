@@ -1,4 +1,5 @@
 import React from 'react'
+import './style.css'
 
 export default class Alert extends React.Component {
   render () {
