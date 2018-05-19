@@ -33,21 +33,11 @@ const config = {
             modules: true,
             localIdentName: '[path]__[name]__[local]__[hash:base64:5]',
           },
+        }, {
+          loader: 'postcss-loader',
         }],
       },
     ],
-  },
-
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      root: 'React',
-    },
-    'change-case': {
-      commonjs: 'change-case',
-      commonjs2: 'change-case',
-    },
   },
 
   devtool: 'source-map',

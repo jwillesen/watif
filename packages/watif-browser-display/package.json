@@ -4,7 +4,7 @@
   "description": "A browser interface for reading watif stories",
   "main": "dist/watif-browser-display.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack-cli",
     "build:watch": "npm run build -- --watch",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -26,12 +26,9 @@
   "homepage": "https://github.com/jwillesen/watif#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "css-loader": "^0.28.4",
     "jest": "^22.4.4",
-    "prop-types": "^15.5.10",
-    "style-loader": "^0.21.0",
     "watif-interpreter": "^0.0.0",
-    "webpack": "^4.8.3"
+    "webpack-cli": "^2.1.3"
   },
   "peerDependencies": {
     "change-case": "^3.0.1",

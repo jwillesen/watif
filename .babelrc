@@ -1,10 +1,6 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": [">1%", "not ie > 0", "not op_mini all"]
-      }
-    }],
+    "env",
     "stage-2",
     "react"
   ],

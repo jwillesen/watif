@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run build:bootstrap && npm run build:lib",
-    "build:bootstrap": "webpack",
+    "build:bootstrap": "webpack-cli",
     "build:bootstrap:watch": "npm run build:bootstrap -- --watch",
     "build:lib": "babel src -d lib --ignore __tests__",
     "build:lib:watch": "npm run build:lib -- --watch",
@@ -36,6 +36,6 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "jest": "^22.4.4",
-    "webpack": "^4.8.3"
+    "webpack-cli": "^2.1.3"
   }
 }

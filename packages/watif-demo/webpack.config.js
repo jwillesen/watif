@@ -12,10 +12,6 @@ const config = {
     filename: 'watif-demo.js',
   },
   resolve: {
-    alias: {
-      react: path.resolve(__dirname, 'node_modules', 'react'),
-      'change-case': path.resolve(__dirname, 'node_modules', 'change-case'),
-    },
   },
   plugins: [
     ...conditionalPlugins,
@@ -44,6 +40,8 @@ const config = {
             modules: true,
             localIdentName: '[path]__[name]__[local]__[hash:base64:5]',
           },
+        }, {
+          loader: 'postcss-loader',
         }],
       },
     ],
