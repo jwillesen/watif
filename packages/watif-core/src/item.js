@@ -15,7 +15,7 @@ export default class Item {
 
   // These methods can be overridden but don't need to be.
 
-  // This is the internal id for the item that you will use to refernce it in other places.
+  // This is the internal id for the item that you will use to reference it in other places.
   // By default it transforms the class name into a dashed string.
   // For example, the item class AngelFish will be identified as 'angel-fish' in code.
   // The Item's id should be unique to each item instance.

@@ -26,8 +26,8 @@
   "homepage": "https://github.com/jwillesen/watif#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "jest": "^20.0.4",
-    "webpack": "^3.0.0"
+    "jest": "^22.4.4",
+    "webpack": "^4.8.3"
   },
   "dependencies": {
     "watif-core": "^0.0.0"

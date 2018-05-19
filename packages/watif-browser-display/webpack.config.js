@@ -5,6 +5,7 @@ const conditionalPlugins = []
 if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
 const config = {
+  mode: 'development',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     library: 'watif-browser-display',
@@ -49,7 +50,7 @@ const config = {
     },
   },
 
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
 }
 
 module.exports = config

@@ -1,6 +1,7 @@
 const path = require('path')
 
 const config = {
+  mode: 'development',
   entry: './example.js',
   output: {
     library: 'story',
@@ -23,7 +24,7 @@ const config = {
     'react': 'React',
   },
 
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
 }
 
 module.exports = config

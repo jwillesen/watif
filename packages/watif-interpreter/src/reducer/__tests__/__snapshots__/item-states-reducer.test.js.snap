@@ -16,8 +16,8 @@ Object {
 
 exports[`merges item states 1`] = `
 Immutable.Map {
-  master-sword: Immutable.Map {
-    location: "spooky-forest",
+  "master-sword": Immutable.Map {
+    "location": "spooky-forest",
   },
 }
 `;

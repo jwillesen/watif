@@ -5,6 +5,7 @@ const conditionalPlugins = []
 if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
 const config = {
+  mode: 'development',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -49,7 +50,7 @@ const config = {
   },
   externals: {
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join((__dirname, 'dist')),
   },

@@ -1,6 +1,7 @@
 const path = require('path')
 
 const config = {
+  mode: 'development',
   entry: './src/bootstrap.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,7 +19,7 @@ const config = {
   externals: {
     'application': 'application',
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
 }
 
 module.exports = config

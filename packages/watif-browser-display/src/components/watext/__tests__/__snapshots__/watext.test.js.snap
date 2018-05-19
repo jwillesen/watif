@@ -11,11 +11,13 @@ exports[`alerts if it tag is not recognized 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       stuff 
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       <Alert
@@ -26,6 +28,7 @@ exports[`alerts if it tag is not recognized 1`] = `
       </Alert>
     </div>
     <div
+      key="2"
       styleName="paragraph"
     >
        here
@@ -45,11 +48,13 @@ exports[`alerts if the item has child elements 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       here is 
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       <Alert
@@ -59,6 +64,7 @@ exports[`alerts if the item has child elements 1`] = `
       </Alert>
     </div>
     <div
+      key="2"
       styleName="paragraph"
     >
        for you
@@ -78,6 +84,7 @@ exports[`alerts if the item lacks an id 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       <Alert
@@ -101,6 +108,7 @@ exports[`creates a paragraph for a top level paragraph tag 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
@@ -120,16 +128,19 @@ exports[`creates and flattens multiple paragraphs when they are nested 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       bar
     </div>
     <div
+      key="2"
       styleName="paragraph"
     >
       baz
@@ -149,6 +160,7 @@ exports[`creates at least one paragraph for top level text 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
@@ -168,10 +180,12 @@ exports[`creates item buttons 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       here is 
       <button
+        key="an-item"
         onClick={[Function]}
         styleName="item-button"
       >
@@ -194,11 +208,13 @@ exports[`creates multiple paragraphs with top level pg 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       bar
@@ -218,11 +234,13 @@ exports[`creates multiple paragraphs with top level text 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       bar
@@ -242,11 +260,13 @@ exports[`creates paragraphs using paragraph tag as a divider 1`] = `
     styleName="content"
   >
     <div
+      key="0"
       styleName="paragraph"
     >
       foo
     </div>
     <div
+      key="1"
       styleName="paragraph"
     >
       bar

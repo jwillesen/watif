@@ -12,8 +12,8 @@ exports[`renders properly 1`] = `
     >
       <Watext
         emptyText="nothing here"
-        onItemClick={[Function]}
-        onVerbClick={[Function]}
+        onItemClick={[MockFunction]}
+        onVerbClick={[MockFunction]}
         verbs={Array []}
         watext={
           <text>

@@ -88,10 +88,12 @@ it('alerts if it tag is not recognized', () => {
 
 it('invokes the callback when an item is clicked', () => {
   const onClick = jest.fn()
-  const wrapper = shallow(<Watext watext={
-    <text>here is <item id="an-item">an item</item> to click</text>
-  }
-    onItemClick={onClick} />)
+  const wrapper = shallow(<Watext
+    watext={
+      <text>here is <item id="an-item">an item</item> to click</text>
+    }
+    onItemClick={onClick}
+  />)
   wrapper.find('button').simulate('click')
   expect(onClick).toHaveBeenCalledWith('an-item')
 })
