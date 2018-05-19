@@ -5,26 +5,30 @@ exports[`renders properly 1`] = `
   styleName="root"
 >
   <div
-    styleName="watext"
+    styleName="content"
   >
-    <Watext
-      emptyText="nothing here"
-      onItemClick={[Function]}
-      onVerbClick={[Function]}
-      verbs={Array []}
-      watext={
-        <text>
-          description here
-        </text>
-      }
-    />
-  </div>
-  <div
-    styleName="verb-bar"
-  >
-    <VerbBar
-      verbs={Array []}
-    />
+    <div
+      styleName="description"
+    >
+      <Watext
+        emptyText="nothing here"
+        onItemClick={[Function]}
+        onVerbClick={[Function]}
+        verbs={Array []}
+        watext={
+          <text>
+            description here
+          </text>
+        }
+      />
+    </div>
+    <div
+      styleName="verb-bar"
+    >
+      <VerbBar
+        verbs={Array []}
+      />
+    </div>
   </div>
 </div>
 `;
