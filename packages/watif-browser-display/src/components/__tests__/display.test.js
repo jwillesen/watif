@@ -1,5 +1,5 @@
 import React from 'react'
-import Display from '../index'
+import Display from '../display'
 import {shallow} from 'enzyme'
 
 it('renders', () => {

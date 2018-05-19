@@ -1,9 +1,9 @@
 import React from 'react'
 import { func } from 'prop-types'
-import InventoryTree from '../inventory-tree'
-import StoryContent from '../story-content'
-import {storyShape} from '../../property-shapes'
-import './style.css'
+import InventoryTree from './inventory-tree'
+import StoryContent from './story-content'
+import {storyShape} from '../property-shapes'
+import './display.css'
 
 export default class Display extends React.Component {
   static propTypes = {

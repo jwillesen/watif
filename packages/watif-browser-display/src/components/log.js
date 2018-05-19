@@ -1,5 +1,5 @@
 import React from 'react'
-import './style.css'
+import './log.css'
 
 export default class Log extends React.Component {
   render () {

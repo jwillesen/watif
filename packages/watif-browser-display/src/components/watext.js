@@ -1,8 +1,8 @@
 import React from 'react'
 import {string, number, func, element, oneOfType} from 'prop-types'
 import changeCase from 'change-case'
-import Alert from '../alert'
-import './style.css'
+import Alert from './alert'
+import './watext.css'
 
 export default class Watext extends React.Component {
   static propTypes = {
@@ -62,7 +62,7 @@ export default class Watext extends React.Component {
     } else {
       this.rotate(paragraphs, paragraphUnderConstruction)
       paragraphs.push(<Alert variant="error">unrecognized watext element: {elt.type}</Alert>)
-       // need to call next because otherwise it will think we're already at the closing tag
+      // need to call next because otherwise it will think we're already at the closing tag
       const {value: currentElt, done} = iter.next()
       this.iterateToClosingTag(elt, iter, currentElt, done)
     }
@@ -138,8 +138,8 @@ export default class Watext extends React.Component {
 
   render () {
     const body = this.props.watext
-    ? <div styleName="content">{this.watextToReact(this.props.watext)}</div>
-    : <div styleName="no-text">{this.props.emptyText}</div>
+      ? <div styleName="content">{this.watextToReact(this.props.watext)}</div>
+      : <div styleName="no-text">{this.props.emptyText}</div>
 
     return <div styleName="root">
       <h2 styleName="header">{this.props.title}</h2>

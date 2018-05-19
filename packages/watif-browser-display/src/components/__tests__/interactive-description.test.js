@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import InteractiveDescription from '../index'
+import InteractiveDescription from '../interactive-description'
 
 it('renders properly', () => {
   const wrapper = shallow(<InteractiveDescription

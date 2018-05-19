@@ -1,9 +1,9 @@
 import React from 'react'
 import { string, element, func, arrayOf } from 'prop-types'
-import Watext from '../watext'
-import VerbBar from '../verb-bar'
-import { verbShape } from '../../property-shapes'
-import './style.css'
+import Watext from './watext'
+import VerbBar from './verb-bar'
+import { verbShape } from '../property-shapes'
+import './interactive-description.css'
 
 export default class InteractiveDescription extends React.Component {
   static propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Watext from '../index'
+import Watext from '../watext'
 // import toJson from 'enzyme-to-json'
 
 it('renders provided text if watext is missing', () => {

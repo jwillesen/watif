@@ -1,5 +1,5 @@
 import React from 'react'
-import './style.css'
+import './inventory-tree.css'
 
 export default class InventoryTree extends React.Component {
   render () {

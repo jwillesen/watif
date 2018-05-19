@@ -1,8 +1,8 @@
 import React from 'react'
-import TitleBar from '../title-bar'
+import TitleBar from './title-bar'
 import {Display} from 'watif-browser-display'
 import {object} from 'prop-types'
-import './style.css'
+import './app.css'
 
 export default class App extends React.Component {
   static propTypes = {

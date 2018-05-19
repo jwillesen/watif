@@ -1,9 +1,9 @@
 import React from 'react'
 import { func } from 'prop-types'
-import { storyShape } from '../../property-shapes'
-import Log from '../log'
-import InteractiveDescription from '../interactive-description'
-import './style.css'
+import { storyShape } from '../property-shapes'
+import Log from './log'
+import InteractiveDescription from './interactive-description'
+import './story-content.css'
 
 export default class StoryContent extends React.Component {
   static propTypes = {
