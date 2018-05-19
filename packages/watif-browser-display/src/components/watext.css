@@ -26,7 +26,15 @@
 }
 
 .item-button {
-
+  background: none;
+  border: none;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+  &:hover {
+    color: blue;
+  }
 }
 
 .unrecognized {

@@ -19,7 +19,6 @@
     "babel-preset-stage-2": "^6.24.1",
     "change-case": "^3.0.2",
     "css-loader": "^0.28.11",
-    "cssnext-loader": "^1.0.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
@@ -36,6 +35,7 @@
     "jest": "^22.4.4",
     "lerna": "^2.11.0",
     "normalize.css": "^8.0.0",
+    "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.1.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
@@ -47,6 +47,5 @@
     "webpack-cli": "^2.1.3",
     "webpack-dev-server": "^3.1.4"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

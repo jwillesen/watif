@@ -39,6 +39,7 @@ const config = {
           options: {
             modules: true,
             localIdentName: '[path]__[name]__[local]__[hash:base64:5]',
+            importLoaders: 1,
           },
         }, {
           loader: 'postcss-loader',
