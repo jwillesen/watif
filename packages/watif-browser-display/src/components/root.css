@@ -1,0 +1,7 @@
+:root {
+  text-rendering: optimizeLegibility;
+  font-family: Arial, Helvetica, sans-serif;
+
+  --item-button-color: black;
+  --item-button-attention-color: blue;
+}

@@ -19,6 +19,7 @@
   min-height: 0;
   overflow-y: scroll;
   padding: 0.5rem;
+  font-size: 1.3rem;
 }
 
 .paragraph {
@@ -32,8 +33,9 @@
   margin: 0;
   padding: 0;
   text-decoration: underline;
-  &:hover {
-    color: blue;
+  color: var(--item-button-color);
+  &:hover, &:focus {
+    color: var(--item-button-attention-color);
   }
 }
 
