@@ -8,14 +8,14 @@
     "development": {
       "plugins": [
         ["react-css-modules", {
-          "generateScopedName": "[path]__[name]__[local]__[hash:base64:5]"
+          "generateScopedName": "[local]__[path][name]__[hash:base64:5]"
         }]
       ]
     },
     "production": {
       "plugins": [
         ["react-css-modules", {
-          "generateScopedName": "[path]__[name]__[local]__[hash:base64:5]"
+          "generateScopedName": "[local]__[path][name]__[hash:base64:5]"
         }]
       ]
     }

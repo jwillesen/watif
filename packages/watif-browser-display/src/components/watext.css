@@ -1,27 +1,3 @@
-.root {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.content, .no-text {
-  flex: 1;
-  border: 2px solid green;
-}
-
-.header {
-  margin: 0;
-  padding: 0 0 0.5rem 0;
-}
-
-.content {
-  min-height: 0;
-  overflow-y: scroll;
-  padding: 0.5rem;
-  font-size: 1.3rem;
-}
-
 .paragraph {
 
 }
@@ -41,13 +17,4 @@
 
 .unrecognized {
 
-}
-
-.no-text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font: 2rem sans-serif;
-  color: dimgray;
-  background-color: lightgray;
 }

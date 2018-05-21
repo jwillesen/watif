@@ -19,14 +19,30 @@ export default class InteractiveDescription extends React.Component {
     emptyText: 'No text',
   }
 
+  watext () {
+    if (this.props.watext) {
+      return <div styleName="watext">
+        <Watext watext={this.props.watext} onItemClick={this.props.onItemClick} />
+      </div>
+    } else {
+      return <div styleName="no-text">
+        {this.props.emptyText}
+      </div>
+    }
+  }
+
   render () {
-    return <div styleName="root">
-      <div styleName="content">
-        <div styleName="description">
-          <Watext {...this.props} onItemClick={this.props.onItemClick} />
+    return <div styleName="row">
+      <div styleName="column main">
+        <h2 styleName="heading">{this.props.title}</h2>
+        <div styleName="content">
+          {this.watext()}
         </div>
-        <div styleName="verb-bar">
-          <VerbBar verbs={this.props.verbs} />
+      </div>
+      <div styleName="column auxiliary">
+        <h2 styleName="heading">Verbs</h2>
+        <div styleName="content verbs">
+          <VerbBar verbs={this.props.verbs} onVerbClick={this.props.onVerbClick} />
         </div>
       </div>
     </div>

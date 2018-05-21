@@ -6,9 +6,7 @@ import './watext.css'
 
 export default class Watext extends React.Component {
   static propTypes = {
-    title: string,
     watext: oneOfType([string, number, element]),
-    emptyText: string,
     onItemClick: func, // (itemId)
   }
 
@@ -137,13 +135,6 @@ export default class Watext extends React.Component {
   }
 
   render () {
-    const body = this.props.watext
-      ? <div styleName="content">{this.watextToReact(this.props.watext)}</div>
-      : <div styleName="no-text">{this.props.emptyText}</div>
-
-    return <div styleName="root">
-      <h2 styleName="header">{this.props.title}</h2>
-      {body}
-    </div>
+    return <div styleName="content">{this.watextToReact(this.props.watext)}</div>
   }
 }

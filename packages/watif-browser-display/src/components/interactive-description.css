@@ -1,25 +1,52 @@
-.root {
+.row {
+  display: flex;
+  flex: 1;
+}
+
+.column {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
   margin: 0.5rem;
+}
+
+.main {
+  flex: 1;
+}
+
+.auxiliary {
+  width: 10rem;
+}
+
+.heading {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
 }
 
 .content {
   display: flex;
   flex: 1;
-  min-height: 0;
 }
 
-.description {
-  display: flex;
-  flex-direction: column;
+.watext {
   flex: 1;
-  min-height: 0;
+  padding: 0.5rem;
+  overflow-y: scroll;
+  border: var(--content-border-width) solid green;
 }
 
-.verb-bar {
+.no-text {
   display: flex;
-  width: 10rem;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-size: 2rem;
+  color: dimgray;
+  background-color: lightgray;
+  border: var(--content-border-width) solid green;
+}
+
+.verbs {
+  border: var(--content-border-width) solid deeppink;
+  overflow-y: scroll;
 }
