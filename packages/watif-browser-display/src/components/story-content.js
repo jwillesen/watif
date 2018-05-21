@@ -13,7 +13,9 @@ export default class StoryContent extends React.Component {
 
   render () {
     return <div styleName="root">
-      <div styleName="log"><Log /></div>
+      <div styleName="log">
+        <Log logs={this.props.storyState.universe.log} />
+      </div>
       <div styleName="current-room">
         <InteractiveDescription
           title="Current Room"
