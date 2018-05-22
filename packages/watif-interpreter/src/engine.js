@@ -7,7 +7,7 @@ class EvalSandbox {
     // every story. How eval can read these and fail to create a var is beyond me.
     const React = globalReact // eslint-disable-line no-unused-vars
     const changeCase = globalChangeCase // eslint-disable-line no-unused-vars
-    // When webpacking a library for consumtion in a browser, the best option is a variable export
+    // When webpacking a library for consumption in a browser, the best option is a variable export
     // since the browser doesn't natively have another packaging mechanism. In this case, the story
     // export is stored in a newly created variable called `story`. However, evaling this variable
     // creation doesn't seem to be working here, but the `this` and other local vars is correct so
@@ -15,7 +15,7 @@ class EvalSandbox {
     // with an assignment to this.
     const modifiedStoryCode = storyCode.replace(/^var story/, 'this.story')
 
-    // In production this runs in a sandboxed (jailled) environment, so it's ok to call eval to
+    // In production this runs in a sandboxed (jailed) environment, so it's ok to call eval to
     // dynamically load the story code.
     eval(modifiedStoryCode) // eslint-disable-line no-eval
   }
@@ -145,17 +145,26 @@ export default class Engine {
     const handler = subjectItem[handlerName]
     if (!handler) throw new Error(`subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`)
 
+    let handlerResult
     if (typeof handler === 'function') {
-      return handler.call(subjectItem, target)
+      handlerResult = handler.call(subjectItem, target)
     } else {
       let enabled = true
       if (handler.enabled) enabled = handler.enabled.call(subjectItem)
       if (enabled) {
         if (!handler.action) throw new Error(`complex verb "${id}" on subject "${subject}" does not have an "action" method`)
-        return handler.action.call(subjectItem, target)
+        handlerResult = handler.action.call(subjectItem, target)
       } else {
         throw new Error(`called disabled verb "${id}" on subject "${subject}"`)
       }
+    }
+
+    if (handlerResult === undefined) {
+      // do nothing
+    } else if (globalReact.isValidElement(handlerResult)) {
+      this.universe.addLogEntry(handlerResult)
+    } else {
+      throw new Error(`verb "${id}" on subject "${subject}" returned an invalid value of type ${typeof handlerResult}. It should return a <text> element.`)
     }
   }
 }

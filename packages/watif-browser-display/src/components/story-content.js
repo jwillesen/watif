@@ -9,6 +9,14 @@ export default class StoryContent extends React.Component {
   static propTypes = {
     storyState: storyShape.isRequired,
     onItemClick: func,
+    executeVerb: func,
+  }
+
+  handleItemVerbClick = (verb) => {
+    this.props.executeVerb({
+      id: verb.id,
+      subject: this.props.storyState.universe.currentItemId,
+    })
   }
 
   render () {
@@ -30,8 +38,9 @@ export default class StoryContent extends React.Component {
           title="Current Item"
           emptyText="No current item"
           watext={this.props.storyState.currentItemDescription}
-          verbs={this.props.storyState.currentRoomVerbs}
+          verbs={this.props.storyState.currentItemVerbs}
           onItemClick={this.props.onItemClick}
+          onVerbClick={this.handleItemVerbClick}
         />
       </div>
     </div>

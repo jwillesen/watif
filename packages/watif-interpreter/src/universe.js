@@ -1,4 +1,5 @@
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
+import {createLogger} from 'redux-logger'
 import Immutable from 'immutable'
 import {Player, Inventory} from 'watif-core'
 import {setItemState, replaceState, addLogEntry, setCurrentItem} from './actions'
@@ -6,7 +7,13 @@ import reducer from './reducer'
 
 export default class Universe {
   constructor (story) {
-    this.store = createStore(reducer)
+    const middleware = []
+    if (process.env.NODE_ENV === 'development') {
+      middleware.push(createLogger({
+        stateTransformer: s => s.toJS(),
+      }))
+    }
+    this.store = createStore(reducer, applyMiddleware(...middleware))
     if (story) this.bigBang(story)
   }
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import Engine from '../engine'
 import Universe from '../universe'
 import {Item} from 'watif-core'
@@ -5,7 +6,7 @@ import changeCase from 'change-case'
 
 function createItemClass (opts) {
   if (!opts.id) throw new Error(`createItemClass requires an id: ${opts}`)
-  const verb = opts.verb || jest.fn(() => `return value of ${verbName}`)
+  const verb = opts.verb || jest.fn()
   const verbName = verb.id || 'foo'
   const verbMethodName = changeCase.camel(`verb ${verbName}`)
 
@@ -143,23 +144,43 @@ describe('executeVerb', () => {
     expect(() => engine.executeVerb({id: 'mock', subject: 'mock'})).toThrow()
   })
 
-  it('returns the return value of the verb method', () => {
-    const {engine} = createEngine()
-    expect(engine.executeVerb({id: 'foo', subject: 'subject'})).toBe('return value of foo')
+  it('adds the return value to the log if it is a react element', () => {
+    const note = createItemClass({id: 'note', verb: jest.fn(() => <text>made you look</text>)})
+    const {engine, universe} = createEngine({note})
+    universe.addLogEntry = jest.fn()
+    engine.executeVerb({id: 'foo', subject: 'note'})
+    expect(universe.addLogEntry).toHaveBeenCalledWith(<text>made you look</text>)
   })
 
-  it('returns the return value of the complex verb method', () => {
+  it('does not add to the log if the return value is undefined', () => {
+    const {engine, universe} = createEngine()
+    universe.addLogEntry = jest.fn()
+    engine.executeVerb({id: 'foo', subject: 'subject'})
+    expect(universe.addLogEntry).not.toHaveBeenCalled()
+  })
+
+  it('throws if the verb returns some other type', () => {
+    const note = createItemClass({id: 'note', verb: jest.fn(() => 'oops')})
+    const {engine, universe} = createEngine({note})
+    universe.addLogEntry = jest.fn()
+    expect(() => engine.executeVerb({id: 'foo', subject: 'note'})).toThrow(
+      /verb "foo" on subject "note" returned an invalid value of type string\. It should return a <text> element\./
+    )
+  })
+
+  it('adds the return value of the complex verb method to the log if it is a react element', () => {
     const mockItemClass = createItemClass({
-      id: 'mock',
+      id: 'note',
       verb: {
-        id: 'open',
-        name: 'open',
-        action: jest.fn(() => 'return value of complex method'),
+        id: 'read',
+        name: 'read',
+        action: jest.fn(() => <text>interesting stuff</text>),
       },
     })
-    const {engine} = createEngine({mockItemClass})
-    const result = engine.executeVerb({id: 'open', subject: 'mock', target: 'target'})
-    expect(result).toBe('return value of complex method')
+    const {engine, universe} = createEngine({mockItemClass})
+    universe.addLogEntry = jest.fn()
+    engine.executeVerb({id: 'read', subject: 'note'})
+    expect(universe.addLogEntry).toHaveBeenCalledWith(<text>interesting stuff</text>)
   })
 })
 

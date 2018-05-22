@@ -28,6 +28,7 @@ export default class Display extends React.Component {
         <StoryContent
           storyState={this.props.storyState}
           onItemClick={this.handleItemClick}
+          executeVerb={this.props.executeVerb}
         />
       </div>
     </div>

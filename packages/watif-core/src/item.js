@@ -32,8 +32,8 @@ export default class Item {
   }
 
   // "Examine" is the verb the display sends when an item is clicked. By default this sets the
-  // current item so its description will be displayed. You can override this to do soething else
-  // if you want just examining an item to do something special.
+  // current item so its description will be displayed. You can override this to do something else
+  // if you want examining an item to do something special.
   verbExamine () {
     this._universe.setCurrentItem(this.id())
   }
