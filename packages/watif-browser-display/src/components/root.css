@@ -3,6 +3,10 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25rem;
 
+  --tab-background-color: #6ac;
+  --tab-border-width: 0.2rem;
+  --tab-selected-background-color: white;
+
   --item-button-color: black;
   --item-button-attention-color: blue;
 

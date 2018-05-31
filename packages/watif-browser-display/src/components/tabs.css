@@ -1,0 +1,15 @@
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+
+.tab {
+  padding: 0.5rem;
+  border: var(--tab-border-width) solid var(--tab-background-color);
+  background: var(--tab-background-color);
+  flex: 1;
+}
+
+.selected {
+  background: var(--tab-selected-background-color);
+}

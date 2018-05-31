@@ -4,3 +4,4 @@ es
 dist
 coverage
 *-debug.log
+.npmrc

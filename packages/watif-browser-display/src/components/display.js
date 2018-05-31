@@ -1,5 +1,6 @@
 import React from 'react'
 import { func } from 'prop-types'
+import Tabs from './tabs'
 import InventoryTree from './inventory-tree'
 import StoryContent from './story-content'
 import {storyShape} from '../property-shapes'
@@ -23,14 +24,16 @@ export default class Display extends React.Component {
 
   render () {
     return <div styleName='root'>
-      <div styleName="inventory-tree"><InventoryTree /></div>
-      <div styleName="story-content">
-        <StoryContent
-          storyState={this.props.storyState}
-          onItemClick={this.handleItemClick}
-          executeVerb={this.props.executeVerb}
-        />
-      </div>
+      <Tabs />
     </div>
   }
+  // <div styleName="inventory-tree"><InventoryTree /></div>
+  // <div styleName="story-content">
+  //   <StoryContent
+  //     storyState={this.props.storyState}
+  //     onItemClick={this.handleItemClick}
+  //     executeVerb={this.props.executeVerb}
+  //   />
+  // </div>
+
 }
