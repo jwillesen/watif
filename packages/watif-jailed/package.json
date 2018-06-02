@@ -2,17 +2,16 @@
   "name": "@watif/jailed",
   "version": "0.0.0",
   "description": "A utility for running watif stories in a jailed environment",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "npm run build:bootstrap && npm run build:lib",
+    "build": "npm run build:bootstrap",
+    "build:watch": "npm run build:bootstrap:watch",
     "build:bootstrap": "webpack-cli",
     "build:bootstrap:watch": "npm run build:bootstrap -- --watch",
-    "build:lib": "babel src -d lib --ignore __tests__",
-    "build:lib:watch": "npm run build:lib -- --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "clean": "rm -rf lib dist"
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",

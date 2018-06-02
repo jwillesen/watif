@@ -4,6 +4,16 @@ const path = require('path')
 const conditionalPlugins = []
 if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
+const filesToInclude = [
+  path.resolve(__dirname, 'src'),
+  /@watif/,
+]
+
+const filesToExclude = [
+  /watif-bootstrap.js/,
+  /story.js$/,
+]
+
 const config = {
   mode: 'development',
   entry: './src/index.js',
@@ -12,6 +22,7 @@ const config = {
     filename: 'watif-demo.js',
   },
   resolve: {
+    symlinks: false,
   },
   plugins: [
     ...conditionalPlugins,
@@ -20,7 +31,8 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
+        include: filesToInclude,
+        exclude: filesToExclude,
         loader: 'babel-loader',
       }, {
         test: /\.html$/,
@@ -31,7 +43,7 @@ const config = {
         },
       }, {
         test: /\.css$/,
-        include: path.resolve(__dirname, 'src'),
+        include: filesToInclude,
         use: [{
           loader: 'style-loader',
         }, {

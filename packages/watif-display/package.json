@@ -2,13 +2,10 @@
   "name": "@watif/display",
   "version": "0.0.0",
   "description": "A browser interface for reading watif stories",
-  "main": "dist/watif-display.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "webpack-cli",
-    "build:watch": "npm run build -- --watch",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "clean": "rm -rf dist"
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,10 @@
 const path = require('path')
 
+const filesToInclude = [
+  path.resolve(__dirname, 'src'),
+  /@watif/,
+]
+
 const config = {
   mode: 'development',
   entry: './example.js',
@@ -9,11 +14,15 @@ const config = {
     filename: 'story.js',
   },
 
+  resolve: {
+    symlinks: false,
+  },
+
   module: {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
+        include: filesToInclude,
         loader: 'babel-loader',
       },
     ],
