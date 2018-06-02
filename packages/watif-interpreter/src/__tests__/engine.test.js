@@ -1,7 +1,7 @@
 import React from 'react'
 import Engine from '../engine'
 import Universe from '../universe'
-import {Item} from 'watif-core'
+import {Item} from '@watif/core'
 import changeCase from 'change-case'
 
 function createItemClass (opts) {

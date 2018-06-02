@@ -1,6 +1,6 @@
 import React from 'react'
 import TitleBar from './title-bar'
-import {Display} from 'watif-browser-display'
+import {Display} from '@watif/display'
 import {object} from 'prop-types'
 import './app.css'
 

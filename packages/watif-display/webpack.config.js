@@ -8,10 +8,10 @@ const config = {
   mode: 'development',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
-    library: 'watif-browser-display',
+    library: '@watif/display',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'watif-browser-display.js',
+    filename: 'watif-display.js',
   },
   plugins: [
     ...conditionalPlugins,

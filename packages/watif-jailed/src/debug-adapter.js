@@ -1,4 +1,4 @@
-import {Engine, Universe} from 'watif-interpreter'
+import {Engine, Universe} from '@watif/interpreter'
 
 export default class DebugAdapter {
   constructor () {

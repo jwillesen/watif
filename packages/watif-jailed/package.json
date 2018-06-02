@@ -1,5 +1,5 @@
 {
-  "name": "watif-jailed",
+  "name": "@watif/jailed",
   "version": "0.0.0",
   "description": "A utility for running watif stories in a jailed environment",
   "main": "lib/index.js",
@@ -31,7 +31,7 @@
   "dependencies": {
     "jailed": "^0.3.1",
     "utils-error-to-json": "^1.0.0",
-    "watif-interpreter": "^0.0.0"
+    "@watif/interpreter": "^0.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

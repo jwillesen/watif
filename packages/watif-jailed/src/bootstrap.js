@@ -1,5 +1,5 @@
 import application from 'application' // import the global from jailed
-import {Engine, Universe} from 'watif-interpreter'
+import {Engine, Universe} from '@watif/interpreter'
 import InterfaceProvider from './interface-provider'
 
 const universe = new Universe()

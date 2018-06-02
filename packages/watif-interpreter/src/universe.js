@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from 'redux'
 import {createLogger} from 'redux-logger'
 import Immutable from 'immutable'
-import {Player, Inventory} from 'watif-core'
+import {Player, Inventory} from '@watif/core'
 import {setItemState, replaceState, addLogEntry, setCurrentItem} from './actions'
 import reducer from './reducer'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Item} from 'watif-core'
+import {Item} from '@watif/core'
 
 export class FrontPorch extends Item {
   describeNote () {
