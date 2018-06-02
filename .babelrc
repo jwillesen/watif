@@ -16,6 +16,13 @@
         }]
       ]
     },
+    "test": {
+      "plugins": [
+        ["react-css-modules", {
+          "generateScopedName": "[local]"
+        }]
+      ]
+    },
     "production": {
       "plugins": [
         ["react-css-modules", {

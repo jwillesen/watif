@@ -1,11 +1,13 @@
 .tabs {
   display: flex;
   justify-content: center;
+  background: var(--tab-background-color);
 }
 
 .tab {
   padding: 0.5rem;
   border: var(--tab-border-width) solid var(--tab-background-color);
+  border-radius: 1rem;
   background: var(--tab-background-color);
   flex: 1;
 }

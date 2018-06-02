@@ -13,6 +13,8 @@ module.exports = {
     "no-var": ["error"],
     "prefer-const": ["error"],
 
+    "no-return-assign": ["off"],
+
     "no-alert": ["warn"],
     "no-console": ["warn"],
     "no-debugger": ["warn"],
