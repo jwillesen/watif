@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the things 1`] = `
+<Tabs
+  label="some tabs"
+>
+  <div
+    className="tab-container"
+  >
+    <div
+      aria-label="some tabs"
+      className="tab-bar"
+      role="tablist"
+    >
+      <button
+        aria-controls="tab-panel-first"
+        aria-label="first tab a11y"
+        aria-selected={true}
+        className="tab-button selected"
+        id="tab-button-first"
+        key="first/.0"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="tab"
+        tabIndex={0}
+      >
+        first tab
+      </button>
+      <button
+        aria-controls="tab-panel-second"
+        aria-label="second tab a11y"
+        aria-selected={false}
+        className="tab-button"
+        id="tab-button-second"
+        key="second/.1"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+      >
+        second tab
+      </button>
+      <button
+        aria-controls="tab-panel-third"
+        aria-label="third tab a11y"
+        aria-selected={false}
+        className="tab-button"
+        id="tab-button-third"
+        key="third/.2"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+      >
+        third tab
+      </button>
+      <button
+        aria-controls="tab-panel-fourth"
+        aria-label="fourth tab a11y"
+        aria-selected={false}
+        className="tab-button"
+        id="tab-button-fourth"
+        key="fourth/.3"
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        role="tab"
+        tabIndex={-1}
+      >
+        fourth tab
+      </button>
+    </div>
+    <div
+      className="tab-panels"
+    >
+      <div
+        aria-labelledby="tab-button-first"
+        className="tab-panel"
+        hidden={false}
+        id="tab-panel-first"
+        key="first/.0"
+        role="tabpanel"
+        tabIndex={0}
+      >
+        First
+      </div>
+      <div
+        aria-labelledby="tab-button-second"
+        className="tab-panel"
+        hidden={true}
+        id="tab-panel-second"
+        key="second/.1"
+        role="tabpanel"
+        tabIndex={0}
+      >
+        Second
+      </div>
+      <div
+        aria-labelledby="tab-button-third"
+        className="tab-panel"
+        hidden={true}
+        id="tab-panel-third"
+        key="third/.2"
+        role="tabpanel"
+        tabIndex={0}
+      >
+        Third
+      </div>
+      <div
+        aria-labelledby="tab-button-fourth"
+        className="tab-panel"
+        hidden={true}
+        id="tab-panel-fourth"
+        key="fourth/.3"
+        role="tabpanel"
+        tabIndex={0}
+      >
+        Fourth
+      </div>
+    </div>
+  </div>
+</Tabs>
+`;

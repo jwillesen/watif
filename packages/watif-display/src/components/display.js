@@ -1,6 +1,8 @@
 import React from 'react'
 import { func } from 'prop-types'
-import Tabs from './tabs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBook, faEye, faBox, faHandHoldingBox } from '@fortawesome/pro-regular-svg-icons'
+import { Tabs, TabPanel } from './tabs'
 import InventoryTree from './inventory-tree'
 import StoryContent from './story-content'
 import {storyShape} from '../property-shapes'
@@ -22,9 +24,26 @@ export default class Display extends React.Component {
     }
   }
 
+  icon (fa) {
+    return <FontAwesomeIcon icon={fa} size="lg" />
+  }
+
   render () {
     return <div styleName='root'>
-      <Tabs />
+      <Tabs label="Story Content">
+        <TabPanel id="events" label={this.icon(faBook)} a11yLabel="events">
+          <span>Events</span>
+        </TabPanel>
+        <TabPanel id="look" label={this.icon(faEye)} a11yLabel="look around">
+          <span>Look Around</span>
+        </TabPanel>
+        <TabPanel id="examine" label={this.icon(faBox)} a11yLabel="examine">
+          <span>Examine</span>
+        </TabPanel>
+        <TabPanel id="inventory" label={this.icon(faHandHoldingBox)} a11yLabel="inventory">
+          <span>Inventory</span>
+        </TabPanel>
+      </Tabs>
     </div>
   }
   // <div styleName="inventory-tree"><InventoryTree /></div>

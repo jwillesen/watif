@@ -1,15 +1,29 @@
-.tabs {
+.tab-container {
   display: flex;
-  justify-content: center;
-  background: var(--tab-background-color);
+  flex-direction: column;
+  height: 100%;
 }
 
-.tab {
+.tab-bar {
+  display: flex;
+  background: var(--tab-background-color);
+  border-radius: 1rem;
+}
+
+.tab-button {
   padding: 0.5rem;
   border: var(--tab-border-width) solid var(--tab-background-color);
   border-radius: 1rem;
   background: var(--tab-background-color);
   flex: 1;
+}
+
+.tab-panels {
+  flex: 1;
+}
+
+.tab-panel {
+  height: 100%;
 }
 
 .selected {

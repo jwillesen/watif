@@ -1,20 +1,28 @@
 import React from 'react'
-import {func} from 'prop-types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faEye, faBox, faHandHoldingBox } from '@fortawesome/pro-regular-svg-icons'
+import { arrayOf, oneOfType, element, string, func } from 'prop-types'
 
 import './tabs.css'
 
-export default class Tabs extends React.Component {
-  constructor (...args) {
-    super(...args)
+export class Tabs extends React.Component {
+  constructor (props, ...args) {
+    super(props, ...args)
     this.state = {
-      activeTab: 'events',
+      activeTab: React.Children.toArray(props.children)[0].props.id,
     }
   }
+  buttonElts = {}
 
   static propTypes = {
-    onChangeTab: func,
+    label: string.isRequired,
+    children: oneOfType([arrayOf(element), element]), // TabPanel elements
+  }
+
+  tabButtonId (panel) {
+    return `tab-button-${panel.props.id}`
+  }
+
+  tabPanelId (panel) {
+    return `tab-panel-${panel.props.id}`
   }
 
   selectTab (id) {
@@ -22,67 +30,95 @@ export default class Tabs extends React.Component {
   }
 
   onKey = (event) => {
-    const activeIndex = this.tabs.findIndex(t => t.id === this.state.activeTab)
+    const panels = React.Children.toArray(this.props.children)
+    const activeIndex = panels.findIndex(panel => panel.props.id === this.state.activeTab)
     let newIndex
     if (event.key === 'ArrowRight') {
       newIndex = activeIndex + 1
-      if (newIndex >= this.tabs.length) newIndex = 0
+      if (newIndex >= panels.length) newIndex = 0
     } else if (event.key === 'ArrowLeft') {
-      let newIndex = activeIndex - 1
-      if (newIndex < 0) newIndex = this.tabs.length - 1
-      const newTab = this.tabs[newIndex]
-      this.setState({activeTab: this.tabs[newIndex].id}, () => this.buttons[newTab.id].focus())
+      newIndex = activeIndex - 1
+      if (newIndex < 0) newIndex = panels.length - 1
     } else if (event.key === 'Home') {
       newIndex = 0
     } else if (event.key === 'End') {
-      newIndex = this.tabs.length - 1
+      newIndex = panels.length - 1
     }
 
     if (newIndex !== undefined) {
-      const newTab = this.tabs[newIndex]
-      this.setState({activeTab: this.tabs[newIndex].id}, () => this.buttons[newTab.id].focus())
+      const newPanel = panels[newIndex]
+      this.setState(
+        {activeTab: newPanel.props.id},
+        () => this.buttonElts[newPanel.props.id].focus())
     }
   }
 
-  tabs = [
-    { id: 'events', label: 'Events', icon: faBook, select: () => this.selectTab('events') },
-    { id: 'look', label: 'Look Around', icon: faEye, select: () => this.selectTab('look') },
-    { id: 'examine', label: 'Examine', icon: faBox, select: () => this.selectTab('examine') },
-    { id: 'inventory', label: 'Inventory', icon: faHandHoldingBox, select: () => this.selectTab('inventory') },
-  ]
-  buttons = {}
-
-  renderTab (tab) {
-    const styles = ['tab']
+  renderButton (panel) {
+    const styles = ['tab-button']
     let tabIndex = -1
-    if (tab.id === this.state.activeTab) {
+    if (panel.props.id === this.state.activeTab) {
       styles.push('selected')
       tabIndex = 0
     }
 
     return <button
-      key={tab.id}
-      ref={elt => this.buttons[tab.id] = elt}
-      tabIndex={tabIndex}
+      key={panel.props.id}
+      ref={elt => this.buttonElts[panel.props.id] = elt}
       styleName={styles.join(' ')}
+      id={this.tabButtonId(panel)}
       role="tab"
-      aria-label={tab.label}
+      tabIndex={tabIndex}
+      aria-label={panel.props.a11yLabel}
       aria-selected={tabIndex === 0}
+      aria-controls={this.tabPanelId(panel)}
 
-      onClick={tab.select}
+      onClick={() => this.selectTab(panel.props.id)}
       onKeyDown={this.onKey}
     >
-      <FontAwesomeIcon icon={tab.icon} size="lg" />
+      {panel.props.label}
     </button>
   }
 
-  render () {
+  renderPanel (panel) {
+    const hidden = this.state.activeTab !== panel.props.id
     return <div
-      styleName="tabs"
-      role="tablist"
-      aria-label="Events, Look Around, Examine, and Inventory"
+      key={panel.props.id}
+      styleName="tab-panel"
+      id={this.tabPanelId(panel)}
+      role="tabpanel"
+      aria-labelledby={this.tabButtonId(panel)}
+      tabIndex={0}
+      hidden={hidden}
     >
-      {this.tabs.map((tab) => this.renderTab(tab))}
+      {panel.props.children}
     </div>
+  }
+
+  render () {
+    return <div styleName="tab-container">
+      <div
+        styleName="tab-bar"
+        role="tablist"
+        aria-label={this.props.label}
+      >
+        {React.Children.map(this.props.children, panel => this.renderButton(panel))}
+      </div>
+      <div styleName="tab-panels">
+        {React.Children.map(this.props.children, panel => this.renderPanel(panel))}
+      </div>
+    </div>
+  }
+}
+
+export class TabPanel extends React.Component {
+  static propTypes = {
+    children: oneOfType([arrayOf(element), element, string]),
+    id: string,
+    label: oneOfType([element, string]),
+    a11yLabel: string,
+  }
+
+  render () {
+    return this.props.children
   }
 }
