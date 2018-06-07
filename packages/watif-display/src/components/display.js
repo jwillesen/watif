@@ -5,6 +5,8 @@ import { faBook, faEye, faBox, faHandHoldingBox } from '@fortawesome/pro-regular
 import { Tabs, TabPanel } from './tabs'
 import InventoryTree from './inventory-tree'
 import StoryContent from './story-content'
+import InteractiveDescription from './interactive-description'
+import Watext from './watext'
 import {storyShape} from '../property-shapes'
 import './display.css'
 
@@ -24,6 +26,22 @@ export default class Display extends React.Component {
     }
   }
 
+  handleCurrentItemVerbClick = (verb) => {
+    if (!this.props.executeVerb) return
+    this.props.executeVerb({
+      id: verb.id,
+      subject: this.props.storyState.universe.currentItemId,
+    })
+  }
+
+  handleCurrentRoomVerbClick = (verb) => {
+    if (!this.props.executeVerb) return
+    this.props.executeVerb({
+      id: verb.id,
+      subject: this.props.storyState.universe.currentRoomId,
+    })
+  }
+
   icon (fa) {
     return <FontAwesomeIcon icon={fa} size="lg" />
   }
@@ -32,13 +50,27 @@ export default class Display extends React.Component {
     return <div styleName='root'>
       <Tabs label="Story Content">
         <TabPanel id="events" label={this.icon(faBook)} a11yLabel="events">
-          <span>Events</span>
+          <Watext watext={this.props.storyState.universe.log} />
         </TabPanel>
         <TabPanel id="look" label={this.icon(faEye)} a11yLabel="look around">
-          <span>Look Around</span>
+          <InteractiveDescription
+            title="Look Around"
+            emptyText="No Current Room"
+            watext={this.props.storyState.currentRoomDescription}
+            verbs={this.props.storyState.currentRoomVerbs}
+            onItemClick={this.handleItemClick}
+            onVerbClick={this.handleCurrentRoomVerbClick}
+          />
         </TabPanel>
         <TabPanel id="examine" label={this.icon(faBox)} a11yLabel="examine">
-          <span>Examine</span>
+          <InteractiveDescription
+            title="Examine"
+            emptyText="No Current Item"
+            watext={this.props.storyState.currentItemDescription}
+            verbs={this.props.storyState.currentItemVerbs}
+            onItemClick={this.handleItemClick}
+            onVerbClick={this.handleCurrentItemVerbClick}
+          />
         </TabPanel>
         <TabPanel id="inventory" label={this.icon(faHandHoldingBox)} a11yLabel="inventory">
           <span>Inventory</span>
@@ -54,5 +86,4 @@ export default class Display extends React.Component {
   //     executeVerb={this.props.executeVerb}
   //   />
   // </div>
-
 }

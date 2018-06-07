@@ -1,12 +1,12 @@
 import React from 'react'
-import {string, number, func, element, oneOfType} from 'prop-types'
+import {string, number, func, element, oneOfType, arrayOf} from 'prop-types'
 import changeCase from 'change-case'
 import Alert from './alert'
 import './watext.css'
 
 export default class Watext extends React.Component {
   static propTypes = {
-    watext: oneOfType([string, number, element]),
+    watext: oneOfType([string, number, element, arrayOf[element]]),
     onItemClick: func, // (itemId)
   }
 
@@ -14,10 +14,13 @@ export default class Watext extends React.Component {
     emptyText: 'No Text',
   }
 
-  watextToReact (watextElt) {
-    const traversal = this.traverseElement(watextElt)
-    const paragraphs = this.constructParagraphs(traversal)
-    return paragraphs.map((pg, index) => <div key={index} styleName="paragraph">{pg}</div>)
+  watextToReact (watexts) {
+    if (!Array.isArray(watexts)) watexts = [watexts]
+    return watexts.map((watextElt, watextIndex) => {
+      const traversal = this.traverseElement(watextElt)
+      const paragraphs = this.constructParagraphs(traversal)
+      return paragraphs.map((pg, index) => <div key={`${watextIndex},${index}`} styleName="paragraph">{pg}</div>)
+    })
   }
 
   traverseElement (elt, traversal = []) {
