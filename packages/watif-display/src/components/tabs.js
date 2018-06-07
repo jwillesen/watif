@@ -4,17 +4,20 @@ import { arrayOf, oneOfType, element, string, func } from 'prop-types'
 import './tabs.css'
 
 export class Tabs extends React.Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-    this.state = {
-      activeTab: React.Children.toArray(props.children)[0].props.id,
-    }
-  }
   buttonElts = {}
 
   static propTypes = {
     label: string.isRequired,
     children: oneOfType([arrayOf(element), element]), // TabPanel elements
+    activeTab: string,
+    onTabRequest: func, // (TabPanel.props.id of requested tab)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.activeTab !== this.props.activeTab) {
+      const elt = this.buttonElts[this.props.activeTab]
+      if (elt) elt.focus()
+    }
   }
 
   tabButtonId (panel) {
@@ -25,13 +28,9 @@ export class Tabs extends React.Component {
     return `tab-panel-${panel.props.id}`
   }
 
-  selectTab (id) {
-    this.setState({activeTab: id})
-  }
-
   onKey = (event) => {
     const panels = React.Children.toArray(this.props.children)
-    const activeIndex = panels.findIndex(panel => panel.props.id === this.state.activeTab)
+    const activeIndex = panels.findIndex(panel => panel.props.id === this.props.activeTab)
     let newIndex
     if (event.key === 'ArrowRight') {
       newIndex = activeIndex + 1
@@ -47,16 +46,14 @@ export class Tabs extends React.Component {
 
     if (newIndex !== undefined) {
       const newPanel = panels[newIndex]
-      this.setState(
-        {activeTab: newPanel.props.id},
-        () => this.buttonElts[newPanel.props.id].focus())
+      this.props.onTabRequest(newPanel.props.id)
     }
   }
 
   renderButton (panel) {
     const styles = ['tab-button']
     let tabIndex = -1
-    if (panel.props.id === this.state.activeTab) {
+    if (panel.props.id === this.props.activeTab) {
       styles.push('selected')
       tabIndex = 0
     }
@@ -72,7 +69,7 @@ export class Tabs extends React.Component {
       aria-selected={tabIndex === 0}
       aria-controls={this.tabPanelId(panel)}
 
-      onClick={() => this.selectTab(panel.props.id)}
+      onClick={() => this.props.onTabRequest(panel.props.id)}
       onKeyDown={this.onKey}
     >
       {panel.props.label}
@@ -80,7 +77,7 @@ export class Tabs extends React.Component {
   }
 
   renderPanel (panel) {
-    const hidden = this.state.activeTab !== panel.props.id
+    const hidden = this.props.activeTab !== panel.props.id
     return <div
       key={panel.props.id}
       styleName="tab-panel"

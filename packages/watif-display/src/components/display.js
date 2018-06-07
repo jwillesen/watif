@@ -3,8 +3,6 @@ import { func } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBook, faEye, faBox, faHandHoldingBox } from '@fortawesome/pro-regular-svg-icons'
 import { Tabs, TabPanel } from './tabs'
-import InventoryTree from './inventory-tree'
-import StoryContent from './story-content'
 import InteractiveDescription from './interactive-description'
 import Watext from './watext'
 import {storyShape} from '../property-shapes'
@@ -16,6 +14,17 @@ export default class Display extends React.Component {
     executeVerb: func, // ({ id: verb-id, subject: item-id, target: (item-id | null) })
   }
 
+  constructor (...args) {
+    super(...args)
+    this.state = {
+      activeTab: 'events',
+    }
+  }
+
+  handleTabRequest = (tabPanelId) => {
+    this.setState({activeTab: tabPanelId})
+  }
+
   handleItemClick = (itemId) => {
     if (this.props.executeVerb) {
       this.props.executeVerb({
@@ -24,6 +33,7 @@ export default class Display extends React.Component {
         target: null,
       })
     }
+    this.setState({activeTab: 'examine'})
   }
 
   handleCurrentItemVerbClick = (verb) => {
@@ -32,6 +42,7 @@ export default class Display extends React.Component {
       id: verb.id,
       subject: this.props.storyState.universe.currentItemId,
     })
+    this.setState({activeTab: 'events'})
   }
 
   handleCurrentRoomVerbClick = (verb) => {
@@ -40,6 +51,7 @@ export default class Display extends React.Component {
       id: verb.id,
       subject: this.props.storyState.universe.currentRoomId,
     })
+    this.setState({activeTab: 'events'})
   }
 
   icon (fa) {
@@ -48,7 +60,7 @@ export default class Display extends React.Component {
 
   render () {
     return <div styleName='root'>
-      <Tabs label="Story Content">
+      <Tabs label="Story Content" activeTab={this.state.activeTab} onTabRequest={this.handleTabRequest}>
         <TabPanel id="events" label={this.icon(faBook)} a11yLabel="events">
           <Watext watext={this.props.storyState.universe.log} />
         </TabPanel>
@@ -78,12 +90,4 @@ export default class Display extends React.Component {
       </Tabs>
     </div>
   }
-  // <div styleName="inventory-tree"><InventoryTree /></div>
-  // <div styleName="story-content">
-  //   <StoryContent
-  //     storyState={this.props.storyState}
-  //     onItemClick={this.handleItemClick}
-  //     executeVerb={this.props.executeVerb}
-  //   />
-  // </div>
 }
