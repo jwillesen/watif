@@ -56,10 +56,10 @@ export default class App extends React.Component {
   render () {
     if (this.state.loading) return <p>loading...</p>
     if (this.state.error) return <p>error: {this.state.error}</p>
+    // <TitleBar />
     return <div styleName="root">
-      <TitleBar />
       <div styleName="story">
-        <Display storyState={this.state.storyState} executeVerb={this.executeVerb} />
+        <Display title="Watif Tutorial" storyState={this.state.storyState} executeVerb={this.executeVerb} />
       </div>
     </div>
   }

@@ -7,7 +7,6 @@
 .tab-bar {
   display: flex;
   background: var(--tab-background-color);
-  border-radius: 1rem;
 }
 
 .tab-button {

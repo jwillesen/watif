@@ -6,6 +6,38 @@
   margin: 0.5rem;
 }
 
+.log {
+  flex: 1;
+  overflow-y: scroll;
+  border-left: var(--tab-border-width) solid var(--tab-background-color);
+  border-right: var(--tab-border-width) solid var(--tab-background-color);
+}
+
+.log-header {
+  background: var(--tab-background-color);
+  border-radius: 1rem 1rem 0 0;
+  text-align: center;
+}
+
+.log-header-icon {
+  background: var(--tab-selected-background-color);
+  border: var(--tab-border-width) solid var(--tab-background-color);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  /* padding: 0.5rem;
+  background: var(--tab-selected-background-color);
+  border: var(--tab-border-width) solid var(--tab-background-color);
+  border-radius: 1rem; */
+}
+
+.tabs {
+  flex: 1;
+  border-left: var(--tab-border-width) solid var(--tab-background-color);
+  border-right: var(--tab-border-width) solid var(--tab-background-color);
+  border-bottom: var(--tab-border-width) solid var(--tab-background-color);
+  border-radius: 0 0 1rem 1rem;
+}
+
 .inventory-tree {
   display: flex;
   width: 10rem;
