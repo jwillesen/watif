@@ -21,7 +21,7 @@ export default class InteractiveDescription extends React.Component {
 
   watext () {
     if (this.props.watext) {
-      return <div styleName="watext">
+      return <div>
         <Watext watext={this.props.watext} onItemClick={this.props.onItemClick} />
       </div>
     } else {
@@ -32,16 +32,11 @@ export default class InteractiveDescription extends React.Component {
   }
 
   render () {
-    return <div styleName="row">
-      <div styleName="column main">
-        <h2 styleName="heading">{this.props.title}</h2>
-        <div styleName="content">
-          {this.watext()}
-        </div>
-      </div>
-      <div styleName="column auxiliary">
-        <h2 styleName="heading">Verbs</h2>
-        <div styleName="content verbs">
+    return <div styleName="root">
+      <h2 styleName="heading">{this.props.title}</h2>
+      <div styleName="content">
+        {this.watext()}
+        <div styleName="verbs">
           <VerbBar verbs={this.props.verbs} onVerbClick={this.props.onVerbClick} />
         </div>
       </div>

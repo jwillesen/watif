@@ -19,10 +19,10 @@
 
 .tab-panels {
   flex: 1;
+  overflow-y: scroll;
 }
 
 .tab-panel {
-  height: 100%;
 }
 
 .selected {

@@ -1,37 +1,16 @@
-.row {
-  display: flex;
-  flex: 1;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  margin: 0.5rem;
-}
-
-.main {
-  flex: 1;
-}
-
-.auxiliary {
-  width: 10rem;
-}
-
 .heading {
   margin: 0;
   padding: 0 0 0.5rem 0;
 }
 
-.content {
+.root {
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  padding: 0.5rem;
 }
 
-.watext {
+.content {
   flex: 1;
-  padding: 0.5rem;
-  overflow-y: scroll;
-  border: var(--content-border-width) solid green;
 }
 
 .no-text {
@@ -44,10 +23,7 @@
   font-weight: bold;
   color: dimgray;
   background-color: lightgray;
-  border: var(--content-border-width) solid green;
 }
 
 .verbs {
-  border: var(--content-border-width) solid deeppink;
-  overflow-y: scroll;
 }
