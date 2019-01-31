@@ -1,9 +1,6 @@
 const path = require('path')
 
-const filesToInclude = [
-  path.resolve(__dirname, 'src'),
-  /@watif/,
-]
+const filesToInclude = [path.resolve(__dirname, 'src'), /@watif/]
 
 const config = {
   mode: 'development',
@@ -24,13 +21,16 @@ const config = {
         test: /\.js$/,
         include: filesToInclude,
         loader: 'babel-loader',
+        options: {
+          rootMode: 'upward',
+        },
       },
     ],
   },
 
   externals: {
     'change-case': 'changeCase',
-    'react': 'React',
+    react: 'React',
   },
 
   devtool: 'source-map',

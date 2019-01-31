@@ -1,18 +1,13 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 const path = require('path')
 
 const conditionalPlugins = []
 if (process.env.ANALYZE) conditionalPlugins.push(new BundleAnalyzerPlugin())
 
-const filesToInclude = [
-  path.resolve(__dirname, 'src'),
-  /@watif/,
-]
+const filesToInclude = [path.resolve(__dirname, 'src'), /@watif/]
 
-const filesToExclude = [
-  /watif-bootstrap.js/,
-  /story.js$/,
-]
+const filesToExclude = [/watif-bootstrap.js/, /story.js$/]
 
 const config = {
   mode: 'development',
@@ -24,9 +19,7 @@ const config = {
   resolve: {
     symlinks: false,
   },
-  plugins: [
-    ...conditionalPlugins,
-  ],
+  plugins: [...conditionalPlugins],
   module: {
     rules: [
       {
@@ -34,33 +27,41 @@ const config = {
         include: filesToInclude,
         exclude: filesToExclude,
         loader: 'babel-loader',
-      }, {
+        options: {
+          rootMode: 'upward',
+        },
+      },
+      {
         test: /\.html$/,
         include: path.resolve('./src'),
         loader: 'file-loader',
         query: {
           name: '[name].[ext]',
         },
-      }, {
+      },
+      {
         test: /\.css$/,
         include: filesToInclude,
-        use: [{
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader',
-          options: {
-            modules: true,
-            localIdentName: '[local]__[path][name]__[hash:base64:5]',
-            importLoaders: 1,
+        use: [
+          {
+            loader: 'style-loader',
           },
-        }, {
-          loader: 'postcss-loader',
-        }],
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]__[path][name]__[hash:base64:5]',
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
     ],
   },
-  externals: {
-  },
+  externals: {},
   devtool: 'source-map',
   devServer: {
     host: '0.0.0.0',
