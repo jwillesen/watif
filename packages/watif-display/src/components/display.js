@@ -1,7 +1,7 @@
 import React from 'react'
 import { func, string } from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faEye, faBox, faHandHoldingBox } from '@fortawesome/pro-regular-svg-icons'
+import { faBook, faEye, faSearch, faHandHoldingBox } from '@fortawesome/pro-regular-svg-icons'
 import { Tabs, TabPanel } from './tabs'
 import InteractiveDescription from './interactive-description'
 import Watext from './watext'
@@ -81,7 +81,7 @@ export default class Display extends React.Component {
               onVerbClick={this.handleCurrentRoomVerbClick}
             />
           </TabPanel>
-          <TabPanel id="examine" label={this.icon(faBox)} a11yLabel="examine">
+          <TabPanel id="examine" label={this.icon(faSearch)} a11yLabel="examine">
             <InteractiveDescription
               title="Examine"
               emptyText="No Current Item"
