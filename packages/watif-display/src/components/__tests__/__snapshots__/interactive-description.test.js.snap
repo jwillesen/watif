@@ -2,19 +2,18 @@
 
 exports[`renders properly 1`] = `
 <div
-  styleName="root"
+  className="root"
 >
+  <h2
+    className="heading"
+  />
   <div
-    styleName="content"
+    className="content"
   >
-    <div
-      styleName="description"
-    >
+    <div>
       <Watext
-        emptyText="nothing here"
+        emptyText="No Text"
         onItemClick={[MockFunction]}
-        onVerbClick={[MockFunction]}
-        verbs={Array []}
         watext={
           <text>
             description here
@@ -23,9 +22,10 @@ exports[`renders properly 1`] = `
       />
     </div>
     <div
-      styleName="verb-bar"
+      className="verbs"
     >
       <VerbBar
+        onVerbClick={[MockFunction]}
         verbs={Array []}
       />
     </div>

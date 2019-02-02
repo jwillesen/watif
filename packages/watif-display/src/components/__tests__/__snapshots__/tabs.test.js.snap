@@ -15,14 +15,14 @@ exports[`renders the things 1`] = `
       <button
         aria-controls="tab-panel-first"
         aria-label="first tab a11y"
-        aria-selected={true}
-        className="tab-button selected"
+        aria-selected={false}
+        className="tab-button"
         id="tab-button-first"
         key="first/.0"
         onClick={[Function]}
         onKeyDown={[Function]}
         role="tab"
-        tabIndex={0}
+        tabIndex={-1}
       >
         first tab
       </button>
@@ -75,7 +75,7 @@ exports[`renders the things 1`] = `
       <div
         aria-labelledby="tab-button-first"
         className="tab-panel"
-        hidden={false}
+        hidden={true}
         id="tab-panel-first"
         key="first/.0"
         role="tabpanel"

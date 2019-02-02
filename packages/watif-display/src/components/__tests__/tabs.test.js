@@ -1,20 +1,45 @@
 import React from 'react'
-import {shallow, mount} from 'enzyme'
+import { shallow, mount } from 'enzyme'
+import { prettyDOM, render } from 'react-testing-library'
 
 import { Tabs, TabPanel } from '../tabs'
 
 function basicTabs () {
-  return <Tabs label="some tabs">
-    <TabPanel id="first" label="first tab" a11yLabel="first tab a11y">First</TabPanel>
-    <TabPanel id="second" label="second tab" a11yLabel="second tab a11y">Second</TabPanel>
-    <TabPanel id="third" label="third tab" a11yLabel="third tab a11y">Third</TabPanel>
-    <TabPanel id="fourth" label="fourth tab" a11yLabel="fourth tab a11y">Fourth</TabPanel>
-  </Tabs>
+  return (
+    <Tabs label="some tabs" activeTab={'first'}>
+      <TabPanel id="first" label="first tab" a11yLabel="first tab a11y">
+        First
+      </TabPanel>
+      <TabPanel id="second" label="second tab" a11yLabel="second tab a11y">
+        Second
+      </TabPanel>
+      <TabPanel id="third" label="third tab" a11yLabel="third tab a11y">
+        Third
+      </TabPanel>
+      <TabPanel id="fourth" label="fourth tab" a11yLabel="fourth tab a11y">
+        Fourth
+      </TabPanel>
+    </Tabs>
+  )
 }
 
 it('renders the things', () => {
   const wrapper = mount(basicTabs())
   expect(wrapper).toMatchSnapshot()
+})
+
+it('renders one selected tab 2', () => {
+  const { queryAllByRole, container } = render(basicTabs())
+  // const buttons = container.querySelectorAll('button')
+  // expect(buttons).toHaveLength(4)
+  const tabs = queryAllByRole('tab')
+  expect(tabs).toHaveLength(4)
+  expect(container.querySelectorAll('button[aria-selected=true]')).toHaveLength(
+    1
+  )
+  expect(
+    container.querySelectorAll('button[aria-selected=false]')
+  ).toHaveLength(3)
 })
 
 it('renders one selected tab', () => {
@@ -39,7 +64,10 @@ it('manages hidden', () => {
 
 it('changes the selected tab on click', () => {
   const wrapper = shallow(basicTabs())
-  wrapper.find('button[aria-selected=false]').first().simulate('click')
+  wrapper
+    .find('button[aria-selected=false]')
+    .first()
+    .simulate('click')
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toEqual('second tab')
   expect(selectedButton.props().tabIndex).toBe(0)
@@ -48,7 +76,7 @@ it('changes the selected tab on click', () => {
 
 it('changes the selected tab on right arrow', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowRight'})
+  wrapper.find('button.selected').simulate('keyDown', { key: 'ArrowRight' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('second tab')
   expect(document.activeElement).toBe(selectedButton.instance())
@@ -56,9 +84,12 @@ it('changes the selected tab on right arrow', () => {
 
 it('wraps around to first tab on right arrow', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button').last().simulate('click')
+  wrapper
+    .find('button')
+    .last()
+    .simulate('click')
   expect(wrapper.find('button.selected').text()).toBe('fourth tab')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowRight'})
+  wrapper.find('button.selected').simulate('keyDown', { key: 'ArrowRight' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('first tab')
   expect(document.activeElement).toBe(selectedButton.instance())
@@ -66,9 +97,12 @@ it('wraps around to first tab on right arrow', () => {
 
 it('changes the selected tab on left arrow', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button').last().simulate('click')
+  wrapper
+    .find('button')
+    .last()
+    .simulate('click')
   expect(wrapper.find('button.selected').text()).toBe('fourth tab')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowLeft'})
+  wrapper.find('button.selected').simulate('keyDown', { key: 'ArrowLeft' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('third tab')
   expect(document.activeElement).toBe(selectedButton.instance())
@@ -76,7 +110,7 @@ it('changes the selected tab on left arrow', () => {
 
 it('wraps around to the last tab on left arrow', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowLeft'})
+  wrapper.find('button.selected').simulate('keyDown', { key: 'ArrowLeft' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('fourth tab')
   expect(document.activeElement).toBe(selectedButton.instance())
@@ -84,8 +118,11 @@ it('wraps around to the last tab on left arrow', () => {
 
 it('activates the first tab on the home', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button').last().simulate('click')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'Home'})
+  wrapper
+    .find('button')
+    .last()
+    .simulate('click')
+  wrapper.find('button.selected').simulate('keyDown', { key: 'Home' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('first tab')
   expect(document.activeElement).toBe(selectedButton.instance())
@@ -93,8 +130,11 @@ it('activates the first tab on the home', () => {
 
 it('activates the first tab on the end', () => {
   const wrapper = mount(basicTabs())
-  wrapper.find('button').last().simulate('click')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'End'})
+  wrapper
+    .find('button')
+    .last()
+    .simulate('click')
+  wrapper.find('button.selected').simulate('keyDown', { key: 'End' })
   const selectedButton = wrapper.find('button.selected')
   expect(selectedButton.text()).toBe('fourth tab')
   expect(document.activeElement).toBe(selectedButton.instance())
