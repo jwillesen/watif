@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function initialize (universe) {
+export function initialize(universe) {
   universe.addLogEntry(
     <text>
       Now that you're here, you're not sure whether it was a good idea to house sit for a week, but

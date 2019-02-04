@@ -1,6 +1,6 @@
 import React from 'react'
-import Display from '../display'
 import {shallow} from 'enzyme'
+import Display from '../display'
 
 it('renders', () => {
   const wrapper = shallow(<Display storyState={{}} />)
@@ -9,12 +9,11 @@ it('renders', () => {
 
 it('calls calls executeVerb with examine verb on item click', () => {
   const executeVerb = jest.fn()
-  const wrapper = shallow(<Display
-    storyState={{}}
-    executeVerb={executeVerb}
-  />)
+  const wrapper = shallow(<Display storyState={{}} executeVerb={executeVerb} />)
   wrapper.instance().handleItemClick('some-item-id')
   expect(executeVerb).toHaveBeenCalledWith({
-    id: 'examine', subject: 'some-item-id', target: null,
+    id: 'examine',
+    subject: 'some-item-id',
+    target: null,
   })
 })

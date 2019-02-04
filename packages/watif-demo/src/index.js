@@ -7,6 +7,7 @@ import App from './app'
 // explicitly do this here so we don't have to repeat the specific files allowed in the webpack config
 // also, this works through symlinks, where webpack include config doesn't
 /* eslint-disable import/no-webpack-loader-syntax */
+/* eslint-disable import/no-unresolved */
 require('./index.html')
 require('file-loader?name=[name].[ext]!@watif/jailed/dist/watif-bootstrap.js')
 require('file-loader?name=[name].[ext]!@watif/tutorial/dist/story.js')

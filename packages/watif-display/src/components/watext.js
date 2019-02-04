@@ -10,23 +10,25 @@ export default class Watext extends React.Component {
     onItemClick: func, // (itemId)
   }
 
-  static defaultProps = {
-    emptyText: 'No Text',
-  }
-
-  watextToReact (watexts) {
+  watextToReact(watexts) {
     if (!Array.isArray(watexts)) watexts = [watexts]
     return watexts.map((watextElt, watextIndex) => {
       const traversal = this.traverseElement(watextElt)
       const paragraphs = this.constructParagraphs(traversal)
-      return paragraphs.map((pg, index) => <div key={`${watextIndex},${index}`} styleName="paragraph">{pg}</div>)
+      return paragraphs.map((pg, index) => (
+        // not sure what else to use for a key
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={`${watextIndex},${index}`} styleName="paragraph">
+          {pg}
+        </div>
+      ))
     })
   }
 
-  traverseElement (elt, traversal = []) {
+  traverseElement(elt, traversal = []) {
     traversal.push(elt) // element / primitive entry
     if (React.isValidElement(elt)) {
-      React.Children.forEach(elt.props.children, (child) => {
+      React.Children.forEach(elt.props.children, child => {
         this.traverseElement(child, traversal)
       })
       traversal.push(elt) // element exit
@@ -34,7 +36,7 @@ export default class Watext extends React.Component {
     return traversal
   }
 
-  constructParagraphs (traversal) {
+  constructParagraphs(traversal) {
     const paragraphs = []
     const paragraphUnderConstruction = []
     const iter = this.makeIterator(traversal)
@@ -50,13 +52,13 @@ export default class Watext extends React.Component {
         this.rotate(paragraphs, paragraphUnderConstruction)
         paragraphs.push(<Alert variant="error">unrecognized type of react element: {elt}</Alert>)
       }
-      ({value: elt, done} = iter.next())
+      ;({value: elt, done} = iter.next())
     }
     this.rotate(paragraphs, paragraphUnderConstruction)
     return paragraphs
   }
 
-  handleWatextElement (elt, iter, paragraphs, paragraphUnderConstruction) {
+  handleWatextElement(elt, iter, paragraphs, paragraphUnderConstruction) {
     const constructionMethodName = changeCase.camel(`construct-${elt.type}`)
     if (this[constructionMethodName]) {
       this[constructionMethodName](elt, iter, paragraphs, paragraphUnderConstruction)
@@ -69,21 +71,22 @@ export default class Watext extends React.Component {
     }
   }
 
-  constructText (elt, iter, paragraphs, paragraphUnderConstruction) {
+  // eslint-disable-next-line no-unused-vars
+  constructText(elt, iter, paragraphs, paragraphUnderConstruction) {
     // do nothing: text elements are just handy containers and have no effect on paragraph layout.
     // Just let next iterations handle its children normally.
   }
 
-  constructPg (elt, iter, paragraphs, paragraphUnderConstruction) {
+  constructPg(elt, iter, paragraphs, paragraphUnderConstruction) {
     // both enter and exit tags start new paragraphs
     this.rotate(paragraphs, paragraphUnderConstruction)
   }
 
-  constructItem (elt, iter, paragraphs, paragraphUnderConstruction) {
+  constructItem(elt, iter, paragraphs, paragraphUnderConstruction) {
     let done = false
     let currentElt = null
     while (!done && !React.isValidElement(currentElt)) {
-      ({value: currentElt, done} = iter.next())
+      ;({value: currentElt, done} = iter.next())
     }
 
     if (elt.props.id == null) {
@@ -99,20 +102,24 @@ export default class Watext extends React.Component {
     } else {
       paragraphUnderConstruction.push(
         <button
+          type="button"
           key={elt.props.id}
           styleName="item-button"
-          onClick={(event) => this.handleItemClick(event, elt.props.id)} >
+          onClick={event => this.handleItemClick(event, elt.props.id)}
+        >
           {elt.props.children}
         </button>
       )
     }
   }
 
-  iterateToClosingTag (elt, iter, currentElt, done) {
-    while (!done && currentElt !== elt) { ({value: currentElt, done} = iter.next()) }
+  iterateToClosingTag(elt, iter, currentElt, done) {
+    while (!done && currentElt !== elt) {
+      ;({value: currentElt, done} = iter.next())
+    }
   }
 
-  rotate (paragraphs, paragraphUnderConstruction) {
+  rotate(paragraphs, paragraphUnderConstruction) {
     if (paragraphUnderConstruction.length) {
       paragraphs.push(paragraphUnderConstruction.slice(0)) // push a clone
       paragraphUnderConstruction.length = 0 // truncate original
@@ -120,24 +127,22 @@ export default class Watext extends React.Component {
   }
 
   // make our own iterator because IE and Safari don't support JS iterators
-  makeIterator (array) {
+  makeIterator(array) {
     let nextIndex = 0
     return {
-      next () {
-        return nextIndex < array.length
-          ? { value: array[nextIndex++], done: false }
-          : { done: true }
+      next() {
+        return nextIndex < array.length ? {value: array[nextIndex++], done: false} : {done: true} // eslint-disable-line no-plusplus
       },
     }
   }
 
-  handleItemClick (event, itemId) {
+  handleItemClick(event, itemId) {
     if (this.props.onItemClick) {
       this.props.onItemClick(itemId)
     }
   }
 
-  render () {
+  render() {
     return <div styleName="content">{this.watextToReact(this.props.watext)}</div>
   }
 }

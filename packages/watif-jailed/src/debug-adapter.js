@@ -1,12 +1,12 @@
 import {Engine, Universe} from '@watif/interpreter'
 
 export default class DebugAdapter {
-  constructor () {
+  constructor() {
     this.universe = new Universe()
     this.engine = new Engine(this.universe)
   }
 
-  sendDisplayData (cb) {
+  sendDisplayData(cb) {
     cb(this.engine.getDisplayData())
   }
 
@@ -19,8 +19,8 @@ export default class DebugAdapter {
     this.sendDisplayData(cb)
   }
 
-  executeVerb = (verbInvokation, cb) => {
-    this.engine.executeVerb(verbInvokation)
+  executeVerb = (verbInvocation, cb) => {
+    this.engine.executeVerb(verbInvocation)
     this.sendDisplayData(cb)
   }
 

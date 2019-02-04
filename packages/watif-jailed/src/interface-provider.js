@@ -1,7 +1,7 @@
 import errorToJson from 'utils-error-to-json'
 
 export default class InterfaceProvider {
-  constructor (engine, application) {
+  constructor(engine, application) {
     this.engine = engine
     this.application = application
     this.application.setInterface({
@@ -12,7 +12,7 @@ export default class InterfaceProvider {
     })
   }
 
-  protect (fn) {
+  protect(fn) {
     this.error = null
     try {
       fn()
@@ -21,7 +21,7 @@ export default class InterfaceProvider {
     }
   }
 
-  sendDisplayData (cb) {
+  sendDisplayData(cb) {
     const displayData = this.engine.getDisplayData()
     if (this.error) displayData.error = errorToJson(this.error)
     cb(displayData)
@@ -36,8 +36,8 @@ export default class InterfaceProvider {
     this.sendDisplayData(cb)
   }
 
-  executeVerb = (verbInvokation, cb) => {
-    this.protect(() => this.engine.executeVerb(verbInvokation))
+  executeVerb = (verbInvocation, cb) => {
+    this.protect(() => this.engine.executeVerb(verbInvocation))
     this.sendDisplayData(cb)
   }
 

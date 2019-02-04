@@ -1,27 +1,36 @@
 import React from 'react'
-import Engine from '../engine'
-import Universe from '../universe'
 import {Item} from '@watif/core'
 import changeCase from 'change-case'
+import Engine from '../engine'
+import Universe from '../universe'
 
-function createItemClass (opts) {
+function createItemClass(opts) {
   if (!opts.id) throw new Error(`createItemClass requires an id: ${opts}`)
   const verb = opts.verb || jest.fn()
   const verbName = verb.id || 'foo'
   const verbMethodName = changeCase.camel(`verb ${verbName}`)
 
   return class extends Item {
-    constructor (...args) {
+    constructor(...args) {
       super(...args)
       this[verbMethodName] = verb
     }
-    id () { return opts.id }
-    name () { return this.id() }
-    description () { return opts.description || `description of ${opts.id}` }
+
+    id() {
+      return opts.id
+    }
+
+    name() {
+      return this.id()
+    }
+
+    description() {
+      return opts.description || `description of ${opts.id}`
+    }
   }
 }
 
-function createUniverse (customItemClasses) {
+function createUniverse(customItemClasses) {
   const itemClasses = {
     subject: createItemClass({id: 'subject'}),
     target: createItemClass({id: 'target'}),
@@ -31,7 +40,7 @@ function createUniverse (customItemClasses) {
   return new Universe({items: itemClasses})
 }
 
-function createEngine (customItemClasses) {
+function createEngine(customItemClasses) {
   const universe = createUniverse(customItemClasses)
   const engine = new Engine(universe)
   return {engine, universe}
@@ -75,7 +84,9 @@ describe('executeVerb', () => {
 
   it('throws if the target does not exist', () => {
     const {engine} = createEngine()
-    expect(() => engine.executeVerb({id: 'foo', subject: 'subject', target: 'does-not-exist'})).toThrow()
+    expect(() =>
+      engine.executeVerb({id: 'foo', subject: 'subject', target: 'does-not-exist'})
+    ).toThrow()
   })
 
   it('executes a verb on the subject item', () => {
@@ -112,7 +123,7 @@ describe('executeVerb', () => {
     const {engine, universe} = createEngine({openItemClass})
     engine.executeVerb({id: 'open', subject: 'open-item', target: 'target'})
     const openItem = universe.getItem('open-item')
-    const verbOpen = openItem.verbOpen
+    const {verbOpen} = openItem
     expect(verbOpen.enabled).toHaveBeenCalled()
     expect(verbOpen.enabled.mock.instances[0]).toBe(openItem)
     expect(verbOpen.action).toHaveBeenCalledWith('target')
@@ -202,7 +213,9 @@ describe('getDisplayData', () => {
   })
 
   it('includes the current item verb list', () => {
-    class Basic extends Item { verbSomethingSimple () {} }
+    class Basic extends Item {
+      verbSomethingSimple() {}
+    }
     class Derived extends Basic {
       verbSomethingComplex = {
         name: 'ruminate',
@@ -212,16 +225,16 @@ describe('getDisplayData', () => {
       }
     }
     const universe = new Universe({
-      items: { item: Derived },
+      items: {item: Derived},
     })
     const engine = new Engine(universe)
     universe.setCurrentItem('derived')
     const verbs = engine.getDisplayData().currentItemVerbs
-    verbs.sort((va, vb) => va.id < vb.id ? -1 : (va === vb ? 0 : 1))
+    verbs.sort((va, vb) => (va.id < vb.id ? -1 : va === vb ? 0 : 1)) // eslint-disable-line no-nested-ternary
     expect(verbs).toEqual([
-      { id: 'examine', name: 'examine', compound: false, connector: null },
-      { id: 'something-complex', name: 'ruminate', compound: true, connector: 'on' },
-      { id: 'something-simple', name: 'something simple', compound: false, connector: null },
+      {id: 'examine', name: 'examine', compound: false, connector: null},
+      {id: 'something-complex', name: 'ruminate', compound: true, connector: 'on'},
+      {id: 'something-simple', name: 'something simple', compound: false, connector: null},
     ])
   })
 
@@ -254,9 +267,11 @@ describe('getDisplayData', () => {
     const verbs = engine.getDisplayData().currentItemVerbs
     expect(mockEnabled).toHaveBeenCalled()
     expect(mockEnabled.mock.instances[0]).toBeInstanceOf(SomeItem)
-    expect(verbs).toEqual(expect.arrayContaining([
-      {id: 'do-something', name: 'do something', compound: false, connector: null},
-    ]))
+    expect(verbs).toEqual(
+      expect.arrayContaining([
+        {id: 'do-something', name: 'do something', compound: false, connector: null},
+      ])
+    )
   })
 
   it('uses default values if not provided in a complex verb', () => {
@@ -269,9 +284,11 @@ describe('getDisplayData', () => {
     const engine = new Engine(universe)
     universe.setCurrentItem('some-item')
     const verbs = engine.getDisplayData().currentItemVerbs
-    expect(verbs).toEqual(expect.arrayContaining([
-      {id: 'something-complex', name: 'something complex', compound: false, connector: null},
-    ]))
+    expect(verbs).toEqual(
+      expect.arrayContaining([
+        {id: 'something-complex', name: 'something complex', compound: false, connector: null},
+      ])
+    )
   })
 
   it('excludes item description and verbs if there is no current item', () => {
@@ -287,7 +304,9 @@ describe('getDisplayData', () => {
   })
 
   it('includes the current room verbs', () => {
-    class Basic extends Item { verbSomethingSimple () {} }
+    class Basic extends Item {
+      verbSomethingSimple() {}
+    }
     class Derived extends Basic {
       verbSomethingComplex = {
         name: 'ruminate',
@@ -297,16 +316,16 @@ describe('getDisplayData', () => {
       }
     }
     const universe = new Universe({
-      items: { item: Derived },
+      items: {item: Derived},
     })
     const engine = new Engine(universe)
     universe.setStateOf('player', {location: 'derived'})
     const verbs = engine.getDisplayData().currentRoomVerbs
-    verbs.sort((va, vb) => va.id < vb.id ? -1 : (va === vb ? 0 : 1))
+    verbs.sort((va, vb) => (va.id < vb.id ? -1 : va === vb ? 0 : 1)) // eslint-disable-line no-nested-ternary
     expect(verbs).toEqual([
-      { id: 'examine', name: 'examine', compound: false, connector: null },
-      { id: 'something-complex', name: 'ruminate', compound: true, connector: 'on' },
-      { id: 'something-simple', name: 'something simple', compound: false, connector: null },
+      {id: 'examine', name: 'examine', compound: false, connector: null},
+      {id: 'something-complex', name: 'ruminate', compound: true, connector: 'on'},
+      {id: 'something-simple', name: 'something simple', compound: false, connector: null},
     ])
   })
 
@@ -323,7 +342,9 @@ describe('getDisplayData', () => {
       fact: createItemClass({id: 'fact'}),
       other: createItemClass({id: 'other'}),
     })
-    Array.of('subject', 'target').forEach(item => universe.setStateOf(item, {location: 'inventory'}))
+    Array.of('subject', 'target').forEach(item =>
+      universe.setStateOf(item, {location: 'inventory'})
+    )
     universe.setStateOf('knowledge', {location: 'player'})
     universe.setStateOf('fact', {location: 'knowledge'})
     universe.setStateOf('contained', {location: 'subject'})
@@ -332,14 +353,14 @@ describe('getDisplayData', () => {
       inventory: {
         name: 'inventory',
         contents: {
-          subject: { name: 'subject' },
-          target: { name: 'target' },
+          subject: {name: 'subject'},
+          target: {name: 'target'},
         },
       },
       knowledge: {
         name: 'knowledge',
         contents: {
-          fact: { name: 'fact' },
+          fact: {name: 'fact'},
         },
       },
     })

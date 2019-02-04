@@ -1,14 +1,14 @@
 import Universe from '../universe'
 
-function createFakeItem (id = 'fake') {
+function createFakeItem(id = 'fake') {
   const fake = jest.fn()
   fake.prototype.id = () => id
   return fake
 }
 
-function createStory (items) {
-  if (!items) items = { fake: createFakeItem() }
-  return { items }
+function createStory(items) {
+  if (!items) items = {fake: createFakeItem()}
+  return {items}
 }
 
 it('creates items with itself', () => {
@@ -45,7 +45,7 @@ it('does not overwrite special items if they are present in the story', () => {
   expect(universe.getItem('inventory')).toBeInstanceOf(mockStory.items.inventory)
 })
 
-it('throws on duplciate item ids', () => {
+it('throws on duplicate item ids', () => {
   const mockStory = createStory({
     first: createFakeItem('badid'),
     second: createFakeItem('badid'),
@@ -55,7 +55,7 @@ it('throws on duplciate item ids', () => {
 
 it('calls the story initialize method after items are created', () => {
   const mockStory = createStory()
-  mockStory.initialize = jest.fn((universe) => {
+  mockStory.initialize = jest.fn(universe => {
     expect(universe.getItem('fake')).toBeDefined()
   })
   const universe = new Universe(mockStory)

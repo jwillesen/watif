@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, oneOfType, element, string, func } from 'prop-types'
+import {arrayOf, oneOfType, element, string, func} from 'prop-types'
 
 import './tabs.css'
 
@@ -13,22 +13,22 @@ export class Tabs extends React.Component {
     onTabRequest: func, // (TabPanel.props.id of requested tab)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.activeTab !== this.props.activeTab) {
       const elt = this.buttonElts[this.props.activeTab]
       if (elt) elt.focus()
     }
   }
 
-  tabButtonId (panel) {
+  tabButtonId(panel) {
     return `tab-button-${panel.props.id}`
   }
 
-  tabPanelId (panel) {
+  tabPanelId(panel) {
     return `tab-panel-${panel.props.id}`
   }
 
-  onKey = (event) => {
+  onKey = event => {
     const panels = React.Children.toArray(this.props.children)
     const activeIndex = panels.findIndex(panel => panel.props.id === this.props.activeTab)
     let newIndex
@@ -50,7 +50,7 @@ export class Tabs extends React.Component {
     }
   }
 
-  renderButton (panel) {
+  renderButton(panel) {
     const styles = ['tab-button']
     let tabIndex = -1
     if (panel.props.id === this.props.activeTab) {
@@ -58,55 +58,59 @@ export class Tabs extends React.Component {
       tabIndex = 0
     }
 
-    return <button
-      key={panel.props.id}
-      ref={elt => this.buttonElts[panel.props.id] = elt}
-      styleName={styles.join(' ')}
-      id={this.tabButtonId(panel)}
-      role="tab"
-      tabIndex={tabIndex}
-      aria-label={panel.props.a11yLabel}
-      aria-selected={tabIndex === 0}
-      aria-controls={this.tabPanelId(panel)}
-
-      onClick={() => this.props.onTabRequest(panel.props.id)}
-      onKeyDown={this.onKey}
-    >
-      {panel.props.label}
-    </button>
-  }
-
-  renderPanel (panel) {
-    const hidden = this.props.activeTab !== panel.props.id
-    return <div
-      key={panel.props.id}
-      styleName="tab-panel"
-      id={this.tabPanelId(panel)}
-      role="tabpanel"
-      aria-labelledby={this.tabButtonId(panel)}
-      tabIndex={0}
-      hidden={hidden}
-    >
-      {panel.props.children}
-    </div>
-  }
-
-  render () {
-    return <div styleName="tab-container">
-      <div
-        styleName="tab-bar"
-        role="tablist"
-        aria-label={this.props.label}
+    return (
+      <button
+        type="button"
+        key={panel.props.id}
+        ref={elt => (this.buttonElts[panel.props.id] = elt)}
+        styleName={styles.join(' ')}
+        id={this.tabButtonId(panel)}
+        role="tab"
+        tabIndex={tabIndex}
+        aria-label={panel.props.a11yLabel}
+        aria-selected={tabIndex === 0}
+        aria-controls={this.tabPanelId(panel)}
+        onClick={() => this.props.onTabRequest(panel.props.id)}
+        onKeyDown={this.onKey}
       >
-        {React.Children.map(this.props.children, panel => this.renderButton(panel))}
+        {panel.props.label}
+      </button>
+    )
+  }
+
+  renderPanel(panel) {
+    const hidden = this.props.activeTab !== panel.props.id
+    return (
+      <div
+        key={panel.props.id}
+        styleName="tab-panel"
+        id={this.tabPanelId(panel)}
+        role="tabpanel"
+        aria-labelledby={this.tabButtonId(panel)}
+        tabIndex={0}
+        hidden={hidden}
+      >
+        {panel.props.children}
       </div>
-      <div styleName="tab-panels">
-        {React.Children.map(this.props.children, panel => this.renderPanel(panel))}
+    )
+  }
+
+  render() {
+    return (
+      <div styleName="tab-container">
+        <div styleName="tab-bar" role="tablist" aria-label={this.props.label}>
+          {React.Children.map(this.props.children, panel => this.renderButton(panel))}
+        </div>
+        <div styleName="tab-panels">
+          {React.Children.map(this.props.children, panel => this.renderPanel(panel))}
+        </div>
       </div>
-    </div>
+    )
   }
 }
 
+// This is just an interface component for documentation
+/* eslint-disable react/no-multi-comp, react/no-unused-prop-types */
 export class TabPanel extends React.Component {
   static propTypes = {
     children: oneOfType([arrayOf(element), element, string]),
@@ -115,7 +119,7 @@ export class TabPanel extends React.Component {
     a11yLabel: string,
   }
 
-  render () {
+  render() {
     return this.props.children
   }
 }

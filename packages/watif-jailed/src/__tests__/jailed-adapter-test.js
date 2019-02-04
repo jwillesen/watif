@@ -3,22 +3,35 @@ import JailedAdapter from '../jailed-adapter'
 let mockPlugin = null
 
 class MockPluginClass {
-  constructor (url, api) {
+  constructor(url, api) {
     mockPlugin = this
     this.url = url
     this.api = api
   }
-  whenConnected = jest.fn((cb) => { this.connectedCallback = cb })
-  whenFailed = jest.fn((cb) => { this.failedCallback = cb })
-  whenDisconnected = jest.fn((cb) => { this.disconnected = cb })
+
+  whenConnected = jest.fn(cb => {
+    this.connectedCallback = cb
+  })
+
+  whenFailed = jest.fn(cb => {
+    this.failedCallback = cb
+  })
+
+  whenDisconnected = jest.fn(cb => {
+    this.disconnected = cb
+  })
+
   disconnect = jest.fn()
+
   remote = {
     echo: jest.fn(),
   }
 }
 
 describe('JailedAdapter', () => {
-  afterEach(() => { mockPlugin = null })
+  afterEach(() => {
+    mockPlugin = null
+  })
 
   it('passes the specified bootstrap parameter to the jailed plugin', () => {
     const adapter = new JailedAdapter(MockPluginClass, 'some url', jest.fn())
@@ -47,9 +60,12 @@ describe('JailedAdapter', () => {
     const adapter = new JailedAdapter(MockPluginClass, 'some url', jest.fn())
     const promise = adapter.start()
     mockPlugin.failedCallback()
-    return promise.then(() => {
-      expect(false).toBe('expected this to reject but it resolved instead')
-    }).catch(() => {}) // actually passes when it rejects
+    return promise
+      .then(() => {
+        expect(false).toBe('expected this to reject but it resolved instead')
+        return null
+      })
+      .catch(() => {}) // actually passes when it rejects
   })
 
   it('forwards calls to the plugin', () => {

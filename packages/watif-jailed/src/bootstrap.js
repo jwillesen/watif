@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import application from 'application' // import the global from jailed
 import {Engine, Universe} from '@watif/interpreter'
 import InterfaceProvider from './interface-provider'

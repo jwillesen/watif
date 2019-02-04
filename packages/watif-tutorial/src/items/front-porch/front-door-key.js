@@ -2,7 +2,7 @@ import React from 'react'
 import {Item} from '@watif/core'
 
 export class FrontDoorKey extends Item {
-  description () {
+  description() {
     return <text>It's a key</text>
   }
 
@@ -10,7 +10,7 @@ export class FrontDoorKey extends Item {
     compound: true,
     connector: 'the',
     enabled: () => this.getLocation() === 'inventory',
-    action: (target) => {
+    action: target => {
       if (target === 'front-door') {
         this.setStateOf('front-door', {locked: false})
         return <text>The door lock clicks over.</text>

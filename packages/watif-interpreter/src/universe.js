@@ -6,33 +6,35 @@ import {setItemState, replaceState, addLogEntry, setCurrentItem} from './actions
 import reducer from './reducer'
 
 export default class Universe {
-  constructor (story) {
+  constructor(story) {
     const middleware = []
     if (process.env.NODE_ENV === 'development') {
-      middleware.push(createLogger({
-        stateTransformer: s => s.toJS(),
-      }))
+      middleware.push(
+        createLogger({
+          stateTransformer: s => s.toJS(),
+        })
+      )
     }
     this.store = createStore(reducer, applyMiddleware(...middleware))
     if (story) this.bigBang(story)
   }
 
-  bigBang (story) {
+  bigBang(story) {
     this.story = story
     this.createItems()
     this.createSpecialItems()
     if (this.story.initialize) this.story.initialize(this)
   }
 
-  createItems () {
+  createItems() {
     const itemClasses = this.story.items
     this.items = {}
-    Object.values(itemClasses).forEach((ItemClass) => {
+    Object.values(itemClasses).forEach(ItemClass => {
       this.createItem(ItemClass)
     })
   }
 
-  createItem (ItemClass) {
+  createItem(ItemClass) {
     const newItem = new ItemClass(this)
     const newItemId = newItem.id()
     if (this.items[newItemId]) throw new Error(`Duplicate item id: '${newItemId}'`)
@@ -40,40 +42,43 @@ export default class Universe {
     this.setStateOf(newItemId, {})
   }
 
-  createSpecialItems () {
+  createSpecialItems() {
     this.createSpecialItem('player', Player)
     this.createSpecialItem('inventory', Inventory)
   }
 
-  createSpecialItem (itemId, ItemClass) {
+  createSpecialItem(itemId, ItemClass) {
     if (!this.getItem(itemId)) this.createItem(ItemClass)
   }
 
-  getUniverseState () {
+  getUniverseState() {
     return this.store.getState().toJS()
   }
 
-  setUniverseState (newState) {
+  setUniverseState(newState) {
     this.store.dispatch(replaceState(Immutable.fromJS(newState)))
   }
 
-  getItem (itemId) {
+  getItem(itemId) {
     return this.items[itemId]
   }
 
-  getStateOf (itemId) {
-    return this.store.getState().getIn(['itemStates', itemId]).toJS()
+  getStateOf(itemId) {
+    return this.store
+      .getState()
+      .getIn(['itemStates', itemId])
+      .toJS()
   }
 
-  setStateOf (itemId, newState) {
+  setStateOf(itemId, newState) {
     return this.store.dispatch(setItemState(itemId, Immutable.fromJS(newState)))
   }
 
-  setCurrentItem (itemId) {
+  setCurrentItem(itemId) {
     this.store.dispatch(setCurrentItem(itemId))
   }
 
-  addLogEntry (watext) {
+  addLogEntry(watext) {
     this.store.dispatch(addLogEntry(Immutable.fromJS(watext)))
   }
 }

@@ -2,7 +2,7 @@ import globalReact from 'react'
 import globalChangeCase from 'change-case'
 
 class EvalSandbox {
-  evalStory (storyCode) {
+  evalStory(storyCode) {
     // These need to be in scope for the story eval because we don't embed these libraries into
     // every story. How eval can read these and fail to create a var is beyond me.
     const React = globalReact // eslint-disable-line no-unused-vars
@@ -22,11 +22,11 @@ class EvalSandbox {
 }
 
 export default class Engine {
-  constructor (universe) {
+  constructor(universe) {
     this.universe = universe
   }
 
-  loadStory (storyCode) {
+  loadStory(storyCode) {
     if (typeof storyCode === 'object') {
       this.universe.bigBang(storyCode)
     } else {
@@ -36,11 +36,11 @@ export default class Engine {
     }
   }
 
-  replaceState (newState) {
+  replaceState(newState) {
     this.universe.setUniverseState(newState)
   }
 
-  getDisplayData () {
+  getDisplayData() {
     const universeState = this.universe.getUniverseState()
 
     const currentItemId = universeState.currentItemId || null
@@ -61,7 +61,7 @@ export default class Engine {
     }
   }
 
-  getAllPropertyNames (item) {
+  getAllPropertyNames(item) {
     let props = []
     let current = item
     while (current !== Object.prototype && current != null) {
@@ -71,7 +71,7 @@ export default class Engine {
     return props
   }
 
-  constructVerbList (item) {
+  constructVerbList(item) {
     const propertyNames = this.getAllPropertyNames(item)
     const verbPropNames = propertyNames.filter(propName => propName.startsWith('verb'))
     return verbPropNames.reduce((verbList, verbPropName) => {
@@ -83,13 +83,13 @@ export default class Engine {
     }, [])
   }
 
-  verbFromProperty (verbId, itemVerb, item) {
+  verbFromProperty(verbId, itemVerb, item) {
     if (typeof itemVerb === 'function') return this.verbFromFunction(verbId, itemVerb, item)
-    else if (typeof itemVerb === 'object') return this.verbFromObject(verbId, itemVerb, item)
-    else throw new Error(`verb ${verbId} on item ${item.id()} has incorrect type ${typeof itemVerb}`)
+    if (typeof itemVerb === 'object') return this.verbFromObject(verbId, itemVerb, item)
+    throw new Error(`verb ${verbId} on item ${item.id()} has incorrect type ${typeof itemVerb}`)
   }
 
-  verbFromFunction (verbId, itemVerb, item) {
+  verbFromFunction(verbId, _itemVerb, _item) {
     return {
       id: verbId,
       name: globalChangeCase.noCase(verbId),
@@ -98,10 +98,10 @@ export default class Engine {
     }
   }
 
-  verbFromObject (verbId, itemVerb, item) {
+  verbFromObject(verbId, itemVerb, item) {
     let enabled = true
     if (itemVerb.enabled) enabled = itemVerb.enabled.call(item)
-    if (!enabled) return
+    if (!enabled) return null
     return {
       id: verbId,
       name: itemVerb.name || globalChangeCase.noCase(verbId),
@@ -110,7 +110,7 @@ export default class Engine {
     }
   }
 
-  constructInventory () {
+  constructInventory() {
     const playerStuff = this.findItemsAt('player')
     Object.keys(playerStuff).forEach(playerStuffId => {
       playerStuff[playerStuffId].contents = this.findItemsAt(playerStuffId)
@@ -118,9 +118,9 @@ export default class Engine {
     return playerStuff
   }
 
-  findItemsAt (targetLocation) {
+  findItemsAt(targetLocation) {
     const universeState = this.universe.getUniverseState()
-    const itemStates = universeState.itemStates
+    const {itemStates} = universeState
     return Object.keys(itemStates).reduce((results, itemId) => {
       const itemState = itemStates[itemId]
       const item = this.universe.getItem(itemId)
@@ -132,8 +132,8 @@ export default class Engine {
     }, {})
   }
 
-  executeVerb (verbInvokation) {
-    const {id, subject, target} = verbInvokation
+  executeVerb(verbInvocation) {
+    const {id, subject, target} = verbInvocation
     const subjectItem = this.universe.getItem(subject)
     if (!subjectItem) throw new Error(`verb "${id}" invoked with invalid subject "${subject}"`)
     let targetItem = null
@@ -141,9 +141,12 @@ export default class Engine {
       targetItem = this.universe.getItem(target)
       if (!targetItem) throw new Error(`verb "${id}" invoked with invalid target "${target}"`)
     }
-    const handlerName = 'verb' + globalChangeCase.pascal(id)
+    const handlerName = `verb${globalChangeCase.pascal(id)}`
     const handler = subjectItem[handlerName]
-    if (!handler) throw new Error(`subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`)
+    if (!handler)
+      throw new Error(
+        `subject "${subject}" does not have handler "${handlerName}" to handle verb "${id}"`
+      )
 
     let handlerResult
     if (typeof handler === 'function') {
@@ -152,7 +155,10 @@ export default class Engine {
       let enabled = true
       if (handler.enabled) enabled = handler.enabled.call(subjectItem)
       if (enabled) {
-        if (!handler.action) throw new Error(`complex verb "${id}" on subject "${subject}" does not have an "action" method`)
+        if (!handler.action)
+          throw new Error(
+            `complex verb "${id}" on subject "${subject}" does not have an "action" method`
+          )
         handlerResult = handler.action.call(subjectItem, target)
       } else {
         throw new Error(`called disabled verb "${id}" on subject "${subject}"`)
@@ -164,7 +170,9 @@ export default class Engine {
     } else if (globalReact.isValidElement(handlerResult)) {
       this.universe.addLogEntry(handlerResult)
     } else {
-      throw new Error(`verb "${id}" on subject "${subject}" returned an invalid value of type ${typeof handlerResult}. It should return a <text> element.`)
+      throw new Error(
+        `verb "${id}" on subject "${subject}" returned an invalid value of type ${typeof handlerResult}. It should return a <text> element.`
+      )
     }
   }
 }

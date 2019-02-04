@@ -10,19 +10,18 @@ export default class VerbBar extends React.Component {
     onVerbClick: func,
   }
 
-  renderVerbs () {
-    if (!this.props.verbs) return
+  renderVerbs() {
+    if (!this.props.verbs) return null
     return this.props.verbs.map(verb => {
-      return <button
-        key={verb.id}
-        onClick={() => this.props.onVerbClick(verb)}
-      >
-        {verb.id}
-      </button>
+      return (
+        <button type="button" key={verb.id} onClick={() => this.props.onVerbClick(verb)}>
+          {verb.id}
+        </button>
+      )
     })
   }
 
-  render () {
+  render() {
     return <div styleName="content">{this.renderVerbs()}</div>
   }
 }

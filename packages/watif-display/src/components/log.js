@@ -8,19 +8,19 @@ export default class Log extends React.Component {
     logs: arrayOf(element),
   }
 
-  renderLogs () {
+  renderLogs() {
     // ok to use index as key because these don't really change, just get appended to.
     return this.props.logs.map((log, index) => {
-      return <Watext key={index} watext={log} />
+      return <Watext key={index} watext={log} /> // eslint-disable-line react/no-array-index-key
     })
   }
 
-  render () {
-    return <div styleName="root">
-      <h2 styleName="header">Log</h2>
-      <div styleName="content">
-        {this.renderLogs()}
+  render() {
+    return (
+      <div styleName="root">
+        <h2 styleName="header">Log</h2>
+        <div styleName="content">{this.renderLogs()}</div>
       </div>
-    </div>
+    )
   }
 }

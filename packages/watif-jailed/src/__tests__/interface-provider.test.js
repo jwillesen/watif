@@ -1,6 +1,6 @@
 import InterfaceProvider from '../interface-provider'
 
-function mockEngine () {
+function mockEngine() {
   return {
     loadStory: jest.fn(),
     executeVerb: jest.fn(),
@@ -9,7 +9,7 @@ function mockEngine () {
   }
 }
 
-function mockApp () {
+function mockApp() {
   return {
     setInterface: jest.fn(),
   }
@@ -19,11 +19,13 @@ it('registers callbacks', () => {
   const app = mockApp()
   const engine = mockEngine()
   const adapter = new InterfaceProvider(engine, app) // eslint-disable-line no-unused-vars
-  expect(app.setInterface).toHaveBeenCalledWith(expect.objectContaining({
-    loadStory: expect.anything(),
-    executeVerb: expect.anything(),
-    replaceState: expect.anything(),
-  }))
+  expect(app.setInterface).toHaveBeenCalledWith(
+    expect.objectContaining({
+      loadStory: expect.anything(),
+      executeVerb: expect.anything(),
+      replaceState: expect.anything(),
+    })
+  )
   const adapterInterface = app.setInterface.mock.calls[0][0]
   const verb = {id: 'foo', subject: 'bar'}
   adapterInterface.executeVerb(verb, jest.fn())
@@ -71,15 +73,19 @@ it('catches errors and reports them in display data', () => {
   const verb = {id: 'foo', subject: 'some-item'}
   const cb = jest.fn()
   const engine = mockEngine()
-  engine.executeVerb = jest.fn(() => { throw new Error('mock error') })
+  engine.executeVerb = jest.fn(() => {
+    throw new Error('mock error')
+  })
   const adapter = new InterfaceProvider(engine, mockApp())
   adapter.executeVerb(verb, cb)
   expect(engine.executeVerb).toHaveBeenCalledWith(verb)
-  expect(cb).toHaveBeenCalledWith(expect.objectContaining({
-    display: 'data',
-    error: expect.objectContaining({
-      message: 'mock error',
-      name: 'Error',
-    }),
-  }))
+  expect(cb).toHaveBeenCalledWith(
+    expect.objectContaining({
+      display: 'data',
+      error: expect.objectContaining({
+        message: 'mock error',
+        name: 'Error',
+      }),
+    })
+  )
 })
