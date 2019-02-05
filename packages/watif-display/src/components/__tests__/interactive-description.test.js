@@ -1,9 +1,9 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render} from 'react-testing-library'
 import InteractiveDescription from '../interactive-description'
 
 it('renders properly', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <InteractiveDescription
       emptyText="nothing here"
       watext={<text>description here</text>}
@@ -12,5 +12,5 @@ it('renders properly', () => {
       onVerbClick={jest.fn()}
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText('description here')
 })

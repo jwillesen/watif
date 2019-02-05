@@ -6,7 +6,7 @@ import './watext.css'
 
 export default class Watext extends React.Component {
   static propTypes = {
-    watext: oneOfType([string, number, element, arrayOf[element]]),
+    watext: oneOfType([string, number, element, arrayOf(element)]),
     onItemClick: func, // (itemId)
   }
 

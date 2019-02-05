@@ -1,25 +1,19 @@
 import React from 'react'
-import {shallow} from 'enzyme'
+import {render, fireEvent} from 'react-testing-library'
 import Watext from '../watext'
-// import toJson from 'enzyme-to-json'
 
-it('renders provided text if watext is missing', () => {
-  const wrapper = shallow(<Watext emptyText="nothing here" />)
-  expect(wrapper).toMatchSnapshot()
+it('creates a paragraph for a top level text', () => {
+  const {getByText} = render(<Watext watext={<text>foo</text>} />)
+  getByText('foo')
 })
 
-it('creates at least one paragraph for top level text', () => {
-  const wrapper = shallow(<Watext watext={<text>foo</text>} />)
-  expect(wrapper).toMatchSnapshot()
+it('creates a paragraph for a top level pg', () => {
+  const {getByText} = render(<Watext watext={<pg>foo</pg>} />)
+  getByText('foo')
 })
 
-it('creates a paragraph for a top level paragraph tag', () => {
-  const wrapper = shallow(<Watext watext={<pg>foo</pg>} />)
-  expect(wrapper).toMatchSnapshot()
-})
-
-it('creates multiple paragraphs with top level text', () => {
-  const wrapper = shallow(
+it('creates multiple paragraphs inside text', () => {
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -29,11 +23,12 @@ it('creates multiple paragraphs with top level text', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText('foo')
+  getByText('bar')
 })
 
-it('creates multiple paragraphs with top level pg', () => {
-  const wrapper = shallow(
+it('creates multiple paragraphs inside pg', () => {
+  const {getByText} = render(
     <Watext
       watext={
         <pg>
@@ -43,28 +38,12 @@ it('creates multiple paragraphs with top level pg', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
-})
-
-it('creates and flattens multiple paragraphs when they are nested', () => {
-  const wrapper = shallow(
-    <Watext
-      watext={
-        <text>
-          <pg>
-            foo
-            <pg>bar</pg>
-            baz
-          </pg>
-        </text>
-      }
-    />
-  )
-  expect(wrapper).toMatchSnapshot()
+  getByText('foo')
+  getByText('bar')
 })
 
 it('creates paragraphs using paragraph tag as a divider', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -75,11 +54,12 @@ it('creates paragraphs using paragraph tag as a divider', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText('foo')
+  getByText('bar')
 })
 
 it('creates item buttons', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -88,11 +68,12 @@ it('creates item buttons', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  const itemButton = getByText('an item')
+  expect(itemButton.tagName).toBe('BUTTON')
 })
 
 it('alerts if the item has child elements', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -105,11 +86,11 @@ it('alerts if the item has child elements', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText(/alert/i)
 })
 
 it('alerts if the item lacks an id', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -118,11 +99,11 @@ it('alerts if the item lacks an id', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText(/alert/i)
 })
 
 it('alerts if it tag is not recognized', () => {
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -131,12 +112,12 @@ it('alerts if it tag is not recognized', () => {
       }
     />
   )
-  expect(wrapper).toMatchSnapshot()
+  getByText(/alert/i)
 })
 
 it('invokes the callback when an item is clicked', () => {
   const onClick = jest.fn()
-  const wrapper = shallow(
+  const {getByText} = render(
     <Watext
       watext={
         <text>
@@ -146,12 +127,6 @@ it('invokes the callback when an item is clicked', () => {
       onItemClick={onClick}
     />
   )
-  wrapper.find('button').simulate('click')
+  fireEvent.click(getByText('an item'))
   expect(onClick).toHaveBeenCalledWith('an-item')
-})
-
-// react already handles this type of thing
-it.skip('alerts if it encounters a child it does not recognized', () => {
-  const wrapper = shallow(<Watext watext={<text>something weird: {{some: 'object'}}</text>} />)
-  expect(wrapper).toMatchSnapshot()
 })
