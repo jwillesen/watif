@@ -12,7 +12,6 @@ exports[`renders properly 1`] = `
   >
     <div>
       <Watext
-        emptyText="No Text"
         onItemClick={[MockFunction]}
         watext={
           <text>

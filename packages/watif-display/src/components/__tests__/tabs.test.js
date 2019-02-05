@@ -1,137 +1,100 @@
 import React from 'react'
-import {shallow, mount} from 'enzyme'
-import {render} from 'react-testing-library'
-
+import {render, fireEvent} from 'react-testing-library'
 import {Tabs, TabPanel} from '../tabs'
 
-function basicTabs() {
+function basicTabs(tabProps) {
   return (
-    <Tabs label="some tabs" activeTab="first">
+    <Tabs label="some tabs" activeTab="first" {...tabProps}>
       <TabPanel id="first" label="first tab" a11yLabel="first tab a11y">
-        First
+        <span>First</span>
       </TabPanel>
       <TabPanel id="second" label="second tab" a11yLabel="second tab a11y">
-        Second
+        <span>Second</span>
       </TabPanel>
       <TabPanel id="third" label="third tab" a11yLabel="third tab a11y">
-        Third
+        <span>Third</span>
       </TabPanel>
       <TabPanel id="fourth" label="fourth tab" a11yLabel="fourth tab a11y">
-        Fourth
+        <span>Fourth</span>
       </TabPanel>
     </Tabs>
   )
 }
 
-it('renders the things', () => {
-  const wrapper = mount(basicTabs())
-  expect(wrapper).toMatchSnapshot()
-})
-
-it('renders one selected tab 2', () => {
-  const {queryAllByRole, container} = render(basicTabs())
-  // const buttons = container.querySelectorAll('button')
-  // expect(buttons).toHaveLength(4)
-  const tabs = queryAllByRole('tab')
-  expect(tabs).toHaveLength(4)
-  expect(container.querySelectorAll('button[aria-selected=true]')).toHaveLength(1)
-  expect(container.querySelectorAll('button[aria-selected=false]')).toHaveLength(3)
-})
-
 it('renders one selected tab', () => {
-  const wrapper = shallow(basicTabs())
-  expect(wrapper.find('button[role="tab"]')).toHaveLength(4)
-  expect(wrapper.find('button[aria-selected=true]')).toHaveLength(1)
-  expect(wrapper.find('button.selected').text()).toBe('first tab')
-  expect(wrapper.find('button[aria-selected=false]')).toHaveLength(3)
-})
-
-it('manages tab index', () => {
-  const wrapper = shallow(basicTabs())
-  expect(wrapper.find('button[tabIndex=0]')).toHaveLength(1)
-  expect(wrapper.find('button[tabIndex=-1]')).toHaveLength(3)
+  const {queryAllByRole, container} = render(basicTabs())
+  expect(queryAllByRole('tab')).toHaveLength(4)
+  expect(container.querySelectorAll('button[aria-selected=true]')).toHaveLength(1)
+  expect(container.querySelectorAll('button[tabIndex="0"]')).toHaveLength(1)
+  expect(container.querySelectorAll('button[aria-selected=false]')).toHaveLength(3)
+  expect(container.querySelectorAll('button[tabIndex="-1"]')).toHaveLength(3)
 })
 
 it('manages hidden', () => {
-  const wrapper = shallow(basicTabs())
-  expect(wrapper.find('div[hidden=false]')).toHaveLength(1)
-  expect(wrapper.find('div[hidden=true]')).toHaveLength(3)
+  const {container} = render(basicTabs({activeTab: 'third'}))
+  expect(container.querySelectorAll('div[role="tabpanel"]')).toHaveLength(4)
+  expect(container.querySelectorAll('div[hidden]')).toHaveLength(3)
 })
 
 it('changes the selected tab on click', () => {
-  const wrapper = shallow(basicTabs())
-  wrapper
-    .find('button[aria-selected=false]')
-    .first()
-    .simulate('click')
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toEqual('second tab')
-  expect(selectedButton.props().tabIndex).toBe(0)
-  expect(wrapper.find('button[tabIndex=-1]')).toHaveLength(3)
+  const onTabRequest = jest.fn()
+  const {getByText} = render(basicTabs({onTabRequest}))
+  const secondButton = getByText('second tab')
+  fireEvent.click(secondButton)
+  expect(onTabRequest).toHaveBeenCalledWith('second')
 })
 
 it('changes the selected tab on right arrow', () => {
-  const wrapper = mount(basicTabs())
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowRight'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('second tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'second'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'ArrowRight'})
+  expect(onTabRequest).toHaveBeenCalledWith('third')
 })
 
 it('wraps around to first tab on right arrow', () => {
-  const wrapper = mount(basicTabs())
-  wrapper
-    .find('button')
-    .last()
-    .simulate('click')
-  expect(wrapper.find('button.selected').text()).toBe('fourth tab')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowRight'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('first tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'fourth'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'ArrowRight'})
+  expect(onTabRequest).toHaveBeenCalledWith('first')
 })
 
 it('changes the selected tab on left arrow', () => {
-  const wrapper = mount(basicTabs())
-  wrapper
-    .find('button')
-    .last()
-    .simulate('click')
-  expect(wrapper.find('button.selected').text()).toBe('fourth tab')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowLeft'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('third tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'second'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'ArrowLeft'})
+  expect(onTabRequest).toHaveBeenCalledWith('first')
 })
 
-it('wraps around to the last tab on left arrow', () => {
-  const wrapper = mount(basicTabs())
-  wrapper.find('button.selected').simulate('keyDown', {key: 'ArrowLeft'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('fourth tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+it('wraps around to last tab on left arrow', () => {
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'first'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'ArrowLeft'})
+  expect(onTabRequest).toHaveBeenCalledWith('fourth')
 })
 
-it('activates the first tab on the home', () => {
-  const wrapper = mount(basicTabs())
-  wrapper
-    .find('button')
-    .last()
-    .simulate('click')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'Home'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('first tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+it('activates the first tab on home', () => {
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'third'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'Home'})
+  expect(onTabRequest).toHaveBeenCalledWith('first')
 })
 
-it('activates the first tab on the end', () => {
-  const wrapper = mount(basicTabs())
-  wrapper
-    .find('button')
-    .last()
-    .simulate('click')
-  wrapper.find('button.selected').simulate('keyDown', {key: 'End'})
-  const selectedButton = wrapper.find('button.selected')
-  expect(selectedButton.text()).toBe('fourth tab')
-  expect(document.activeElement).toBe(selectedButton.instance())
+it('activates the last tab on end', () => {
+  const onTabRequest = jest.fn()
+  const {container} = render(basicTabs({onTabRequest, activeTab: 'second'}))
+  const selectedButton = container.querySelector('button[tabIndex="0"]')
+  fireEvent.keyDown(selectedButton, {key: 'End'})
+  expect(onTabRequest).toHaveBeenCalledWith('fourth')
+})
+
+it('manages focus when it is updated with new props', () => {
+  const {getByText, rerender} = render(basicTabs())
+  expect(document.activeElement).toBe(document.body)
+  rerender(basicTabs({activeTab: 'second'}))
+  expect(document.activeElement).toBe(getByText('second tab'))
 })
