@@ -1,0 +1,41 @@
+{
+  "name": "@watif/cli",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "keywords": [
+    "watif",
+    "interactive",
+    "fiction"
+  ],
+  "author": "jwillesen <git@wizardwell.net>",
+  "homepage": "https://github.com/jwillesen/watif#readme",
+  "license": "ISC",
+  "main": "src/watif.js",
+  "bin": {
+    "watif": "bin/watif"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwillesen/watif.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "^2.19.0"
+  },
+  "bugs": {
+    "url": "https://github.com/jwillesen/watif/issues"
+  }
+}
